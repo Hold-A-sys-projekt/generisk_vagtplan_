@@ -38,3 +38,6 @@ PostgreSQL er en kraftfuld open source objekt-relationsdatabase, der vil fungere
 #### Sammenkobling
 - **Backend** (Javalin + Java) vil håndtere HTTP-forespørgsler, udføre logik, interagere med databasen (PostgreSQL), og sende data til frontend.
 - **Frontend** (React + Vite + Tailwind CSS) vil præsentere dataene til brugerne og muliggøre interaktioner, hvor brugernes handlinger sendes tilbage til serveren via API-kald.
+
+## Setup af database og docker lokalt (gudie fra 3 semester)
+https://github.com/dat3Cph/material/blob/main/setup/postgresql.md

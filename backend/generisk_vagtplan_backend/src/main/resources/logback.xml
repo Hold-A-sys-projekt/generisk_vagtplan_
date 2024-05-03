@@ -1,0 +1,56 @@
+<configuration scan="true">
+
+    <!-- Property SETUP   -->
+
+    <property name="LOG_BASEDIR" value="src/main/resources/logs"/>
+    <property name="LOG_FILE" value="application"/>
+    <property name="LOG_FILE_MAX_HISTORY" value="180"/>
+    <property name="LOG_FILE_MAX_SIZE" value="10MB"/>
+
+    <!-- Console Appender -->
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{ISO8601} [%thread] %highlight(%-5level) %cyan(%logger{36}) - %green(%msg%n)</pattern>
+        </encoder>
+    </appender>
+
+    <!-- File Appender -->
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_BASEDIR}/${LOG_FILE}.log</file>
+        <encoder>
+            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_BASEDIR}/${LOG_FILE}.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <maxHistory>${LOG_FILE_MAX_HISTORY}</maxHistory>
+            <totalSizeCap>${LOG_FILE_MAX_SIZE}</totalSizeCap>
+        </rollingPolicy>
+
+        <triggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>3GB</maxFileSize>
+        </triggeringPolicy>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+    </appender>
+
+    <!--    <logger name="org.postgresql.*" level="INFO"/>-->
+    <!--    <logger name="org.hibernate.type" level="ALL" />-->
+    <!--    <logger name="org.hibernate" level="DEBUG" />-->
+    <!--    <logger name="com.zaxxer.hikari.pool.PoolBase" level="INFO"/>-->
+    <!--    <logger name="com.zaxxer.hikari.pool.HikariPool" level="INFO"/>-->
+    <!--    <logger name="com.zaxxer.hikari.HikariDataSource" level="INFO"/>-->
+
+    <logger name="dat.peter" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>

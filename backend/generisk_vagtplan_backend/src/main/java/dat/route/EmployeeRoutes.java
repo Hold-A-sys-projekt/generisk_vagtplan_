@@ -26,6 +26,7 @@ public class EmployeeRoutes implements Route{
                 path("/{id}", () -> {
                     get(employeeController::getById);
                     path("/shifts", () -> {
+                        get("/current",employeeController::getCurrentShift);
                         get(employeeController::getEmployeeShifts);
                     });
                 });

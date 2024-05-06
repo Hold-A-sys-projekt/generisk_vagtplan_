@@ -1,0 +1,8 @@
+day_request_swap,employee_requested_from_id,employee_requested_to_id,approved
+2024-05-01,1001,1002,false
+2024-05-02,1003,1004,false
+2024-05-03,1005,1001,false
+2024-05-04,1002,1003,false
+2024-05-05,1004,1005,false
+2024-05-06,1001,1004,false
+2024-05-07,1003,1005,false

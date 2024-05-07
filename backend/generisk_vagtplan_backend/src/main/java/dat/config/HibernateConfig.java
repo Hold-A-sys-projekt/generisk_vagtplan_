@@ -1,8 +1,6 @@
 package dat.config;
 
-import dat.model.ExampleEntity;
-import dat.model.RouteRoles;
-import dat.model.User;
+import dat.model.*;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.NoArgsConstructor;
 import org.hibernate.SessionFactory;
@@ -26,7 +24,7 @@ public class HibernateConfig {
     private static EntityManagerFactory buildDevEntityManagerFactory() {
         try {
             Properties properties = new Properties();
-            properties.put("hibernate.connection.url", "jdbc:postgresql://localhost:5432/gvs?currentSchema=public");
+            properties.put("hibernate.connection.url", "jdbc:postgresql://localhost:5432/postgres?currentSchema=public");
             properties.put("hibernate.connection.username", "postgres");
             properties.put("hibernate.connection.password", "postgres");
             properties.put("hibernate.show_sql", "false"); // show sql in console
@@ -77,9 +75,8 @@ public class HibernateConfig {
 
         // TODO: asList(X.class, Y.class, Z.class)
         Arrays.asList(
-                User.class,
-                RouteRoles.class,
-                ExampleEntity.class
+                Employee.class,
+                Manager.class
         ).forEach(config::addAnnotatedClass);
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build();

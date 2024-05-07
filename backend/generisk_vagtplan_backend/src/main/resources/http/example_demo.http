@@ -1,11 +1,11 @@
 ### POST
 
-POST {{url}}/example
+POST {{url}}/managers/employees
 Content-Type: application/json
 
 {
-  "name": "Peter",
-  "description": "min beskrivelse"
+  "employeename": "Peter",
+  "role": "rolle"
 }
 
 ### POST 2

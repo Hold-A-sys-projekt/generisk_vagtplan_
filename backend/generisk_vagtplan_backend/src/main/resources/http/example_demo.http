@@ -4,7 +4,7 @@ POST {{url}}/managers/employees
 Content-Type: application/json
 
 {
-  "employeename": "Peter",
+  "employeename": "Peter1",
   "role": "rolle"
 }
 
@@ -20,7 +20,7 @@ Content-Type: application/json
 
 ### GET ALL
 
-GET {{url}}/example
+GET {{url}}/managers/employees
 
 ### GET BY ID 1
 

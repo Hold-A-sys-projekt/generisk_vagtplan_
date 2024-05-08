@@ -41,7 +41,7 @@ public class Shift {
     @JsonManagedReference("shift-swapshift2")
     private List<SwapShifts> swapsAsShift2;
 
-    // Additional constructor to support initialization with parameters
+
     public Shift(String shiftName, LocalDateTime startTime, LocalDateTime endTime, User user) {
         this.shiftName = shiftName;
         this.startTime = startTime;

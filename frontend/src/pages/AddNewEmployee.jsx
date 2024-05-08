@@ -37,10 +37,10 @@ const AddNewEmployee = () => {
 
  
   return (
-    <div>
+    <div className="p-4 bg-white rounded-lg shadow-md">
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Employee Name</label>
+        <div className="mb-4">
+          <label htmlFor="employeename" className="block text-sm font-medium text-gray-700">Employee Name</label>
           <input
             id="employeename"
             type="text"
@@ -49,11 +49,12 @@ const AddNewEmployee = () => {
             value={formData.employeename}
             onChange={handleChange}
             required
+            className="mt-1 p-2 block w-full shadow-sm border border-gray-300 rounded-md"
           />
         </div>
         
-        <div>
-          <label>Role</label>
+        <div className="mb-4">
+          <label htmlFor="role" className="block text-sm font-medium text-gray-700">Role</label>
           <input
             id="role"
             type="text"
@@ -62,10 +63,13 @@ const AddNewEmployee = () => {
             value={formData.role}
             onChange={handleChange}
             required
+            className="mt-1 p-2 block w-full shadow-sm border border-gray-300 rounded-md"
           />
         </div>
         <div>
-          <button type="submit">Save</button>
+          <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Add New Employee
+          </button>
         </div>
       </form>
     </div>

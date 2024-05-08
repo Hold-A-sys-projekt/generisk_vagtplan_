@@ -30,10 +30,6 @@ public class Employee implements Serializable, dat.model.Entity<EmployeeDTO>  {
     @Column(name = "role", nullable = false)
     private String role;
 
-
-
-
-
     @Override
     public void setId(Object id) {
         this.id = (Integer) id;

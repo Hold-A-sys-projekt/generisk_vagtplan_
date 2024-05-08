@@ -22,6 +22,7 @@ public class ManagerRoutes implements Route {
         return () -> {
             path("/employees", () -> {
                 post(managerController::addEmployee);
+                put(managerController::updateEmployeeRole);
             });
         };
     }

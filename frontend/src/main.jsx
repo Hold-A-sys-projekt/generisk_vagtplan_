@@ -4,10 +4,12 @@ import App from './App.jsx'
 import './index.css'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import Index from '@/pages/Index.jsx'
+import CalendarPage from '@/pages/CalendarPage.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
+      <Route path="CalendarPage" element={<CalendarPage />} />
       <Route index element={<Index />} />
     </Route>
   )

@@ -1,3 +1,5 @@
+import facade from './util/apiFacade'
+
 const Reviews = () => {
     const reviews = [
         { id: 1, text: "Review 1..." },

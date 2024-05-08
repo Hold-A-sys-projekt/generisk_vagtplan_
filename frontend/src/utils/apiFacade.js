@@ -1,7 +1,6 @@
 console.log("Hej verden");
 
-const URL = "http://localhost:7070/api/v1/";
-const HOTEL_ROUTE = "hotels";
+const URL = "http://localhost:7070/api/";
 const AUTHENTICATION_ROUTE = "auth/login";
 
 function apiFacade() {

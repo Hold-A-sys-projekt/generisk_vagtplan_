@@ -4,7 +4,7 @@ import AddNewEmployee from '@/pages/AddNewEmployee.jsx';
 const Index = () => {
   return (
       <div>
-        <h1>Hello world!</h1>
+       
         <AssignRole />
         <AddNewEmployee />
           

@@ -1,5 +1,6 @@
 package dat.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dat.dto.UserDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
@@ -53,7 +54,8 @@ public class User implements Serializable, dat.model.Entity<UserDTO> {
     @ManyToMany(fetch = FetchType.EAGER)
     private final Set<RouteRoles> routeRoles = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private final Set<Review> reviews = new LinkedHashSet<>();
 
     public User(String email, String username, String password) {

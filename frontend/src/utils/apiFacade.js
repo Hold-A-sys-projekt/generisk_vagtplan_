@@ -1,4 +1,3 @@
-console.log("Hej verden");
 
 const URL = "http://localhost:7070/api/";
 const AUTHENTICATION_ROUTE = "auth/login";

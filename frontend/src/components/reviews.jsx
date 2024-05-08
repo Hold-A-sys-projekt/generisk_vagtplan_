@@ -14,7 +14,10 @@ const Reviews = () => {
         <div>
             {reviews.map((review) => (
                 <div key={review.id}>
+                    <h3>{review.user.username}</h3>
+                    <p>says:</p>
                     <p>{review.comment}</p>
+                    <p>--</p>
                 </div>
             ))}
         </div>

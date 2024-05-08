@@ -2,13 +2,17 @@ package dat.dao;
 
 import dat.config.HibernateConfig;
 import dat.model.Employee;
-import dat.model.RouteRoles;
+import dat.model.Shift;
 import jakarta.persistence.EntityManagerFactory;
 
-public class EmployeeDAO extends DAO<Employee>{
-    private static EmployeeDAO INSTANCE;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
-    private final DAO<RouteRoles> ROLE_DAO = new DAO<>(RouteRoles.class, emf);
+public class EmployeeDAO extends DAO<Employee> {
+
+
+    private static EmployeeDAO INSTANCE;
 
     private EmployeeDAO(EntityManagerFactory emf) {
         super(Employee.class, emf);
@@ -20,4 +24,16 @@ public class EmployeeDAO extends DAO<Employee>{
         }
         return INSTANCE;
     }
+
+    public Optional<Shift> readCurrentShift(int employeeId, LocalDateTime currentDate) {
+        return emf.createEntityManager()
+                .createQuery("SELECT s FROM Shift s WHERE s.employee.id = :employeeId AND s.shiftStart >= :currentDate ORDER BY s.shiftStart ASC", Shift.class)
+                .setParameter("employeeId", employeeId)
+                .setParameter("currentDate", currentDate)
+                .setMaxResults(1)
+                .getResultStream()
+                .findFirst();
+    }
+
+
 }

@@ -1,38 +1,40 @@
 package dat.model;
 
-import dat.dto.EmployeeDTO;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import dat.dto.EmployeeDTO;
+import jakarta.persistence.*;
+import jakarta.persistence.Entity;
 import lombok.*;
 
-import java.io.Serializable;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
-@jakarta.persistence.Entity
-@NoArgsConstructor
-@ToString
+@Entity
 @Getter
 @Setter
+@ToString
+@NoArgsConstructor
 @AllArgsConstructor
-public class Employee implements Serializable, dat.model.Entity<EmployeeDTO>  {
+@Table(name = "employees")
+public class Employee implements dat.model.Entity<EmployeeDTO> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true, nullable = false)
-    private Integer id;
+    private int id;
 
-    @Column(name = "employeename", unique = true, nullable = false, length = 25)
-    @Setter
-    private String employeename;
+    private String name;
 
-    @Column(name = "role", nullable = false)
-    private String role;
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Shift> shifts = new LinkedHashSet<>();
+
+    public Employee(String name) {
+        this.name = name;
+    }
+
 
     @Override
     public void setId(Object id) {
-        this.id = (Integer) id;
     }
 
     @Override

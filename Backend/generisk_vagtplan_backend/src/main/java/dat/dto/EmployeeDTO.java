@@ -6,24 +6,29 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @ToString
 @NoArgsConstructor
-public class EmployeeDTO implements DTO<Employee> {
+public class EmployeeDTO implements DTO<Employee>{
+
     private Integer id;
-    private String employeename;
-    private String role;
 
+    private String name;
 
-      public EmployeeDTO(Employee employee) {
-            this.id = employee.getId();
-            this.employeename = employee.getEmployeename();
-            this.role = employee.getRole();
-        }
+    private List<ShiftDTO> shifts;
+
+    public EmployeeDTO(Employee employee) {
+        this.id = employee.getId();
+        this.name = employee.getName();
+        this.shifts = employee.getShifts().stream().map(ShiftDTO::new).toList();
+    }
+
 
     @Override
     public Employee toEntity() {
         EmployeeDAO employeeDAO = EmployeeDAO.getInstance();
-        return employeeDAO.readById(this.employeename).orElse(null);
+        return null;
     }
 }

@@ -9,6 +9,12 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class ReviewRoutes implements Route {
     private final ReviewController reviewController = new ReviewController(ReviewDAO.getInstance());
+
+    @Override
+    public String getBasePath() {
+        return "/reviews";
+    }
+
     @Override
     public EndpointGroup getRoutes() {
         return () -> {

@@ -16,6 +16,7 @@ public class UserDTO implements DTO<User> {
 
     private String username;
     private String description;
+    private String email;
     private Long createdAt;
     private Integer id;
 
@@ -30,10 +31,17 @@ public class UserDTO implements DTO<User> {
         this.id = id;
     }
 
+    public UserDTO(String username, Long createdAt, Integer id, String email) {
+        this.username = username;
+        this.createdAt = createdAt;
+        this.id = id;
+        this.email = email;
+    }
+
     public UserDTO(User user) {
         this(user.getUsername(),
                 user.getCreatedOn().atZone(ZoneId.systemDefault()).toInstant().getEpochSecond() * 1000,
-                user.getId());
+                user.getId(), user.getEmail());
     }
 
     public void setId(String id) {

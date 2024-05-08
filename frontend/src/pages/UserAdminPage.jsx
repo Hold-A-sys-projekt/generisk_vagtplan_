@@ -8,8 +8,21 @@ import {
   TableRow,
   TableBody,
 } from "@/components/ui/table";
+import { getUsers } from "@/lib/userFacade";
+import { useEffect, useState } from "react";
 
 const UserAdminPage = () => {
+  const [users, setUsers] = useState([])
+
+  const loadUsers = async () => {
+    setUsers(await getUsers())
+  }
+
+  useEffect(() => {
+    loadUsers()    
+  }, []);
+
+
   return (
     <div>
       <h1>User Admin Page</h1>
@@ -23,10 +36,12 @@ const UserAdminPage = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow>
-                <TableCell>email@gmail.com</TableCell>
-                <TableCell>Navn Navnesen</TableCell>
+              {users.map((user) => (
+              <TableRow key={user.id}>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.username}</TableCell>
               </TableRow>
+              ))}
             </TableBody>
           </Table>
         </Card>

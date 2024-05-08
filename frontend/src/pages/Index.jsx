@@ -1,8 +1,12 @@
+import AssignRole from '@/pages/AssignRole.jsx';
 
 const Index = () => {
   return (
-    <h1>Hello world!</h1>
-  )
-}
+      <div>
+        <h1>Hello world!</h1>
+        <AssignRole />
+      </div>
+  );
+};
 
-export default Index
+export default Index;

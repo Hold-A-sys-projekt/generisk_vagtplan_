@@ -6,7 +6,7 @@ import io.javalin.apibuilder.EndpointGroup;
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class RoleRoutes implements Route{
-    private RoleController controller = new RoleController(RoleDAO.getInstance());
+    private final RoleController controller = new RoleController(RoleDAO.getInstance());
 
     @Override
     public String getBasePath() {
@@ -15,8 +15,6 @@ public class RoleRoutes implements Route{
 
     @Override
     public EndpointGroup getRoutes() {
-        return () -> {
-            get(controller::getAll);
-        };
+        return () -> get(controller::getAll);
     }
 }

@@ -1,3 +1,5 @@
+package entities.EmployedPersons;
+
 public abstract class EmployedPerson {
     private String name, email, username, password;
     private int id;

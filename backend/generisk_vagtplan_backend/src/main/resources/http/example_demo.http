@@ -4,7 +4,7 @@ POST {{url}}/managers/employees
 Content-Type: application/json
 
 {
-  "employeename": "Peter1",
+  "employeename": "Piter1",
   "role": "rolle"
 }
 

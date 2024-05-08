@@ -1,11 +1,12 @@
 package dat.model;
 
+
 import dat.dto.ShiftDTO;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import lombok.*;
-import java.time.LocalDateTime;
 
+import java.time.LocalDateTime;
 
 @Entity
 @Setter
@@ -13,11 +14,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "shifts")
+public class Shift implements dat.model.Entity<ShiftDTO> {
 
-public class Shift implements dat.model.Entity<ShiftDTO>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @Column(name = "shift_start")
     private LocalDateTime shiftStart;
@@ -25,23 +26,38 @@ public class Shift implements dat.model.Entity<ShiftDTO>{
     @Column(name = "shift_end")
     private LocalDateTime shiftEnd;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private User employee;
+    @Column(name = "punch_in")
+    private LocalDateTime punchIn;
 
-    public Shift(LocalDateTime shiftStart, LocalDateTime shiftEnd, User employee){
+    @Column(name = "punch_out")
+    private LocalDateTime punchOut;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Employee employee;
+
+    public Shift(LocalDateTime shiftStart, LocalDateTime shiftEnd, Employee employee) {
         this.shiftStart = shiftStart;
         this.shiftEnd = shiftEnd;
         setEmployee(employee);
     }
 
     public Shift(LocalDateTime shiftStart, LocalDateTime shiftEnd) {
+        this.shiftStart = shiftStart;
+        this.shiftEnd = shiftEnd;
     }
+
+
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+        if (employee != null && !employee.getShifts().contains(this)) {
+            employee.getShifts().add(this);
+        }
+    }
+
 
     @Override
     public void setId(Object id) {
-        if (id != null) {
-            this.id = Integer.parseInt(id.toString());
-        }
     }
 
     @Override
@@ -49,14 +65,15 @@ public class Shift implements dat.model.Entity<ShiftDTO>{
         return new ShiftDTO(this);
     }
 
-    public void setEmployee(User employee){
-        this.employee=employee;
-        employee.getShifts().add(this);
-
-    }
-
-    @Id
-    public int getId() {
-        return id;
+    public String toString() {
+        return "Shift{" +
+                "id=" + id +
+                ", shiftStart=" + shiftStart +
+                ", shiftEnd=" + shiftEnd +
+                ", punchIn=" + punchIn +
+                ", punchOut=" + punchOut +
+                ", employeeId=" + employee.getId() +
+                ", employeeName=" + employee.getName() +
+                '}';
     }
 }

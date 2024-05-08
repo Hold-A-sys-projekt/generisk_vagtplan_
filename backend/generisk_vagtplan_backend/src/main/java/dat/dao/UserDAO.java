@@ -83,4 +83,9 @@ public class UserDAO extends DAO<User> {
             return user;
         }
     }
+
+    @Override
+    public User create(User user) {
+        throw new UnsupportedOperationException("Use register instead");
+    }
 }

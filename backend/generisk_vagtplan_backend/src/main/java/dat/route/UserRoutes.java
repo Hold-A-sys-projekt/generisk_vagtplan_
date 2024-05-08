@@ -18,15 +18,8 @@ public class UserRoutes implements Route {
     @Override
     public EndpointGroup getRoutes() {
         return () -> {
-            path("/", () -> {
-                get(userController::getAll);
-                post(userController::create);
-                path("/{id}", () -> {
-                    get(userController::getById);
-                    path("/shifts", () -> {
-                        get(userController::getEmployeeShifts);
-                    });
-                });
+            path("/{id}", () -> {
+                get(userController::getById);
             });
         };
     }

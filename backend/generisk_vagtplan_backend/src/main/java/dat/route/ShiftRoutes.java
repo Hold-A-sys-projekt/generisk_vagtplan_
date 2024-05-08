@@ -27,7 +27,8 @@ public class ShiftRoutes implements Route{
                 post(shiftController::post);
                 path("/{id}", () -> {
                     get(shiftController::getById);
-                    post("/delete" ,shiftController::delete);
+                    post("/punch-in" ,shiftController::punchIn);
+                    post("/punch-out" ,shiftController::punchOut);
                 });
             });
         };

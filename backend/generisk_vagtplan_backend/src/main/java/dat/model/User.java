@@ -47,9 +47,6 @@ public class User implements Serializable, dat.model.Entity<UserDTO> {
     @Setter
     private LocalDateTime updatedOn;
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Shift> shifts = new LinkedHashSet<>();
-
     @JoinTable(name = "user_roles", joinColumns = {
             @JoinColumn(name = "username", referencedColumnName = "username")}, inverseJoinColumns = {
             @JoinColumn(name = "role_name", referencedColumnName = "role_name")})

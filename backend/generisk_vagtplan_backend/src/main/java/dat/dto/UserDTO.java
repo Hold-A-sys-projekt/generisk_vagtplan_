@@ -15,6 +15,7 @@ import java.time.ZoneId;
 public class UserDTO implements DTO<User> {
 
     private String username;
+    private String description;
     private Long createdAt;
     private Integer id;
 

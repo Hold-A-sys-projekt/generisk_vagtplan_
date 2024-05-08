@@ -1,18 +1,20 @@
-import facade from './util/apiFacade'
+import facade from "@/utils/apiFacade";
+import{ useState, useEffect } from 'react';
 
 const Reviews = () => {
-    const reviews = [
-        { id: 1, text: "Review 1..." },
-        { id: 2, text: "Review 2..." },
-        { id: 3, text: "Review 3..." },
-        { id: 4, text: "Review 4..." },
-    ];
+    const [reviews, setReviews] = useState([]);
+
+    useEffect(() => {
+        facade.fetchData("reviews/getAll", "GET")
+        .then(data => setReviews(data))
+        .catch(error => console.error(error));
+    }, []);
 
     return (
         <div>
             {reviews.map((review) => (
                 <div key={review.id}>
-                    <p>{review.text}</p>
+                    <p>{review.comment}</p>
                 </div>
             ))}
         </div>

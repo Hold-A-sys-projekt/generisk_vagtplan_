@@ -27,14 +27,20 @@ public class ManagerController extends Controller<Manager, ManagerDTO> {
 
     public void updateEmployeeRole(Context ctx) {
         int employeeId = Integer.parseInt(ctx.pathParam("id"));
-        String newRole = ctx.formParam("role");
-        Employee employee = dao.getEmployee(employeeId);
-        if (employee != null) {
-            employee.setRole(newRole);
-            dao.updateEmployeeRole(employee, newRole);
-            ctx.status(200).json(employee);
-        } else {
-            ctx.status(404).result("The employee does not exist");
+        try {
+            EmployeeDTO requestBody = ctx.bodyAsClass(EmployeeDTO.class);
+            String newRole = requestBody.getRole();
+
+            Employee employee = dao.getEmployee(employeeId);
+            if (employee != null) {
+                employee.setRole(newRole);
+                dao.updateEmployeeRole(employee, newRole);
+                ctx.status(200).json(employee);
+            } else {
+                ctx.status(404).result("The employee does not exist");
+            }
+        } catch (Exception e) {
+            ctx.status(400).result("Invalid request body");
         }
     }
 }

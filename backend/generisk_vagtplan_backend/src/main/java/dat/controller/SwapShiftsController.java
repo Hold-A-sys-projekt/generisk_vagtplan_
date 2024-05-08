@@ -34,6 +34,6 @@ public class SwapShiftsController extends Controller<SwapShifts, SwapShiftDTO> {
 
     public void getSwaps(Context ctx) {
         ctx.status(200);
-        ctx.json(createFromEntities(dao.readAll()));
+        ctx.json(createFromEntities(dao.getSwapShifts()));
     }
 }

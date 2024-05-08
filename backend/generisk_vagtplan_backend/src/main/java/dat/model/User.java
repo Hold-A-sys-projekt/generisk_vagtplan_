@@ -1,5 +1,6 @@
 package dat.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dat.dto.UserDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
@@ -47,11 +48,12 @@ public class User implements Serializable, dat.model.Entity<UserDTO> {
     @Setter
     private LocalDateTime updatedOn;
 
-    @JoinTable(name = "user_roles", joinColumns = {
-            @JoinColumn(name = "username", referencedColumnName = "username")}, inverseJoinColumns = {
-            @JoinColumn(name = "role_name", referencedColumnName = "role_name")})
     @ManyToMany(fetch = FetchType.EAGER)
-    private final Set<RouteRoles> routeRoles = new LinkedHashSet<>();
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "username", referencedColumnName = "username"),
+            inverseJoinColumns = @JoinColumn(name = "role_name", referencedColumnName = "role_name"))
+    @JsonIgnore
+    private Set<RouteRoles> routeRoles = new LinkedHashSet<>();
 
     public User(String email, String username, String password) {
         this.email = email;

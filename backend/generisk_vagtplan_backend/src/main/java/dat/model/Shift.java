@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,12 +33,15 @@ public class Shift {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "shift1", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "shift1", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonManagedReference("shift-swapshift1")
     private List<SwapShifts> swapsAsShift1;
 
-    @OneToMany(mappedBy = "shift2", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "shift2", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonManagedReference("shift-swapshift2")
     private List<SwapShifts> swapsAsShift2;
 
+    // Additional constructor to support initialization with parameters
     public Shift(String shiftName, LocalDateTime startTime, LocalDateTime endTime, User user) {
         this.shiftName = shiftName;
         this.startTime = startTime;

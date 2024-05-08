@@ -19,9 +19,9 @@ public class SwapShiftRoutes implements Route {
     @Override
     public EndpointGroup getRoutes() {
         return () -> {
-            path("/", () -> {
+            path("", () -> {
                 get(swapShiftsController::getSwaps);
-                path(":id", () -> {
+                path("{id}", () -> {
                     post(swapShiftsController::acceptSwap);
                 });
 

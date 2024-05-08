@@ -1,5 +1,6 @@
 package dat.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.javalin.security.RouteRole;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
@@ -28,6 +29,7 @@ public class RouteRoles implements Serializable, RouteRole {
     private String name;
 
     @ManyToMany(mappedBy = "routeRoles", fetch = FetchType.EAGER)
+    @JsonIgnore
     private final Set<User> userList = new LinkedHashSet<>();
 
     public RouteRoles(String name) {

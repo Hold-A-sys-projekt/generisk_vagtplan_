@@ -10,10 +10,7 @@ import dat.message.Message;
 import dat.message.ValidationMessage;
 import dat.model.RouteRoles;
 import dat.model.User;
-import dat.route.AuthenticationRoutes;
-import dat.route.ExampleRoutes;
-import dat.route.Route;
-import dat.route.UserRoutes;
+import dat.route.*;
 import dat.security.TokenFactory;
 import io.javalin.Javalin;
 import io.javalin.http.ContentType;
@@ -58,7 +55,8 @@ public class ApplicationConfig {
         addRoutes(
                 new AuthenticationRoutes(),
                 new UserRoutes(),
-                new ExampleRoutes()
+                new ExampleRoutes(),
+                new SwapShiftRoutes()
         ); // TODO: addRoutes(new XRoutes(), new YRoutes(), new ZRoutes());
     }
 

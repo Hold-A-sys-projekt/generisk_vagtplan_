@@ -1,6 +1,8 @@
 package dat.config;
 
+
 import dat.model.*;
+
 import jakarta.persistence.EntityManagerFactory;
 import lombok.NoArgsConstructor;
 import org.hibernate.SessionFactory;
@@ -78,6 +80,7 @@ public class HibernateConfig {
                 User.class,
                 RouteRoles.class,
                 ExampleEntity.class,
+                Review.class
                 Employee.class,
                 Shift.class
         ).forEach(config::addAnnotatedClass);

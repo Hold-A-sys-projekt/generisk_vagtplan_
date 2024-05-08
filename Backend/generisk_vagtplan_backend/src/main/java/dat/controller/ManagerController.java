@@ -19,7 +19,7 @@ public class ManagerController extends Controller<Manager, ManagerDTO> {
     public void addEmployee(Context ctx) {
         EmployeeDTO employeeDTO = ctx.bodyAsClass(EmployeeDTO.class);
         Employee employee = new Employee();
-        employee.setEmployeename(employeeDTO.getEmployeename());
+        employee.setName(employeeDTO.getName());
         employee.setRole(employeeDTO.getRole());
         dao.addEmployee(employee);
         ctx.status(201);

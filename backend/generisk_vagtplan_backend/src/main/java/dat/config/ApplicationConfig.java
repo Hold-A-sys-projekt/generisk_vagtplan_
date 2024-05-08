@@ -56,10 +56,10 @@ public class ApplicationConfig {
                 new AuthenticationRoutes(),
                 new UserRoutes(),
                 new ExampleRoutes(),
-                new ManagerRoutes()
-                new ExampleRoutes(),
+                new ManagerRoutes(),
 
-                new ReviewRoutes()
+
+                new ReviewRoutes(),
                 new ShiftRoutes(),
                 new EmployeeRoutes()
         ); // TODO: addRoutes(new XRoutes(), new YRoutes(), new ZRoutes());

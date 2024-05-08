@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 const AddNewEmployee = () => {
   const [formData, setFormData] = useState({
-    employeename: '',
+    name: '',
     role: '',
   });
 
@@ -27,7 +27,7 @@ const AddNewEmployee = () => {
       console.log('Employee data saved successfully');
       
       setFormData({
-        employeename: '',
+        name: '',
         role: '',
       });
     } catch (error) {
@@ -41,11 +41,11 @@ const AddNewEmployee = () => {
         <div className="p-4 bg-white rounded-lg shadow-md">
             <form onSubmit={handleSubmit} className="max-w-md mx-auto">
                 <div className="mb-4">
-                    <label htmlFor="employeename" className="block text-sm font-medium text-gray-700">Employee Name</label>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">Employee Name</label>
                     <input
-                        id="employeename"
+                        id="name"
                         type="text"
-                        name="employeename"
+                        name="name"
                         placeholder="Employee Name"
                         value={formData.employeename}
                         onChange={handleChange}

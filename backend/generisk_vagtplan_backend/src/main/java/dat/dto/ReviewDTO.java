@@ -1,5 +1,6 @@
 package dat.dto;
 
+import dat.dao.ReviewDAO;
 import dat.model.Review;
 import dat.model.User;
 import lombok.AllArgsConstructor;

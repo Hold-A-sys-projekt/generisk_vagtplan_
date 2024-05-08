@@ -57,7 +57,8 @@ public class ApplicationConfig {
                 new UserRoutes(),
                 new ExampleRoutes(),
                 new ShiftRoutes(),
-                new EmployeeRoutes()
+                new EmployeeRoutes(),
+                new RoleRoutes()
         ); // TODO: addRoutes(new XRoutes(), new YRoutes(), new ZRoutes());
     }
 

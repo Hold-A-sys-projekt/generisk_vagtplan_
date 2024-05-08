@@ -8,7 +8,7 @@ const ShiftSwapManager = () => {
   const [shiftSwaps, setShiftSwaps] = useState([]);
 
   useEffect(() => {
-    axios.get('Correct_endpoint') // CHANGE TO CORRECT ENDPOINT FETCH
+    axios.get('http://localhost:7070/api/swapshift') // CHANGE TO CORRECT ENDPOINT FETCH
       .then(response => setShiftSwaps(response.data))
       .catch(error => console.error('There was an error fetching the shift swaps', error));
   }, []);

@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 
+import AssignRole from '@/pages/AssignRole.jsx';
+import AddNewEmployee from '@/pages/AddNewEmployee.jsx';
 
 const Index = () => {
   return (
     <div className="h-screen p-4 pt-0">
-      
+
 
       <div className="border-t border-gray-400 my-2"></div>
 
@@ -12,8 +14,8 @@ const Index = () => {
         <h1 className='mb-4'>Welcome to GVS</h1>
         <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit.
            Vestibulum sed augue est. Maecenas fringilla aliquam dui,
-            vel lobortis nunc euismod nec. Suspendisse quis tortor ipsum. 
-            Nunc quis imperdiet lectus. Donec tincidunt finibus lacus scelerisque rutrum. 
+            vel lobortis nunc euismod nec. Suspendisse quis tortor ipsum.
+            Nunc quis imperdiet lectus. Donec tincidunt finibus lacus scelerisque rutrum.
             Curabitur purus turpis, semper non ex eu, dignissim facilisis justo.</p>
       </div>
 
@@ -22,8 +24,19 @@ const Index = () => {
           Reviews
         </Link>
       </div>
+<div>
+    <AssignRole />
+    <AddNewEmployee />
+</div>
+
     </div>
+
+
   )
 }
 
-export default Index
+
+
+
+
+export default Index;

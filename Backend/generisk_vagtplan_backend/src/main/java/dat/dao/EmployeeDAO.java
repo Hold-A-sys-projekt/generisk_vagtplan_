@@ -18,8 +18,6 @@ public class EmployeeDAO extends DAO<Employee>{
         if (INSTANCE == null) {
             INSTANCE = new EmployeeDAO(HibernateConfig.getEntityManagerFactory());
         }
-
         return INSTANCE;
     }
-
 }

@@ -24,6 +24,19 @@ public class ManagerController extends Controller<Manager, ManagerDTO> {
         dao.addEmployee(employee);
         ctx.status(201);
     }
+
+    public void updateEmployeeRole(Context ctx) {
+        int employeeId = Integer.parseInt(ctx.pathParam("id"));
+        String newRole = ctx.formParam("role");
+        Employee employee = dao.getEmployee(employeeId);
+        if (employee != null) {
+            employee.setRole(newRole);
+            dao.updateEmployeeRole(employee, newRole);
+            ctx.status(200).json(employee);
+        } else {
+            ctx.status(404).result("The employee does not exist");
+        }
+    }
 }
 
 

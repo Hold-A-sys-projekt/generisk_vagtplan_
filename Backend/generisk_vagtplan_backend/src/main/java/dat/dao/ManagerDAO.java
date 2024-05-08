@@ -7,6 +7,8 @@ import jakarta.persistence.EntityManager;
 
 import jakarta.persistence.EntityManagerFactory;
 
+import javax.management.relation.Role;
+
 public class ManagerDAO extends DAO<Manager>{
     private static ManagerDAO INSTANCE;
 
@@ -30,5 +32,23 @@ public class ManagerDAO extends DAO<Manager>{
         }
     }
 
+    public Employee getEmployee(int id) {
+        try (EntityManager em = emf.createEntityManager()) {
+            return em.find(Employee.class, id);
+        }
+    }
 
+    public Employee updateEmployeeRole(Employee employee, String newRole) {
+        try (EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+
+            Employee updatedEmployee = em.find(Employee.class, employee.getId());
+            if (updatedEmployee != null) {
+                updatedEmployee.setRole(newRole);
+                em.merge(updatedEmployee);
+            }
+            em.getTransaction().commit();
+            return updatedEmployee;
+        }
+    }
 }

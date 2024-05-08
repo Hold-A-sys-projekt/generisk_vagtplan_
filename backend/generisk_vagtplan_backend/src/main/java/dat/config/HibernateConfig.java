@@ -28,7 +28,7 @@ public class HibernateConfig {
             Properties properties = new Properties();
             properties.put("hibernate.connection.url", "jdbc:postgresql://localhost:5432/gvs?currentSchema=public");
             properties.put("hibernate.connection.username", "postgres");
-            properties.put("hibernate.connection.password", "postgres");
+            properties.put("hibernate.connection.password", "admin");
             properties.put("hibernate.show_sql", "false"); // show sql in console
             properties.put("hibernate.format_sql", "true"); // format sql in console
             properties.put("hibernate.use_sql_comments", "true"); // show sql comments in console

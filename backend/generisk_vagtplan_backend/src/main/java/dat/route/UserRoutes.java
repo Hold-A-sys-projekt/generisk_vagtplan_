@@ -21,6 +21,7 @@ public class UserRoutes implements Route {
             path("/{id}", () -> {
                 get(userController::getById);
             });
+            get(userController::getAll);
         };
     }
 }

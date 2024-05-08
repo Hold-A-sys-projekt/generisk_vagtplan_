@@ -1,5 +1,6 @@
 package dat.model;
 
+import dat.dto.RouteRolesDTO;
 import io.javalin.security.RouteRole;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
@@ -17,7 +18,7 @@ import java.util.Set;
 @NamedQueries(@NamedQuery(name = "Role.deleteAllRows", query = "DELETE FROM RouteRoles"))
 @Getter
 @NoArgsConstructor
-public class RouteRoles implements Serializable, RouteRole {
+public class RouteRoles implements Serializable, RouteRole, dat.model.Entity<RouteRolesDTO> {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -49,5 +50,15 @@ public class RouteRoles implements Serializable, RouteRole {
 
     public static RouteRoles of(String name) {
         return new RouteRoles(name);
+    }
+
+    @Override
+    public void setId(Object id) {
+
+    }
+
+    @Override
+    public RouteRolesDTO toDTO() {
+        return new RouteRolesDTO(name);
     }
 }

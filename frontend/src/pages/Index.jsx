@@ -1,9 +1,16 @@
+import AssignRole from '@/pages/AssignRole.jsx';
+import AddNewEmployee from '@/pages/AddNewEmployee.jsx';
 
 const Index = () => {
   return (
-    <h1>Hello world!</h1>
-    
-  )
-}
+      <div>
+        <h1>Hello world!</h1>
+        <AssignRole />
+        <AddNewEmployee />
+          
+      </div>
+  );
+};
 
-export default Index
+
+export default Index;

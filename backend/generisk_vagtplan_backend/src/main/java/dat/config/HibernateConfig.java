@@ -1,8 +1,6 @@
 package dat.config;
 
-import dat.model.ExampleEntity;
-import dat.model.RouteRoles;
-import dat.model.User;
+import dat.model.*;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.NoArgsConstructor;
 import org.hibernate.SessionFactory;
@@ -79,7 +77,9 @@ public class HibernateConfig {
         Arrays.asList(
                 User.class,
                 RouteRoles.class,
-                ExampleEntity.class
+                ExampleEntity.class,
+                Employee.class,
+                Shift.class
         ).forEach(config::addAnnotatedClass);
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build();

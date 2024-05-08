@@ -12,12 +12,11 @@ public class ManagerRoutes {
 
     private final ExampleController exampleController = new ExampleController(ExampleDAO.getInstance());
 
-    @Override
     public String getBasePath() {
         return "/example";
     }
 
-    @Override
+
     public EndpointGroup getRoutes() {
         return () -> {
 

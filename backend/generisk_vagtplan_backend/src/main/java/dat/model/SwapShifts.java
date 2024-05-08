@@ -6,15 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serializable;
-
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-
 @Table(name = "swap_shifts")
-public class SwapShifts implements Serializable {
+public class SwapShifts {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +25,5 @@ public class SwapShifts implements Serializable {
     @JoinColumn(name = "shift_id2", referencedColumnName = "id")
     private Shift shift2;
 
-    private boolean isAccepted  = false; // Default value is false
-
+    private boolean isAccepted = false;
 }

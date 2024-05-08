@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui/card";
+import { Card } from '@/components/ui/card';
 import {
   Table,
   TableCaption,
@@ -7,21 +7,30 @@ import {
   TableHeader,
   TableRow,
   TableBody,
-} from "@/components/ui/table";
-import { getUsers } from "@/lib/userFacade";
-import { useEffect, useState } from "react";
+} from '@/components/ui/table';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+
+import { getUsers } from '@/lib/userFacade';
+import { useEffect, useState } from 'react';
 
 const UserAdminPage = () => {
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState([]);
+  const [locations, setLocations] = useState([]);
 
   const loadUsers = async () => {
-    setUsers(await getUsers())
-  }
+    setUsers(await getUsers());
+  };
 
   useEffect(() => {
-    loadUsers()    
+    loadUsers();
   }, []);
-
 
   return (
     <div>
@@ -37,10 +46,24 @@ const UserAdminPage = () => {
             </TableHeader>
             <TableBody>
               {users.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{user.username}</TableCell>
-              </TableRow>
+                <TableRow key={user.id}>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>{user.username}</TableCell>
+                  <TableCell>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger>{user.locations} example </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        {locations.map((lokation) => (
+                          <DropdownMenuItem key={lokation.id}>
+                            {lokation.name}
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                </TableRow>
               ))}
             </TableBody>
           </Table>

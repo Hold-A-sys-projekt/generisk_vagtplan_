@@ -35,6 +35,8 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Employee employee;
 
+    private String status;
+
     public Shift(LocalDateTime shiftStart, LocalDateTime shiftEnd, Employee employee) {
         this.shiftStart = shiftStart;
         this.shiftEnd = shiftEnd;

@@ -1,14 +1,38 @@
-### Seting up Gmail SMTP
+# Email Service Documentation
+
+## Table of Contents:
+
+1. [Email Service](#email-service)
+   1. [Setting up Gmail SMTP](#setting-up-gmail-smtp)
+   2. [Simple Example of Gmail SMTP](#simple-example-of-gmail-smtp)
+2. [API Documentation](#api-documentation)
+
+
+### Setting up Gmail SMTP
 
 1. Go to [Google Account](https://myaccount.google.com/) use or create a new account.
 2. Select **Security**.
 3. Under **"How you sign in to Google"** make sure 2-Step Verification is turned on.
 4. Search for **"App passwords"** and create a new app password.
-5. Follow the code exsample below [Exsample](#exsample-of-gmail-smtp).
+5. Follow the code exsample below [Exsample](#simple-exsample-of-gmail-smtp).
 6. Try to send an email to yourself (by runing Main.java).
 7. If error occurs, check if your anitvirus, firewall or other security software is blocking the connection of port 465 (SSL) / 587 (TLS).
 
-### Exsample of Gmail SMTP
+### Simple Example of Gmail SMTP
+
+#### Source of implementation:
+
+**Title:** How to Send Email Using Gmail SMTP Server
+
+**Website:** [HowToDoInJava](https://howtodoinjava.com/java/send-email-using-gmail-smtp-server/)
+
+**Author:** Lokesh Gupta
+
+**Last Updated:** July 6, 2023
+
+**Last Accessed:** Maj 9, 2024
+
+<br/>
 
 #### Main.java / test:
 
@@ -104,7 +128,7 @@ public class EmailSender
 ```
 
 #### Env.java:
-This is tmp solution, and when PASS should be sat as an environment variable on server.
+This is tmp solution, when deployed PASS could be sat as an environment variable on the server.
 
 ```java
 package dat.util;
@@ -133,3 +157,26 @@ public class Env
     </dependency>
 </dependencies>
 ```
+
+
+
+### API Documentation
+
+#### Route(s):
+
+| Route           | Method  | Content-Type        | Description                            |
+|-----------------|---------|---------------------|----------------------------------------|
+| /api/email/send | POST    | application/json    | Send a test based email to a receiver. |
+
+#### Request body:
+
+```json
+{
+    "receiver": "email@gmail.com",
+    "subject": "subject test",
+    "message": "Hello person, \n\nThis is new line \n\nWith best regards, \nOskar"
+}
+```
+
+#### Result example (text based email):
+![](img_example.png)

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import facade from "@/util/apiFacade";
 
 function Modal({ isOpen, onClose, selectedDay }) {
@@ -7,7 +7,17 @@ function Modal({ isOpen, onClose, selectedDay }) {
   const [schedule, setSchedule] = useState([]);
   const [isEditMode, setIsEditMode] = useState(false);
   const [removedIndices, setRemovedIndices] = useState([]);
-  const [workers, setWorkers] = useState([])
+  const [workers, setWorkers] = useState([]);
+  const [startHours, setStartHours] = useState([]);
+  const [endHours, setEndHours] = useState([]);
+  // Memoize selectedDayArray
+  const selectedDayArray = useMemo(() => {
+    return [
+      selectedDay.getFullYear(),
+      selectedDay.getMonth() + 1,
+      selectedDay.getDate()
+    ];
+  }, [selectedDay]);
 
   useEffect(() => {
     const fetchData = () => {
@@ -23,43 +33,54 @@ function Modal({ isOpen, onClose, selectedDay }) {
     fetchData();
   }, []);
 
-  const selectedDayArray = [
-    selectedDay.getFullYear(),
-    selectedDay.getMonth() + 1,
-    selectedDay.getDate()
-  ];
-
   useEffect(() => {
     if (shifts.length > 0) {
-      console.log(shifts[0].shiftStart);
-      console.log(selectedDayArray);
-
-      const shiftStartDate = new Date(
-        shifts[0].shiftStart[0],
-        shifts[0].shiftStart[1] - 1,
-        shifts[0].shiftStart[2]
-      );
-      shiftStartDate.setHours(0, 0, 0, 0);
-
       const selectedDayDate = new Date(selectedDay);
       selectedDayDate.setHours(0, 0, 0, 0);
 
-      if (shiftStartDate.getTime() === selectedDayDate.getTime()) {
-        setWorkers([...workers, shifts[0].employeeId]);
-      }
+      shifts.forEach((shift) => {
+        const shiftStartDate = new Date(
+          shift.shiftStart[0],
+          shift.shiftStart[1] - 1,
+          shift.shiftStart[2]
+        );
+        const shiftsStartHour = [
+          shift.shiftStart[3],
+          shift.shiftStart[4]
+        ]
+        const shiftsEndHour = [
+          shift.shiftEnd[3],
+          shift.shiftEnd[4]
+        ]
+        shiftStartDate.setHours(0, 0, 0, 0);
 
-      const updatedSchedule = [
-        { hour: "10:00 - 11:00", worker: "Peter" },
-        { hour: "11:00 - 12:00", worker: "Brian" },
-        { hour: "12:00 - 13:00", worker: "Anne" },
-        { hour: "13:00 - 14:00", worker: "Charlie" },
-        { hour: "14:00 - 15:00", worker: "Maria" },
-        { hour: "15:00 - 16:00", worker: "Bastian" },
-        { hour: "10", worker: workers[0]}
-      ];
+        if (shiftStartDate.getTime() === selectedDayDate.getTime()) {
+          setWorkers((prevWorkers) => [...prevWorkers, shift.employeeId]);
+          setStartHours((prevStartHours) => [...prevStartHours, shiftsStartHour]);
+          setEndHours((prevEndHours) => [...prevEndHours, shiftsEndHour]);
+        }
+      });
+
+      const updatedSchedule = workers.map((worker, index) => {
+        const [hoursStart, minutesStart] = startHours[index];
+        const timeStart = new Date();
+        timeStart.setHours(hoursStart);
+        timeStart.setMinutes(minutesStart);
+        const formattedTimeStart = timeStart.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const [hoursEnd, minutesEnd] = endHours[index];
+        const timeEnd = new Date();
+        timeEnd.setHours(hoursEnd);
+        timeEnd.setMinutes(minutesEnd);
+        const formattedTimeEnd = timeEnd.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        return {
+          hour: formattedTimeStart + " - " + formattedTimeEnd,
+          worker: worker
+        };
+      });
       setSchedule(updatedSchedule);
+      console.log(endHours)
     }
-  }, [shifts, selectedDayArray]);
+  }, [shifts]);
 
   const handleEdit = () => {
     setIsEditMode(true);

@@ -1,14 +1,9 @@
 package dat.controller;
-
-import dat.config.HibernateConfig;
-import dat.dao.DAO;
-import dat.dao.ExampleDAO;
 import dat.dao.SwapShiftsDAO;
 import dat.dto.SwapShiftDTO;
 import dat.model.SwapShifts;
-import dat.model.User;
 import io.javalin.http.Context;
-import jakarta.persistence.EntityManager;
+
 
 public class SwapShiftsController extends Controller<SwapShifts, SwapShiftDTO> {
 

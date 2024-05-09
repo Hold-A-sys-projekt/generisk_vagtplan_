@@ -29,7 +29,7 @@ public class SwapShifts implements dat.model.Entity<SwapShiftDTO> {
     @JsonBackReference("shift-swapshift2")
     private Shift shift2;
 
-    private String isAccepted = "";
+    String isAccepted = "";
 
     @Override
     public void setId(Object id) {

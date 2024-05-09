@@ -10,6 +10,7 @@ function Modal({ isOpen, onClose, selectedDay }) {
   const [workers, setWorkers] = useState([]);
   const [startHours, setStartHours] = useState([]);
   const [endHours, setEndHours] = useState([]);
+  const [workerNames, setWorkerNames] = useState([])
   // Memoize selectedDayArray
   const selectedDayArray = useMemo(() => {
     return [
@@ -20,16 +21,23 @@ function Modal({ isOpen, onClose, selectedDay }) {
   }, [selectedDay]);
 
   useEffect(() => {
-    const fetchData = () => {
-      facade.fetchData('shifts', 'GET')
-        .then((response) => {
-          setShifts(response);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+    const fetchData = async () => {
+      try {
+        const shiftsResponse = await facade.fetchData('shifts', 'GET');
+        setShifts(shiftsResponse);
+  
+        const employeesResponse = await facade.fetchData('employees', 'GET');
+        setWorkerNames(employeesResponse.map(employee => ({
+          id: employee.id,
+          name: employee.name
+        })));
+        
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
     };
-
     fetchData();
   }, []);
 
@@ -54,8 +62,13 @@ function Modal({ isOpen, onClose, selectedDay }) {
         ]
         shiftStartDate.setHours(0, 0, 0, 0);
 
-        if (shiftStartDate.getTime() === selectedDayDate.getTime()) {
-          setWorkers((prevWorkers) => [...prevWorkers, shift.employeeId]);
+        if (
+          shiftStartDate.getTime() === selectedDayDate.getTime() &&
+          workerNames !== null &&
+          workerNames.length > 0
+        ) {
+          const workerName = workerNames.find(worker => worker.id === shift.employeeId)?.name;
+          setWorkers(prevWorkers => [...prevWorkers, workerName]);
           setStartHours((prevStartHours) => [...prevStartHours, shiftsStartHour]);
           setEndHours((prevEndHours) => [...prevEndHours, shiftsEndHour]);
         }
@@ -78,9 +91,8 @@ function Modal({ isOpen, onClose, selectedDay }) {
         };
       });
       setSchedule(updatedSchedule);
-      console.log(endHours)
     }
-  }, [shifts]);
+  }, [shifts, workerNames]);
 
   const handleEdit = () => {
     setIsEditMode(true);

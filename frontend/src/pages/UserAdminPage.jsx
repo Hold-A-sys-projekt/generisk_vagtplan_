@@ -9,18 +9,64 @@ import {
   TableBody,
 } from "@/components/ui/table";
 import { getUsers } from "@/lib/userFacade";
+import { getUserRoles } from "@/lib/userFacade";
 import { useEffect, useState } from "react";
+import Select from "@/components/Select"
 
 const UserAdminPage = () => {
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState(
+    [
+      {
+        "username": "john",
+        "description": null,
+        "email": "john@gmail.com",
+        "createdAt": 1715243956000,
+        "role": "admin",
+        "id": 1
+      },
+      {
+        "username": "karen",
+        "description": null,
+        "email": "karen@gmail.com",
+        "createdAt": 1715243957000,
+        "role": "user",
+        "id": 2
+      },
+      {
+        "username": "admin",
+        "description": null,
+        "email": "admin@admin.com",
+        "createdAt": 1715243957000,
+        "role": "user",
+        "id": 3
+      }
+    ]
+  )
+  const [userRoles, setUserRoles] = useState([])
+
+  const loadUserRoles = async () => {
+    const roles = await getUserRoles()
+    if(!roles) return;
+    const userRoles = roles.map((role) => {
+      return {
+        value: role.name
+      }
+    })
+    setUserRoles(userRoles)
+  }
+
+
 
   const loadUsers = async () => {
     setUsers(await getUsers())
   }
 
+  
   useEffect(() => {
-    loadUsers()    
+  //  loadUsers()    
+    loadUserRoles()
   }, []);
+  
 
 
   return (
@@ -33,6 +79,7 @@ const UserAdminPage = () => {
               <TableRow>
                 <TableHead>Email</TableHead>
                 <TableHead>Navn</TableHead>
+                <TableHead>Rolle</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -40,6 +87,7 @@ const UserAdminPage = () => {
               <TableRow key={user.id}>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.username}</TableCell>
+                <TableCell> <Select items={userRoles} defaultValue={user.role} title="Roles" /> </TableCell>
               </TableRow>
               ))}
             </TableBody>

@@ -24,6 +24,10 @@ public class Department implements dat.model.Entity<DepartmentDTO>{
     @ManyToOne()
     private Company company;
 
+    public Department(String name) {
+        this.name = name;
+    }
+
     @Override
     public void setId(Object id) {
         if (!(id instanceof Integer)) {

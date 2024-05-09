@@ -52,10 +52,12 @@ public class User implements Serializable, dat.model.Entity<UserDTO> {
 
     @JoinColumn(name = "department_id", referencedColumnName = "department_id")
     @ManyToOne(fetch = FetchType.EAGER)
+    @Setter
     private Department department;
 
     @JoinColumn(name = "company_id", referencedColumnName = "company_id")
     @OneToOne(fetch = FetchType.EAGER)
+    @Setter
     private Company company;
 
     public User(String email, String username, String password) {

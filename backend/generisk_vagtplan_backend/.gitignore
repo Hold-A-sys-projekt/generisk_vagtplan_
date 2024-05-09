@@ -36,3 +36,6 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### ENV ###
+/src/main/java/dat/util/Env.java

@@ -11,14 +11,7 @@ function Modal({ isOpen, onClose, selectedDay }) {
   const [startHours, setStartHours] = useState([]);
   const [endHours, setEndHours] = useState([]);
   const [workerNames, setWorkerNames] = useState([])
-  // Memoize selectedDayArray
-  const selectedDayArray = useMemo(() => {
-    return [
-      selectedDay.getFullYear(),
-      selectedDay.getMonth() + 1,
-      selectedDay.getDate()
-    ];
-  }, [selectedDay]);
+ 
 
   useEffect(() => {
     const fetchData = async () => {

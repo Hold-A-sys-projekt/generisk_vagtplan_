@@ -1,4 +1,5 @@
-import { Card } from "@/components/ui/card";
+import DepartmentsDropdown from '@/components/departmentsDropdown';
+import { Card } from '@/components/ui/card';
 import {
   Table,
   TableCaption,
@@ -7,21 +8,22 @@ import {
   TableHeader,
   TableRow,
   TableBody,
-} from "@/components/ui/table";
-import { getUsers } from "@/lib/userFacade";
-import { useEffect, useState } from "react";
+} from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+
+import { getUsers, updateUserDepartment } from '@/lib/userFacade';
+import { useEffect, useState } from 'react';
 
 const UserAdminPage = () => {
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState([]);
 
   const loadUsers = async () => {
-    setUsers(await getUsers())
-  }
+    setUsers(await getUsers());
+  };
 
   useEffect(() => {
-    loadUsers()    
+    loadUsers();
   }, []);
-
 
   return (
     <div>
@@ -37,10 +39,7 @@ const UserAdminPage = () => {
             </TableHeader>
             <TableBody>
               {users.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{user.username}</TableCell>
-              </TableRow>
+                <UserRow user={user} key={user.id} />
               ))}
             </TableBody>
           </Table>
@@ -51,3 +50,32 @@ const UserAdminPage = () => {
 };
 
 export default UserAdminPage;
+
+const UserRow = ({ user }) => {
+
+  const [selectedDepartment, setSelectedDepartment] = useState(user.department);
+  
+  const onSaveNewDepartment = () => {
+
+    user = { ...user, department: selectedDepartment };
+
+    updateUserDepartment(user);
+
+  }
+
+  return (
+    <TableRow>
+      <TableCell>{user.email}</TableCell>
+      <TableCell>{user.username}</TableCell>
+      <TableCell>
+        <DepartmentsDropdown
+          selectedDepartment={selectedDepartment}
+          setSelectedDepartment={setSelectedDepartment}
+        />
+      </TableCell>
+      <TableCell>
+        <Button variant="outline" onClick={onSaveNewDepartment}>Gem</Button>
+      </TableCell>
+    </TableRow>
+  );
+};

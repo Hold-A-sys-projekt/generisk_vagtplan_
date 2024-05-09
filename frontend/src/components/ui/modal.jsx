@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import facade from "@/util/apiFacade";
+import apiFacade from "@/util/apiFacade";
 
 function Modal({ isOpen, onClose, selectedDay }) {
   const [shifts, setShifts] = useState([]);
@@ -102,6 +103,21 @@ function Modal({ isOpen, onClose, selectedDay }) {
     setSchedule(updatedSchedule);
     setRemovedIndices([...removedIndices, index]);
   };
+  const handleRemoveShift = (index) => {
+    facade.fetchData('shifts/' + index, 'DELETE')
+        .then(response => {
+          if (response.ok) {
+            alert("Shift removed successfully");
+          } else {
+            alert("Failed to remove shift. Please try again later.");
+          }
+        })
+        .catch(error => {
+          console.error("Error removing shift:", error);
+          alert("Failed to remove shift. Please check your internet connection.");
+        });
+  }
+
 
   const handleSwapWorker = (index) => {
     alert("Swap functionality to be implemented");
@@ -135,9 +151,7 @@ function Modal({ isOpen, onClose, selectedDay }) {
           {schedule.map((shift, index) => (
             <div
               key={index}
-              className={`border border-gray-300 p-2 rounded-md ${getShiftClasses(
-                index
-              )}`}
+              className={`shift-container ${getShiftClasses(index)}`}
             >
               <p className="text-sm font-semibold">{shift.hour}</p>
               {isEditMode ? (
@@ -165,6 +179,12 @@ function Modal({ isOpen, onClose, selectedDay }) {
                       className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-2 rounded"
                     >
                       Swap
+                    </button>
+                    <button
+                        onClick={() => handleRemoveShift(index)}
+                        className="delete-button"
+                    >
+                      X
                     </button>
                   </div>
                 </div>

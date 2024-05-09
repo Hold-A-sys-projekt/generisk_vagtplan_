@@ -19,8 +19,7 @@ public class Main
 {
     public static void main(String[] args)
     {
-        EmailSender.sendEmail("generiskvagtplan@gmail.com",
-                "receiver@gmail.com",
+        EmailSender.sendEmail("receiver@gmail.com",
                 "Email Subject",
                 List.of("Hallo, ", "World!"),
                 true);
@@ -55,7 +54,7 @@ public class EmailSender
         PROPERTIES.put("mail.smtp.starttls.enable", "true");
     }
 
-    public static void sendEmail(String from, String to, String subject, List<String> messages, boolean debug)
+    public static void sendEmail(String to, String subject, List<String> messages, boolean debug)
     {
         Authenticator authenticator = new Authenticator()
         {
@@ -72,7 +71,7 @@ public class EmailSender
         {
             // Create a message with headers
             MimeMessage msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress(from));
+            msg.setFrom(new InternetAddress(USERNAME));
             InternetAddress[] address = {new InternetAddress(to)};
             msg.setRecipients(Message.RecipientType.TO, address);
             msg.setSubject(subject);

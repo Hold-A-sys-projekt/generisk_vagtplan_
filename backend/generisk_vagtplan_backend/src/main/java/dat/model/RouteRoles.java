@@ -28,7 +28,7 @@ public class RouteRoles implements Serializable, RouteRole, dat.model.Entity<Rou
     @Column(name = "role_name", length = 20)
     private String name;
 
-    @ManyToMany(mappedBy = "routeRoles", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
     private final Set<User> userList = new LinkedHashSet<>();
 
     public RouteRoles(String name) {

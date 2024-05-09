@@ -176,7 +176,7 @@ public class ApplicationConfig {
                 UserDTO userDTO = TokenFactory.getInstance().verifyToken(token);
                 User user = UserDAO.getInstance().readById(userDTO.getId())
                         .orElseThrow(() -> new AuthorizationException(401, "Invalid token"));
-                return user.getRouteRoles().stream().anyMatch(permittedRoles::contains);
+                return permittedRoles.contains(user.getRole());
             } catch (NullPointerException e) {
                 throw new ApiException(401, "Invalid token");
             }

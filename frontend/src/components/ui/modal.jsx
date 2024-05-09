@@ -1,17 +1,65 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import facade from "@/util/apiFacade";
 
 function Modal({ isOpen, onClose, selectedDay }) {
-  const [schedule, setSchedule] = useState([
-    { hour: "10:00 - 11:00", worker: "Peter" },
-    { hour: "11:00 - 12:00", worker: "Brian" },
-    { hour: "12:00 - 13:00", worker: "Anne" },
-    { hour: "13:00 - 14:00", worker: "Charlie" },
-    { hour: "14:00 - 15:00", worker: "Maria" },
-    { hour: "15:00 - 16:00", worker: "Bastian" },
-    // This is just dummy data for now
-  ]);
+  const [shifts, setShifts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [schedule, setSchedule] = useState([]);
   const [isEditMode, setIsEditMode] = useState(false);
   const [removedIndices, setRemovedIndices] = useState([]);
+  const [workers, setWorkers] = useState([])
+
+  useEffect(() => {
+    const fetchData = () => {
+      facade.fetchData('shifts', 'GET')
+        .then((response) => {
+          setShifts(response);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    };
+
+    fetchData();
+  }, []);
+
+  const selectedDayArray = [
+    selectedDay.getFullYear(),
+    selectedDay.getMonth() + 1,
+    selectedDay.getDate()
+  ];
+
+  useEffect(() => {
+    if (shifts.length > 0) {
+      console.log(shifts[0].shiftStart);
+      console.log(selectedDayArray);
+
+      const shiftStartDate = new Date(
+        shifts[0].shiftStart[0],
+        shifts[0].shiftStart[1] - 1,
+        shifts[0].shiftStart[2]
+      );
+      shiftStartDate.setHours(0, 0, 0, 0);
+
+      const selectedDayDate = new Date(selectedDay);
+      selectedDayDate.setHours(0, 0, 0, 0);
+
+      if (shiftStartDate.getTime() === selectedDayDate.getTime()) {
+        setWorkers([...workers, shifts[0].employeeId]);
+      }
+
+      const updatedSchedule = [
+        { hour: "10:00 - 11:00", worker: "Peter" },
+        { hour: "11:00 - 12:00", worker: "Brian" },
+        { hour: "12:00 - 13:00", worker: "Anne" },
+        { hour: "13:00 - 14:00", worker: "Charlie" },
+        { hour: "14:00 - 15:00", worker: "Maria" },
+        { hour: "15:00 - 16:00", worker: "Bastian" },
+        { hour: "10", worker: workers[0]}
+      ];
+      setSchedule(updatedSchedule);
+    }
+  }, [shifts, selectedDayArray]);
 
   const handleEdit = () => {
     setIsEditMode(true);
@@ -30,12 +78,10 @@ function Modal({ isOpen, onClose, selectedDay }) {
   };
 
   const handleSwapWorker = (index) => {
-    // Implement swap functionality here TBD
     alert("Swap functionality to be implemented");
   };
 
   const handleAssignWorker = (index) => {
-    // Implement assign functionality here TBD
     alert("Assign functionality to be implemented");
   };
 
@@ -44,6 +90,14 @@ function Modal({ isOpen, onClose, selectedDay }) {
     const isRemoved = removedIndices.includes(index);
     return hasWorker ? "bg-white" : isRemoved ? "bg-red-200" : "bg-red-200";
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (shifts.length === 0) {
+    return <div>No shifts available.</div>;
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">

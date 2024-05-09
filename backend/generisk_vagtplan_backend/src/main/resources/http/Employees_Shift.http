@@ -26,17 +26,17 @@ GET {{shifts}}/
 
 ### POST NEW SHIFT
 
-POST {{shifts}}?employee_id=5
+POST {{shifts}}?employee_id=2
 Content-Type: application/json
 
 {
-    "shiftStart": "2021-01-01T08:00:00",
-    "shiftEnd": "2021-01-01T16:00:00"
+    "shiftStart": "2024-05-20T08:00:00",
+    "shiftEnd": "2024-05-20T16:00:00"
 }
 
 ### DELETE SHIFT !!
 
-DELETE {{shifts}}/5/delete
+DELETE {{shifts}}/6/delete
 
 ### PUNCH IN SHIFT WITH ID 1
 

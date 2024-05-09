@@ -1,0 +1,12 @@
+### POST send email
+@email = http://localhost:7070/api/email
+
+POST {{email}}/send
+Content-Type: application/json
+
+{
+    "receiver": "oskarolsen7@gmail.com",
+    "subject": "subject test",
+    "message": "message test, \nthis is new line \nmed venlig hilsen \nOskar"
+}
+

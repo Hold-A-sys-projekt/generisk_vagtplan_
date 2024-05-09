@@ -1,3 +1,4 @@
+import DepartmentsDropdown from '@/components/departmentsDropdown';
 import { Card } from '@/components/ui/card';
 import {
   Table,
@@ -8,21 +9,14 @@ import {
   TableRow,
   TableBody,
 } from '@/components/ui/table';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+
 
 import { getUsers } from '@/lib/userFacade';
 import { useEffect, useState } from 'react';
 
 const UserAdminPage = () => {
   const [users, setUsers] = useState([]);
-  const [locations, setLocations] = useState([]);
+  
 
   const loadUsers = async () => {
     setUsers(await getUsers());
@@ -50,18 +44,7 @@ const UserAdminPage = () => {
                   <TableCell>{user.email}</TableCell>
                   <TableCell>{user.username}</TableCell>
                   <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger>{user.locations} example </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        {locations.map((lokation) => (
-                          <DropdownMenuItem key={lokation.id}>
-                            {lokation.name}
-                          </DropdownMenuItem>
-                        ))}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                    <DepartmentsDropdown defaultValue={user.deparment}/>
                   </TableCell>
                 </TableRow>
               ))}

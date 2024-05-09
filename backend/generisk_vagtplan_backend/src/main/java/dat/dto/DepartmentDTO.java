@@ -11,10 +11,12 @@ import lombok.NoArgsConstructor;
 public class DepartmentDTO implements DTO<Department> {
     private int id;
     private String name;
+    private CompanyDTO company;
 
     public DepartmentDTO(Department department) {
         this.id = department.getId();
         this.name = department.getName();
+        this.company = department.getCompany().toDTO();
     }
 
     @Override

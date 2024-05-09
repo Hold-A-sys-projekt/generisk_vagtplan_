@@ -24,8 +24,9 @@ public class Department implements dat.model.Entity<DepartmentDTO>{
     @ManyToOne()
     private Company company;
 
-    public Department(String name) {
+    public Department(String name, Company company) {
         this.name = name;
+        this.company = company;
     }
 
     @Override

@@ -9,6 +9,8 @@ import io.javalin.http.Context;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//just a test comment
+
 /**
  * This Controller class is a generic class that can be used to create a controller for any entity,
  * including the basic CRUD operations
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 public abstract class Controller<EntityType extends Entity<DTOType>, DTOType extends DTO<EntityType>> {
 
     protected final DAO<EntityType> dao;
+
 
     public Controller(final DAO<EntityType> dao) {
         this.dao = dao;

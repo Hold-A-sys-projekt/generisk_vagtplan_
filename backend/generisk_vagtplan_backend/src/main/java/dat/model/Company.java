@@ -21,6 +21,10 @@ public class Company implements dat.model.Entity<CompanyDTO> {
     @OneToOne(fetch = FetchType.EAGER)
     private User companyAdmin;
 
+    public Company(User companyAdmin) {
+        this.companyAdmin = companyAdmin;
+    }
+
     @Override
     public void setId(Object id) {
         if (!(id instanceof Integer)) {

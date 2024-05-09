@@ -21,7 +21,7 @@ public class SwapShiftRoutes implements Route {
         return () -> {
             path("", () -> {
                 get(swapShiftsController::getSwaps);
-                path("{id}", () -> {
+                path("{id}/approve", () -> {
                     post(swapShiftsController::acceptSwap);
                 });
 

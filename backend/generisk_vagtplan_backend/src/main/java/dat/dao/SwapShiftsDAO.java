@@ -30,4 +30,27 @@ public class SwapShiftsDAO extends DAO<SwapShifts>{
     }
 }
 
+    public void updateSwapAcceptance(int swapId, String isAccepted) {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
+            em.getTransaction().begin();
+            SwapShifts swap = em.find(SwapShifts.class, swapId);
+            if (swap != null) {
+                swap.setIsAccepted(isAccepted);
+                em.merge(swap);
+            }
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Failed to update swap acceptance", e);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+
+    }
 }

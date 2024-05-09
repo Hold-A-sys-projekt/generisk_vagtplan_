@@ -18,7 +18,7 @@ const ShiftSwapManager = () => {
     axios.get('http://localhost:7070/api/swapshifts')
         .then(response => {
           setShiftSwaps(response.data.map(swap => ({
-            ...swap,
+            id: swap.shiftId,
             shift1Day: formatDate(swap.shift1.startTime),
             shift1User: swap.shift1.user.username,
             shift1Time: `${formatTime(swap.shift1.startTime)} - ${formatTime(swap.shift1.endTime)}`,
@@ -34,11 +34,11 @@ const ShiftSwapManager = () => {
   const handleSwapApproval = (index, isApproved) => {
     const swap = shiftSwaps[index];
     const updatedSwaps = [...shiftSwaps];
-    updatedSwaps[index].isAccepted = isApproved ? 'Approved' : 'Not Approved'; // Optimistic update
+    updatedSwaps[index].isAccepted = isApproved ? 'Approved' : 'Not Approved';
 
-    axios.post(`http://localhost:7070/api/swapshifts/${swap.id}/approve`, { isAccepted: isApproved })
+    axios.post(`http://localhost:7070/api/swapshifts/${swap.id}/approve`, { isAccepted: isApproved ? 'Approved' : 'Not Approved' })
         .then(() => {
-          setShiftSwaps(updatedSwaps); // Confirm update
+          setShiftSwaps(updatedSwaps);
         })
         .catch(error => {
           console.error(`Failed to ${isApproved ? 'approve' : 'decline'} shift swap`, error);
@@ -51,7 +51,7 @@ const ShiftSwapManager = () => {
       <div className="max-w-6xl mx-auto mt-10">
         <h1 className="text-2xl font-bold text-center mb-6">Shift Swap Requests</h1>
         <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+          <thead>
           <tr>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Shift 1 Day</th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Shift 1 User</th>

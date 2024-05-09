@@ -40,4 +40,5 @@ public class SwapShifts implements dat.model.Entity<SwapShiftDTO> {
     public SwapShiftDTO toDTO() {
         return new SwapShiftDTO(this);
     }
+
 }

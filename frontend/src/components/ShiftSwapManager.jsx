@@ -27,7 +27,7 @@ const ShiftSwapManager = () => {
             shift2Day: formatDate(swap.shift2.startTime),
             shift2User: swap.shift2.user.username,
             shift2Time: `${formatTime(swap.shift2.startTime)} - ${formatTime(swap.shift2.endTime)}`,
-            isAccepted: swap.isAccepted || "" // Ensures that an empty string is shown if no valid status is found
+            isAccepted: swap.isAccepted || "" 
           })));
         })
         .catch(error => {

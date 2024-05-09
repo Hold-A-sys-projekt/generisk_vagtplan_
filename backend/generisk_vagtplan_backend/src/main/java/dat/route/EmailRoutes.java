@@ -1,15 +1,14 @@
 package dat.route;
 
-import dat.dto.EmailDTO;
-import dat.util.EmailSender;
-import io.javalin.apibuilder.EndpointGroup;
+import dat.controller.EmailController;
 
-import java.util.List;
-import java.util.Objects;
+import io.javalin.apibuilder.EndpointGroup;
 
 import static io.javalin.apibuilder.ApiBuilder.post;
 
 public class EmailRoutes implements Route {
+
+    private final EmailController emailController = new EmailController();
 
     @Override
     public String getBasePath() {
@@ -20,21 +19,7 @@ public class EmailRoutes implements Route {
     public EndpointGroup getRoutes()
     {
         return () -> {
-            post("/send", ctx -> {
-                EmailDTO emailDTO = ctx.bodyAsClass(EmailDTO.class);
-
-                if (Objects.isNull(emailDTO)) {
-                    ctx.status(400);
-                    ctx.result("Missing parameters");
-                    return;
-                }
-
-                // Send email
-                EmailSender.sendEmail(emailDTO.receiver(),
-                        emailDTO.subject(), List.of(emailDTO.message()), true);
-                ctx.status(200);
-                ctx.result("Email sent");
-            });
+            post("/send", emailController::sendEMail);
         };
     }
 }

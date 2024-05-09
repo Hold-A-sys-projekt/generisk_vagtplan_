@@ -26,52 +26,14 @@ public class SwapShiftsController extends Controller<SwapShifts, SwapShiftDTO> {
 
     public void acceptSwap(Context ctx) {
         int swapId = Integer.parseInt(ctx.pathParam("id"));
-        String isAccepted = ctx.formParam("isAccepted");
+        String isAccepted = ctx.bodyAsClass(SwapShiftDTO.class).getIsAccepted();
 
-        EntityManager em = HibernateConfig.getEntityManagerFactory().createEntityManager();
         try {
-            em.getTransaction().begin();
-
-            SwapShifts swap = dao.readById(swapId).orElse(null);
-            if (swap == null) {
-                ctx.status(404).result("Swap not found");
-                return;
-            }
-
-            swap.setIsAccepted(isAccepted);
-            dao.update(swap);
-
-            if ("Approved".equals(isAccepted)) {
-                performSwap(swap, em);
-            }
-
-            em.getTransaction().commit();
+            dao.updateSwapAcceptance(swapId, isAccepted);
             ctx.status(200).result("Swap status updated to: " + isAccepted);
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
+        } catch (RuntimeException e) {
             ctx.status(500).result("Error processing the swap: " + e.getMessage());
-        } finally {
-            em.close();
-        }
-    }
-
-    private void performSwap(SwapShifts swap, EntityManager em) {
-        try {
-            User user1 = swap.getShift1().getUser();
-            User user2 = swap.getShift2().getUser();
-
-            // Swapping the users associated with each shift
-            swap.getShift1().setUser(user2);
-            swap.getShift2().setUser(user1);
-
-            // Persist changes in the database
-            em.merge(swap.getShift1());
-            em.merge(swap.getShift2());
-
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to perform shift swap", e);
         }
     }
 }
+

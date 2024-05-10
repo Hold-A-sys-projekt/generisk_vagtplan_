@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @NoArgsConstructor
 public class EmailController {
-    public void sendEMail(Context ctx) {
+    public void sendEmail(Context ctx) {
         final EmailDTO emailDTO = ctx.bodyAsClass(EmailDTO.class);
 
         if (Objects.isNull(emailDTO)) {

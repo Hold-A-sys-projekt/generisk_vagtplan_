@@ -19,7 +19,7 @@ public class EmailRoutes implements Route {
     public EndpointGroup getRoutes()
     {
         return () -> {
-            post("/send", emailController::sendEMail);
+            post("/send", emailController::sendEmail);
         };
     }
 }

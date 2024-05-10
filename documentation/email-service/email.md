@@ -127,15 +127,28 @@ public class EmailSender
 }
 ```
 
-#### Env.java:
+#### EnvReader.java:
 This is tmp solution, when deployed PASS could be sat as an environment variable on the server.
 
 ```java
 package dat.util;
 
-public class Env
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+public class EnvReader
 {
-    public static final String PASS = "app password";
+   public static String getEnv()
+   {
+      try {
+         return Files.readAllLines(
+                         Paths.get("backend\\generisk_vagtplan_backend\\src\\main\\java\\dat\\util\\Env.txt"))
+                 .get(0);
+      } catch (IOException e) {
+         return "";
+      }
+   }
 }
 ```
 

@@ -13,7 +13,7 @@ import java.util.Properties;
 public class EmailSender {
     private static final Properties PROPERTIES = new Properties();
     private static final String USERNAME = "generiskvagtplan@gmail.com";
-    private static final String PASSWORD = Env.PASS;
+    private static final String PASSWORD = EnvReader.getEnv();
 
     static {   // Using TLS
         PROPERTIES.put("mail.smtp.host", "smtp.gmail.com");

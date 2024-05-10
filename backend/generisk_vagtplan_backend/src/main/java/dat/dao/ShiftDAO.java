@@ -1,10 +1,7 @@
 package dat.dao;
 
 import dat.config.HibernateConfig;
-import dat.model.Employee;
-import dat.model.RouteRoles;
-import dat.model.Shift;
-import dat.model.User;
+import dat.model.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
@@ -46,6 +43,29 @@ public class ShiftDAO extends DAO<Shift>{
         }
 
 
+    }
+    //get shift status
+    public Shift getShiftStatus(int shiftId) {
+        return emf.createEntityManager().createQuery("SELECT s FROM Shift s WHERE s.id = :shiftId", Shift.class)
+                .setParameter("shiftId", shiftId)
+                .getSingleResult();
+    }
+
+
+    public Shift updateShiftStatus(int shiftId, Status status){
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            Shift shift = em.find(Shift.class, shiftId);
+            if (shift == null) {
+                throw new IllegalStateException("Shift with ID " + shiftId + " not found.");
+            }
+            shift.setStatus(status);
+            em.getTransaction().commit();
+            return shift;
+        } finally {
+            em.close();
+        }
     }
 
 

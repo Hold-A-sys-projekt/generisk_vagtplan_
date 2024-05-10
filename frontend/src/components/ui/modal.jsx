@@ -107,22 +107,25 @@ function Modal({ isOpen, onClose, selectedDay }) {
   };
   const handleRemoveShift = (index) => {
     const confirmation = window.confirm("Are you sure you want to remove this shift?");
-    const id = selectedShifts[index]
+    const id = selectedShifts[index];
     if (confirmation) {
       facade.fetchData('shifts/' + id + '/delete', 'DELETE')
-          .then(response => {
-            if (response.status === 200) {
-              alert("Shift removed successfully");
-            } else {
-              alert("Failed to remove shift. Please try again later.");
-            }
+          .then(() => {
+
+            const updatedSchedule = [...schedule];
+            updatedSchedule.splice(index, 1);
+            setSchedule(updatedSchedule);
+
+            const updatedSelectedShifts = [...selectedShifts];
+            updatedSelectedShifts.splice(index, 1);
+            setSelectedShifts(updatedSelectedShifts);
+            alert("Shift removed successfully");
           })
           .catch(error => {
             console.error("Error removing shift:", error);
             alert("Failed to remove shift.");
           });
-    }
-    else {
+    } else {
       console.log("Shift removal canceled.");
     }
   }
@@ -144,10 +147,6 @@ function Modal({ isOpen, onClose, selectedDay }) {
 
   if (loading) {
     return <div>Loading...</div>;
-  }
-
-  if (shifts.length === 0) {
-    return <div>No shifts available.</div>;
   }
 
   return (

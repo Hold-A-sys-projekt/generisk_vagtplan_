@@ -25,7 +25,7 @@ public class Employee implements dat.model.Entity<EmployeeDTO> {
 
     private String name;
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<Shift> shifts = new LinkedHashSet<>();
 
     public Employee(String name) {

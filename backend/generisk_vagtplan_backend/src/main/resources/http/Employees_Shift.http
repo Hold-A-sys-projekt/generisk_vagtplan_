@@ -9,7 +9,7 @@ POST {{employees}}/
 Content-Type: application/json
 
 {
-    "name": "crellebæ"
+    "name": "Danny Trelburger"
 }
 
 ### GET ALL EMPLOYEES
@@ -26,7 +26,7 @@ GET {{shifts}}/
 
 ### POST NEW SHIFT
 
-POST {{shifts}}?employee_id=4
+POST {{shifts}}?employee_id=9
 Content-Type: application/json
 
 {

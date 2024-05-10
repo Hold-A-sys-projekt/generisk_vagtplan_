@@ -4,6 +4,7 @@ import apiFacade from "@/util/apiFacade";
 
 function Modal({ isOpen, onClose, selectedDay }) {
   const [shifts, setShifts] = useState([]);
+  const [selectedShifts, setSelectedShifts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [schedule, setSchedule] = useState([]);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -65,6 +66,7 @@ function Modal({ isOpen, onClose, selectedDay }) {
           setWorkers(prevWorkers => [...prevWorkers, workerName]);
           setStartHours((prevStartHours) => [...prevStartHours, shiftsStartHour]);
           setEndHours((prevEndHours) => [...prevEndHours, shiftsEndHour]);
+          setSelectedShifts((prevSelectedShifts) => [...prevSelectedShifts, shift.id])
         }
       });
 
@@ -104,18 +106,25 @@ function Modal({ isOpen, onClose, selectedDay }) {
     setRemovedIndices([...removedIndices, index]);
   };
   const handleRemoveShift = (index) => {
-    facade.fetchData('shifts/' + index, 'DELETE')
-        .then(response => {
-          if (response.ok) {
-            alert("Shift removed successfully");
-          } else {
-            alert("Failed to remove shift. Please try again later.");
-          }
-        })
-        .catch(error => {
-          console.error("Error removing shift:", error);
-          alert("Failed to remove shift. Please check your internet connection.");
-        });
+    const confirmation = window.confirm("Are you sure you want to remove this shift?");
+    const id = selectedShifts[index]
+    if (confirmation) {
+      facade.fetchData('shifts/' + id + '/delete', 'DELETE')
+          .then(response => {
+            if (response.status === 200) {
+              alert("Shift removed successfully");
+            } else {
+              alert("Failed to remove shift. Please try again later.");
+            }
+          })
+          .catch(error => {
+            console.error("Error removing shift:", error);
+            alert("Failed to remove shift.");
+          });
+    }
+    else {
+      console.log("Shift removal canceled.");
+    }
   }
 
 

@@ -33,6 +33,7 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
     private LocalDateTime punchOut;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+
     private Employee employee;
 
     public Shift(LocalDateTime shiftStart, LocalDateTime shiftEnd, Employee employee) {

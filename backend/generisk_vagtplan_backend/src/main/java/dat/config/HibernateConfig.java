@@ -75,10 +75,12 @@ public class HibernateConfig {
 
         // TODO: asList(X.class, Y.class, Z.class)
         Arrays.asList(
+                Employee.class,
+                Manager.class,
                 User.class,
                 RouteRoles.class,
                 ExampleEntity.class,
-                Employee.class,
+                Review.class,
                 Shift.class
         ).forEach(config::addAnnotatedClass);
 

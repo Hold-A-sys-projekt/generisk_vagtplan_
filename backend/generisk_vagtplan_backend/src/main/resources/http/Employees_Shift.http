@@ -9,7 +9,7 @@ POST {{employees}}/
 Content-Type: application/json
 
 {
-    "name": "Danny Trelburger"
+    "name": "John Doe"
 }
 
 ### GET ALL EMPLOYEES
@@ -18,7 +18,7 @@ GET {{employees}}/
 
 ### GET EMPLOYEE BY ID 1
 
-GET {{employees}}/4
+GET {{employees}}/1
 
 ### GET ALL SHIFTS
 
@@ -26,17 +26,13 @@ GET {{shifts}}/
 
 ### POST NEW SHIFT
 
-POST {{shifts}}?employee_id=10
+POST {{shifts}}?employee_id=1
 Content-Type: application/json
 
 {
-    "shiftStart": "2024-05-21T08:00:00",
-    "shiftEnd": "2024-05-21T16:00:00"
+    "shiftStart": "2021-01-01T08:00:00",
+    "shiftEnd": "2021-01-01T16:00:00"
 }
-
-### DELETE SHIFT !!
-
-DELETE {{shifts}}/6/delete
 
 ### PUNCH IN SHIFT WITH ID 1
 

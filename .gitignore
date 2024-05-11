@@ -203,3 +203,9 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# Node.js dependencies
+node_modules/
+package-lock.json
+
+# Axios HTTP client (if needed)
+axios/

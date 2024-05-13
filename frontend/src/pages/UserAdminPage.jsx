@@ -48,6 +48,7 @@ const UserAdminPage = () => {
               <TableRow>
                 <TableHead>Email</TableHead>
                 <TableHead>Navn</TableHead>
+                <TableHead>Afdeling</TableHead>
                 <TableHead>Rolle</TableHead>
               </TableRow>
             </TableHeader>

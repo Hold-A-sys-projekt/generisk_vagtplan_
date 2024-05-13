@@ -1,4 +1,5 @@
-import { Card } from "@/components/ui/card";
+import DepartmentsDropdown from '@/components/departmentsDropdown';
+import { Card } from '@/components/ui/card';
 import {
   Table,
   TableCaption,
@@ -8,10 +9,10 @@ import {
   TableRow,
   TableBody,
 } from "@/components/ui/table";
-import { getUsers } from "@/lib/userFacade";
-import { getUserRoles } from "@/lib/userFacade";
+import { getUsers, updateUserDepartment } from '@/lib/userFacade';
 import { useEffect, useState } from "react";
 import Select from "@/components/Select"
+import { Button } from '@/components/ui/button';
 
 const UserAdminPage = () => {
   const [users, setUsers] = useState([])
@@ -29,10 +30,12 @@ const UserAdminPage = () => {
   }
 
 
+const UserAdminPage = () => {
+  const [users, setUsers] = useState([]);
 
   const loadUsers = async () => {
-    setUsers(await getUsers())
-  }
+    setUsers(await getUsers());
+  };
 
   
   useEffect(() => {
@@ -40,7 +43,6 @@ const UserAdminPage = () => {
     loadUserRoles()
   }, []);
   
-
 
   return (
     <div>
@@ -57,11 +59,7 @@ const UserAdminPage = () => {
             </TableHeader>
             <TableBody>
               {users.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{user.username}</TableCell>
-                <TableCell> <Select items={userRoles} defaultValue={user.role} title="Roles" /> </TableCell>
-              </TableRow>
+                <UserRow user={user} key={user.id} roles={userRoles} />
               ))}
             </TableBody>
           </Table>
@@ -72,3 +70,31 @@ const UserAdminPage = () => {
 };
 
 export default UserAdminPage;
+
+const UserRow = ({ user, roles }) => {
+
+  const [selectedDepartment, setSelectedDepartment] = useState(user.department);
+  
+  const onSaveNewDepartment = () => {
+
+    user = { ...user, department: selectedDepartment };
+
+    updateUserDepartment(user);
+
+  }
+
+  return (
+    <TableRow>
+      <TableCell>{user.email}</TableCell>
+      <TableCell>{user.username}</TableCell>
+      <TableCell>
+        <DepartmentsDropdown
+          selectedDepartment={selectedDepartment}
+          setSelectedDepartment={setSelectedDepartment}
+        />
+        <Button variant="outline" onClick={onSaveNewDepartment}>Gem</Button>
+      </TableCell>
+      <TableCell> <Select items={roles} defaultValue={user.role} title="Roles" /> </TableCell>
+    </TableRow>
+  );
+};

@@ -6,6 +6,7 @@ import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } 
 import Index from '@/pages/Index.jsx'
 import CalendarPage from '@/pages/CalendarPage.jsx'
 import Reviews from './components/reviews.jsx'
+import Calendar_Schedule from "@/pages/Calendar_Schedule.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -13,6 +14,7 @@ const router = createBrowserRouter(
       <Route path="CalendarPage" element={<CalendarPage />} />
       <Route index element={<Index />} />
       <Route path="/reviews" element={<Reviews/>} />
+        <Route path="/calendar" element={<Calendar_Schedule />} />
     </Route>
   )
 )

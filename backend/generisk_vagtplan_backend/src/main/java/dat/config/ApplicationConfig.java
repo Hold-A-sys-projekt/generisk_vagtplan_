@@ -6,6 +6,7 @@ import dat.dao.UserDAO;
 import dat.dto.UserDTO;
 import dat.exception.ApiException;
 import dat.exception.AuthorizationException;
+import dat.exception.DatabaseException;
 import dat.message.Message;
 import dat.message.ValidationMessage;
 import dat.model.RouteRoles;
@@ -59,7 +60,8 @@ public class ApplicationConfig {
                 new ManagerRoutes(),
                 new ReviewRoutes(),
                 new ShiftRoutes(),
-                new EmployeeRoutes()
+                new EmployeeRoutes(),
+                new EmailRoutes()
         ); // TODO: addRoutes(new XRoutes(), new YRoutes(), new ZRoutes());
     }
 
@@ -70,6 +72,7 @@ public class ApplicationConfig {
     private static void setExceptionHandling() {
         ExceptionManagerHandler em = new ExceptionManagerHandler();
         app.exception(ApiException.class, em::apiException);
+        app.exception(DatabaseException.class, em::databaseException); // Added database exception handling
         app.exception(AuthorizationException.class, em::authorizationException);
         app.exception(Exception.class, em::exception);
         app.exception(ConstraintViolationException.class, em::constraintViolationException);
@@ -209,6 +212,12 @@ public class ApplicationConfig {
         public void constraintViolationException(ConstraintViolationException e, Context ctx) {
             ctx.status(500);
             ctx.json(new Message(500, System.currentTimeMillis(), e.getSQLException().getMessage()));
+            this.logException(e, ctx);
+        }
+
+        public void databaseException(Exception e, Context ctx) {
+            ctx.status(500);
+            ctx.json(new Message(500, System.currentTimeMillis(), e.getMessage()));
             this.logException(e, ctx);
         }
 

@@ -10,7 +10,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route index element={<Index />} />
-        <Route path="punch" element={<Punch />} />
+        <Route path="punch" element={<Punch shiftId={7} employeeId={2} />} />
     </Route>
   )
 )

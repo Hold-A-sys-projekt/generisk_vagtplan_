@@ -61,7 +61,8 @@ public class ApplicationConfig {
 
                 new ReviewRoutes(),
                 new ShiftRoutes(),
-                new EmployeeRoutes()
+                new EmployeeRoutes(),
+                new EmailRoutes()
         ); // TODO: addRoutes(new XRoutes(), new YRoutes(), new ZRoutes());
     }
 

@@ -1,5 +1,5 @@
-import DepartmentsDropdown from '@/components/departmentsDropdown';
-import { Card } from '@/components/ui/card';
+import DepartmentsDropdown from "@/components/departmentsDropdown";
+import { Card } from "@/components/ui/card";
 import {
   Table,
   TableCaption,
@@ -9,40 +9,34 @@ import {
   TableRow,
   TableBody,
 } from "@/components/ui/table";
-import { getUsers, updateUserDepartment } from '@/lib/userFacade';
+import { getUserRoles, getUsers, updateUserDepartment } from "@/lib/userFacade";
 import { useEffect, useState } from "react";
-import Select from "@/components/Select"
-import { Button } from '@/components/ui/button';
-
-const UserAdminPage = () => {
-  const [users, setUsers] = useState([])
-  const [userRoles, setUserRoles] = useState([])
-
-  const loadUserRoles = async () => {
-    const roles = await getUserRoles()
-    if(!roles) return;
-    const userRoles = roles.map((role) => {
-      return {
-        value: role.name
-      }
-    })
-    setUserRoles(userRoles)
-  }
-
+import Select from "@/components/Select";
+import { Button } from "@/components/ui/button";
 
 const UserAdminPage = () => {
   const [users, setUsers] = useState([]);
+  const [userRoles, setUserRoles] = useState([]);
+
+  const loadUserRoles = async () => {
+    const roles = await getUserRoles();
+    if (!roles) return;
+    const userRoles = roles.map((role) => {
+      return {
+        value: role.name,
+      };
+    });
+    setUserRoles(userRoles);
+  };
 
   const loadUsers = async () => {
     setUsers(await getUsers());
   };
 
-  
   useEffect(() => {
-    loadUsers()    
-    loadUserRoles()
+    loadUsers();
+    loadUserRoles();
   }, []);
-  
 
   return (
     <div>
@@ -69,19 +63,14 @@ const UserAdminPage = () => {
   );
 };
 
-export default UserAdminPage;
-
 const UserRow = ({ user, roles }) => {
-
   const [selectedDepartment, setSelectedDepartment] = useState(user.department);
-  
-  const onSaveNewDepartment = () => {
 
+  const onSaveNewDepartment = () => {
     user = { ...user, department: selectedDepartment };
 
     updateUserDepartment(user);
-
-  }
+  };
 
   return (
     <TableRow>
@@ -92,9 +81,20 @@ const UserRow = ({ user, roles }) => {
           selectedDepartment={selectedDepartment}
           setSelectedDepartment={setSelectedDepartment}
         />
-        <Button variant="outline" onClick={onSaveNewDepartment}>Gem</Button>
+        <Button variant="outline" onClick={onSaveNewDepartment}>
+          Gem
+        </Button>
       </TableCell>
-      <TableCell> <Select items={roles} defaultValue={user.role} title="Roles" /> </TableCell>
+      <TableCell>
+        {" "}
+        <Select
+          items={roles}
+          defaultValue={user.role.name}
+          title="Roles"
+        />{" "}
+      </TableCell>
     </TableRow>
   );
 };
+
+export default UserAdminPage;

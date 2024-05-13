@@ -21,8 +21,12 @@ public class Company implements dat.model.Entity<CompanyDTO> {
     @OneToOne(fetch = FetchType.EAGER)
     private User companyAdmin;
 
-    public Company(User companyAdmin) {
+    @Column(name = "company_name", nullable = false)
+    private String companyName;
+
+    public Company(String companyName, User companyAdmin) {
         this.companyAdmin = companyAdmin;
+        this.companyName = companyName;
     }
 
     @Override

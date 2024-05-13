@@ -20,7 +20,7 @@ public class PopulateConfig {
             userDao.registerUser("admin@admin.com", "admin", "admin", "manager");
             User companyAdmin = userDao.registerUser("admin@company.com", "companyAdmin", "admin", "company_admin");
 
-            Company company = companyDAO.create(new Company(companyAdmin));
+            Company company = companyDAO.create(new Company("Vask aps", companyAdmin));
             Department dep = departmentDao.create(new Department("Marketing", company));
             departmentDao.create(new Department("Sales", company));
             departmentDao.create(new Department("production", company));

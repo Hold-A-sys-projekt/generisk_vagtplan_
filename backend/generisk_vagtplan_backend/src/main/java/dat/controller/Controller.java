@@ -108,6 +108,7 @@ public abstract class Controller<EntityType extends Entity<DTOType>, DTOType ext
         ((SoftDeletableEntity) entity).setDeleted(true);
         ((SoftDeletableEntity) entity).setDeletedOn(LocalDateTime.now());
         this.dao.update(entity);
+        // houseKeeper.vacuum(); //TODO: Uncomment this line
         ctx.status(204);
     }
 

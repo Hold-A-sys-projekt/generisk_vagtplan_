@@ -4,8 +4,10 @@ import dat.dao.DAO;
 import dat.dto.DTO;
 import dat.exception.ApiException;
 import dat.model.Entity;
+import dat.model.SoftDeletableEntity;
 import io.javalin.http.Context;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,10 +24,12 @@ import java.util.stream.Collectors;
 public abstract class Controller<EntityType extends Entity<DTOType>, DTOType extends DTO<EntityType>> {
 
     protected final DAO<EntityType> dao;
+    private DBHouseKeeper houseKeeper;
 
 
     public Controller(final DAO<EntityType> dao) {
         this.dao = dao;
+        this.houseKeeper = new DBHouseKeeper();
     }
 
     /**
@@ -34,6 +38,11 @@ public abstract class Controller<EntityType extends Entity<DTOType>, DTOType ext
     public void getAll(Context ctx) {
         ctx.status(200);
         ctx.json(createFromEntities(this.dao.readAll()));
+    }
+
+    public void getAllNonDeleted(Context ctx) {
+        ctx.status(200);
+        ctx.json((createFromEntities(this.dao.readAllNonDeleted())));
     }
 
     /**
@@ -80,6 +89,24 @@ public abstract class Controller<EntityType extends Entity<DTOType>, DTOType ext
     public void delete(Context ctx) throws ApiException {
         final EntityType entity = this.validateId(ctx);
         this.dao.delete(entity);
+        ctx.status(204);
+    }
+
+    /**
+     * Soft delete an entity
+     *
+     * @throws ApiException if the id is invalid
+     * @throws ApiException if the entity is not soft deletable
+     */
+    public void softDelete(Context ctx) throws ApiException
+    {
+        final EntityType entity = this.validateId(ctx);
+        if (!(entity instanceof SoftDeletableEntity))
+            throw new ApiException(400, "Entity is not soft deletable");
+
+        ((SoftDeletableEntity) entity).setDeleted(true);
+        ((SoftDeletableEntity) entity).setDeletedOn(LocalDateTime.now());
+        this.dao.update(entity);
         ctx.status(204);
     }
 

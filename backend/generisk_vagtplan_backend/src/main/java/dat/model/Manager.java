@@ -11,13 +11,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+// soft delete
 @jakarta.persistence.Entity
 @NoArgsConstructor
 @ToString
 @Getter
 @Setter
 @AllArgsConstructor
-public class Manager implements Serializable, dat.model.Entity<ManagerDTO>  {
+public class Manager extends SoftDeletableEntity implements Serializable, dat.model.Entity<ManagerDTO>  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

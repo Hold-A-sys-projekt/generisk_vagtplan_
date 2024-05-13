@@ -15,12 +15,13 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+// soft delete
 @Entity
 @Table(name = "users")
 @NamedQueries(@NamedQuery(name = "User.deleteAllRows", query = "DELETE FROM User"))
 @Getter
 @NoArgsConstructor
-public class User implements Serializable, dat.model.Entity<UserDTO> {
+public class User extends SoftDeletableEntity implements Serializable, dat.model.Entity<UserDTO> {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -73,6 +74,7 @@ public class User implements Serializable, dat.model.Entity<UserDTO> {
         this.setPassword(password);
         this.setCreatedOn(LocalDateTime.now());
         this.setUpdatedOn(LocalDateTime.now());
+        this.isDeleted = false;
     }
 
     public boolean checkPassword(String checkedPassword) {

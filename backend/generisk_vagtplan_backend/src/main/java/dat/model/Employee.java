@@ -10,6 +10,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+// soft delete
 @Entity
 @Getter
 @Setter
@@ -17,7 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "employees")
-public class Employee implements dat.model.Entity<EmployeeDTO> {
+public class Employee extends SoftDeletableEntity implements dat.model.Entity<EmployeeDTO> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

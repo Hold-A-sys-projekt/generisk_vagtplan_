@@ -1,0 +1,12 @@
+
+## Get entities for testing
+
+GET {{url}}/users/1
+
+### Soft delete user
+
+DELETE {{url}}/users/1
+
+### Get all users
+
+GET {{url}}/users

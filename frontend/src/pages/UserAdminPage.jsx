@@ -8,11 +8,27 @@ import {
   TableHeader,
   TableRow,
   TableBody,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
+import { getUsers, updateUserDepartment } from '@/lib/userFacade';
+import { useEffect, useState } from "react";
+import Select from "@/components/Select"
 import { Button } from '@/components/ui/button';
 
-import { getUsers, updateUserDepartment } from '@/lib/userFacade';
-import { useEffect, useState } from 'react';
+const UserAdminPage = () => {
+  const [users, setUsers] = useState([])
+  const [userRoles, setUserRoles] = useState([])
+
+  const loadUserRoles = async () => {
+    const roles = await getUserRoles()
+    if(!roles) return;
+    const userRoles = roles.map((role) => {
+      return {
+        value: role.name
+      }
+    })
+    setUserRoles(userRoles)
+  }
+
 
 const UserAdminPage = () => {
   const [users, setUsers] = useState([]);
@@ -21,9 +37,12 @@ const UserAdminPage = () => {
     setUsers(await getUsers());
   };
 
+  
   useEffect(() => {
-    loadUsers();
+    loadUsers()    
+    loadUserRoles()
   }, []);
+  
 
   return (
     <div>
@@ -35,11 +54,12 @@ const UserAdminPage = () => {
               <TableRow>
                 <TableHead>Email</TableHead>
                 <TableHead>Navn</TableHead>
+                <TableHead>Rolle</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {users.map((user) => (
-                <UserRow user={user} key={user.id} />
+                <UserRow user={user} key={user.id} roles={userRoles} />
               ))}
             </TableBody>
           </Table>
@@ -51,7 +71,7 @@ const UserAdminPage = () => {
 
 export default UserAdminPage;
 
-const UserRow = ({ user }) => {
+const UserRow = ({ user, roles }) => {
 
   const [selectedDepartment, setSelectedDepartment] = useState(user.department);
   
@@ -72,10 +92,9 @@ const UserRow = ({ user }) => {
           selectedDepartment={selectedDepartment}
           setSelectedDepartment={setSelectedDepartment}
         />
-      </TableCell>
-      <TableCell>
         <Button variant="outline" onClick={onSaveNewDepartment}>Gem</Button>
       </TableCell>
+      <TableCell> <Select items={roles} defaultValue={user.role} title="Roles" /> </TableCell>
     </TableRow>
   );
 };

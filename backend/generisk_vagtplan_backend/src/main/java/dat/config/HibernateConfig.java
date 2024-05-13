@@ -27,7 +27,7 @@ public class HibernateConfig {
     private static EntityManagerFactory buildDevEntityManagerFactory() {
         try {
             Properties properties = new Properties();
-            properties.put("hibernate.connection.url", "jdbc:postgresql://localhost:5432/dbName");
+            properties.put("hibernate.connection.url", "jdbc:postgresql://localhost:5432/gvs");
             properties.put("hibernate.connection.username", "postgres");
             properties.put("hibernate.connection.password", "postgres");
             properties.put("hibernate.show_sql", "false"); // show sql in console

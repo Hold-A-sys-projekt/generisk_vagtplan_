@@ -14,7 +14,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "shifts")
+
+
 public class Shift implements dat.model.Entity<ShiftDTO> {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +37,10 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Employee employee;
+
+    @Column(name = "shift_status")
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     public Shift(LocalDateTime shiftStart, LocalDateTime shiftEnd, Employee employee) {
         this.shiftStart = shiftStart;

@@ -1,11 +1,11 @@
 ### POST
 
-POST {{url}}/example
+POST {{url}}/managers/employees
 Content-Type: application/json
 
 {
-  "name": "Peter",
-  "description": "min beskrivelse"
+  "employeename": "Piter1",
+  "role": "rolle"
 }
 
 ### POST 2
@@ -20,7 +20,7 @@ Content-Type: application/json
 
 ### GET ALL
 
-GET {{url}}/example
+GET {{url}}/managers/employees
 
 ### GET BY ID 1
 

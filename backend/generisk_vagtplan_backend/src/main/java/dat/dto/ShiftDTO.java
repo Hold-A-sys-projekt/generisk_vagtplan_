@@ -5,6 +5,7 @@ import dat.model.Shift;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import dat.model.Status;
 
 import java.time.LocalDateTime;
 
@@ -25,6 +26,18 @@ public class ShiftDTO implements DTO<Shift> {
     private LocalDateTime punchOut;
 
     private Integer employeeId;
+
+    private Status status;
+
+    public ShiftDTO(Integer id, LocalDateTime shiftStart, LocalDateTime shiftEnd, LocalDateTime punchIn, LocalDateTime punchOut, Integer employeeId, Status status) {
+        this.id = id;
+        this.shiftStart = shiftStart;
+        this.shiftEnd = shiftEnd;
+        this.punchIn = punchIn;
+        this.punchOut = punchOut;
+        this.employeeId = employeeId;
+        this.status = status;
+    }
 
     public ShiftDTO(Integer id, LocalDateTime shiftStart, LocalDateTime shiftEnd, LocalDateTime punchIn, LocalDateTime punchOut, Integer employeeId) {
         this.id = id;

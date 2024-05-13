@@ -1,5 +1,6 @@
 package dat.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dat.dto.UserDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
@@ -60,6 +61,10 @@ public class User implements Serializable, dat.model.Entity<UserDTO> {
     @Setter
     private Company company;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private final Set<Review> reviews = new LinkedHashSet<>();
+
     public User(String email, String username, String password) {
         this.email = email;
         this.setUsername(username);
@@ -74,6 +79,12 @@ public class User implements Serializable, dat.model.Entity<UserDTO> {
 
     public void setPassword(String password) {
         this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+
+
+    public void addReview(Review review) {
+        this.reviews.add(review);
+        review.setUser(this);
     }
 
     @Override

@@ -17,6 +17,8 @@ public class EmployeeDTO implements DTO<Employee>{
 
     private String name;
 
+    private String role;
+
     private List<ShiftDTO> shifts;
 
     public EmployeeDTO(Employee employee) {

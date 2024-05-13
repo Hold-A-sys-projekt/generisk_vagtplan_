@@ -1,7 +1,6 @@
 package dat.model;
 
-import dat.dto.RouteRolesDTO;
-import io.javalin.security.RouteRole;
+import dat.dto.RoleDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -15,10 +14,10 @@ import java.util.Set;
 
 @Entity
 @Table(name = "roles")
-@NamedQueries(@NamedQuery(name = "Role.deleteAllRows", query = "DELETE FROM RouteRoles"))
+@NamedQueries(@NamedQuery(name = "Role.deleteAllRows", query = "DELETE FROM Role"))
 @Getter
 @NoArgsConstructor
-public class RouteRoles implements Serializable, RouteRole, dat.model.Entity<RouteRolesDTO> {
+public class Role implements Serializable, dat.model.Entity<RoleDTO> {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -31,7 +30,7 @@ public class RouteRoles implements Serializable, RouteRole, dat.model.Entity<Rou
     @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
     private final Set<User> userList = new LinkedHashSet<>();
 
-    public RouteRoles(String name) {
+    public Role(String name) {
         this.name = name;
     }
 
@@ -39,8 +38,8 @@ public class RouteRoles implements Serializable, RouteRole, dat.model.Entity<Rou
     public boolean equals(Object other) {
         if (this == other) return true;
         if (other == null || getClass() != other.getClass()) return false;
-        RouteRoles otherRouteRoles = (RouteRoles) other;
-        return Objects.equals(this.name.toLowerCase(), otherRouteRoles.name.toLowerCase());
+        Role otherRole = (Role) other;
+        return Objects.equals(this.name.toLowerCase(), otherRole.name.toLowerCase());
     }
 
     @Override
@@ -48,8 +47,8 @@ public class RouteRoles implements Serializable, RouteRole, dat.model.Entity<Rou
         return Objects.hash(this.name);
     }
 
-    public static RouteRoles of(String name) {
-        return new RouteRoles(name);
+    public static Role of(String name) {
+        return new Role(name);
     }
 
     @Override
@@ -58,7 +57,7 @@ public class RouteRoles implements Serializable, RouteRole, dat.model.Entity<Rou
     }
 
     @Override
-    public RouteRolesDTO toDTO() {
-        return new RouteRolesDTO(name);
+    public RoleDTO toDTO() {
+        return new RoleDTO(name);
     }
 }

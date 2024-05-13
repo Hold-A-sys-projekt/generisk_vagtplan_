@@ -1,14 +1,14 @@
 package dat.dao;
 
 import dat.config.HibernateConfig;
-import dat.model.RouteRoles;
+import dat.model.Role;
 import jakarta.persistence.EntityManagerFactory;
 
-public class RoleDAO extends DAO<RouteRoles> {
+public class RoleDAO extends DAO<Role> {
     private static RoleDAO INSTANCE = null;
 
     private RoleDAO(EntityManagerFactory emf) {
-        super(RouteRoles.class, emf);
+        super(Role.class, emf);
     }
 
     public static RoleDAO getInstance() {

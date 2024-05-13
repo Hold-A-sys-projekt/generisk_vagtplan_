@@ -9,7 +9,7 @@ import dat.exception.AuthorizationException;
 import dat.exception.DatabaseException;
 import dat.message.Message;
 import dat.message.ValidationMessage;
-import dat.model.RouteRoles;
+import dat.model.Role;
 import dat.model.User;
 import dat.route.*;
 import dat.security.TokenFactory;
@@ -150,7 +150,7 @@ public class ApplicationConfig {
                     || path.equals(CONTEXT_PATH + "/auth/register")
                     || path.equals(CONTEXT_PATH + "/routes")
                     || permittedRoles.isEmpty()
-                    || permittedRoles.contains(RouteRoles.of("ANYONE"))) {
+                    || permittedRoles.contains(Role.of("ANYONE"))) {
                 if (ctx.method().toString().equals("PUT") && path.startsWith(CONTEXT_PATH + "/users/")) {
                     try {
                         String token = ctx.header("Authentication").split(" ")[1];

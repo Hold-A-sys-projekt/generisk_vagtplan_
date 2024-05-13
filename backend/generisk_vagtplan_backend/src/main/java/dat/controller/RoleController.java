@@ -1,11 +1,11 @@
 package dat.controller;
 
 import dat.dao.DAO;
-import dat.dto.RouteRolesDTO;
-import dat.model.RouteRoles;
+import dat.dto.RoleDTO;
+import dat.model.Role;
 
-public class RoleController extends Controller<RouteRoles, RouteRolesDTO>{
-    public RoleController(DAO<RouteRoles> dao) {
+public class RoleController extends Controller<Role, RoleDTO>{
+    public RoleController(DAO<Role> dao) {
         super(dao);
     }
 }

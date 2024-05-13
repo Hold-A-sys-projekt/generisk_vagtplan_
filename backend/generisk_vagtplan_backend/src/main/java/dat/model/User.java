@@ -51,7 +51,7 @@ public class User implements Serializable, dat.model.Entity<UserDTO> {
     @Setter
     @JoinColumn(name = "role_name", referencedColumnName = "role_name", nullable = false)
     @ManyToOne(fetch = FetchType.EAGER)
-    private RouteRoles role;
+    private Role role;
 
     @JoinColumn(name = "department_id", referencedColumnName = "department_id")
     @ManyToOne(fetch = FetchType.EAGER)

@@ -1,6 +1,6 @@
 package dat.dto;
 
-import dat.model.RouteRoles;
+import dat.model.Role;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -8,15 +8,16 @@ import lombok.ToString;
 @Getter
 @ToString
 @NoArgsConstructor
-public class RouteRolesDTO implements DTO<RouteRoles> {
+public class RoleDTO implements DTO<Role> {
+
     private String name;
 
-    public RouteRolesDTO(String name) {
+    public RoleDTO(String name) {
         this.name = name;
     }
 
     @Override
-    public RouteRoles toEntity() {
-        return new RouteRoles();
+    public Role toEntity() {
+        return new Role(name);
     }
 }

@@ -58,7 +58,7 @@ public class UserDAO extends DAO<User> {
     public User registerUser(String email, String username, String password, String userRole) throws AuthorizationException {
         User user = new User(email, username, password);
         Optional<RouteRoles> role = ROLE_DAO.readById(userRole);
-        user.addRole(role.or(() -> Optional.of(createRole(userRole))).get());
+        user.setRole(role.or(() -> Optional.of(createRole(userRole))).get());
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             em.persist(user);

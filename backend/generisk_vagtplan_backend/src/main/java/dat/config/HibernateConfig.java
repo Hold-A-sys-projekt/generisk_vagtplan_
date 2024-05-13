@@ -83,6 +83,9 @@ public class HibernateConfig {
                 User.class,
                 RouteRoles.class,
                 ExampleEntity.class,
+                Employee.class,
+                Department.class,
+                Company.class,
                 Review.class,
                 Shift.class
         ).forEach(config::addAnnotatedClass);

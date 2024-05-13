@@ -32,4 +32,3 @@ public class ManagerDTO implements DTO<Manager> {
 
 
 }
-

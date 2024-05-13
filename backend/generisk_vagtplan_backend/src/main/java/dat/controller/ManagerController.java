@@ -45,4 +45,3 @@ public class ManagerController extends Controller<Manager, ManagerDTO> {
     }
 }
 
-

@@ -20,7 +20,7 @@ class ShiftDAOTest {
     private ShiftDAO shiftDAO;
     private EntityManager em;
 
-   @BeforeEach
+    @BeforeEach
     void setUp() {
         emf = HibernateConfig.getEntityManagerFactory();
         em = emf.createEntityManager();
@@ -34,7 +34,7 @@ class ShiftDAOTest {
 
     @Test
     void getShiftsByEmployeeId() {
-       int employeeId = 2;
+        int employeeId = 2;
         List<Shift> shifts = shiftDAO.getShiftsByEmployeeId(employeeId);
         assertEquals(2, shifts.size());
     }

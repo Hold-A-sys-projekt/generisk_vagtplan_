@@ -12,6 +12,8 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -80,7 +82,6 @@ public class User implements Serializable, dat.model.Entity<UserDTO> {
     public void setPassword(String password) {
         this.password = BCrypt.hashpw(password, BCrypt.gensalt());
     }
-
 
     public void addReview(Review review) {
         this.reviews.add(review);

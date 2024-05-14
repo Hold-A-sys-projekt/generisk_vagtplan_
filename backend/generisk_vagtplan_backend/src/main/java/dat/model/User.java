@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.mindrot.jbcrypt.BCrypt;
 
-import javax.management.relation.Role;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;

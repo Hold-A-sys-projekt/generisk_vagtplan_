@@ -2,8 +2,6 @@ package dat.config;
 
 import dat.model.*;
 
-import dat.model.*;
-
 import jakarta.persistence.EntityManagerFactory;
 import lombok.NoArgsConstructor;
 import org.hibernate.SessionFactory;
@@ -81,7 +79,7 @@ public class HibernateConfig {
                 Employee.class,
                 Manager.class,
                 User.class,
-                RouteRoles.class,
+                Role.class,
                 ExampleEntity.class,
                 Employee.class,
                 Department.class,

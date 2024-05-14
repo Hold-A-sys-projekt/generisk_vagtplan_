@@ -52,7 +52,7 @@ public class User extends SoftDeletableEntity implements Serializable, dat.model
     @Setter
     @JoinColumn(name = "role_name", referencedColumnName = "role_name", nullable = false)
     @ManyToOne(fetch = FetchType.EAGER)
-    private RouteRoles role;
+    private Role role;
 
     @JoinColumn(name = "department_id", referencedColumnName = "department_id")
     @ManyToOne(fetch = FetchType.EAGER)

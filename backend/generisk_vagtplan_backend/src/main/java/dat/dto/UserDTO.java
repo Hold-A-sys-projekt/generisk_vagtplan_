@@ -1,13 +1,12 @@
 package dat.dto;
 
 import dat.dao.UserDAO;
-import dat.model.Department;
 import dat.model.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
+import javax.management.relation.Role;
 import java.time.ZoneId;
 
 @Getter
@@ -21,9 +20,9 @@ public class UserDTO implements DTO<User> {
     private Long createdAt;
     private Integer id;
     private DepartmentDTO department;
-    private RouteRolesDTO role;
     private boolean isDeleted;
     private Long deletedOn;
+    private RoleDTO role;
 
     public UserDTO(String username, int id) {
         this.username = username;
@@ -43,7 +42,7 @@ public class UserDTO implements DTO<User> {
         this.email = email;
     }
 
-    public UserDTO(String username, Long createdAt, Integer id, String email, DepartmentDTO department, RouteRolesDTO role) {
+    public UserDTO(String username, Long createdAt, Integer id, String email, DepartmentDTO department, RoleDTO role) {
         this.username = username;
         this.email = email;
         this.createdAt = createdAt;
@@ -52,7 +51,7 @@ public class UserDTO implements DTO<User> {
         this.role = role;
     }
 
-    public UserDTO(String username, Long createdAt, Integer id, String email, DepartmentDTO department, RouteRolesDTO role, boolean isDeleted, Long deletedOn) {
+    public UserDTO(String username, Long createdAt, Integer id, String email, DepartmentDTO department, RoleDTO role, boolean isDeleted, Long deletedOn) {
         this.username = username;
         this.email = email;
         this.createdAt = createdAt;

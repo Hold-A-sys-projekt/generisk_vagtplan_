@@ -6,6 +6,10 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -28,6 +32,10 @@ public class Department extends SoftDeletableEntity implements dat.model.Entity<
         this.name = name;
         this.company = company;
     }
+    //TODO: This wasnt here but everything else
+    // hints that a department has a list of users and vice versa
+    @OneToMany(mappedBy = "department", fetch = FetchType.EAGER)
+    private Set<User> users = new LinkedHashSet<>();
 
     @Override
     public void setId(Object id) {

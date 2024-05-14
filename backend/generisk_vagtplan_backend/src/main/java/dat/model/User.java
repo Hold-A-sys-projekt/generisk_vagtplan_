@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.mindrot.jbcrypt.BCrypt;
 
+import javax.management.relation.Role;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -20,6 +21,7 @@ import java.util.Set;
 @Table(name = "users")
 @NamedQueries(@NamedQuery(name = "User.deleteAllRows", query = "DELETE FROM User"))
 @Getter
+@Setter
 @NoArgsConstructor
 public class User extends SoftDeletableEntity implements Serializable, dat.model.Entity<UserDTO> {
 
@@ -33,56 +35,48 @@ public class User extends SoftDeletableEntity implements Serializable, dat.model
 
     @Column(name = "email", unique = true, nullable = false)
     private String email;
-
+//TODO: username is a persons firstname (supposedly)
     @Column(name = "username", unique = true, nullable = false, length = 25)
-    @Setter
     private String username;
 
     @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "created_on", nullable = false)
-    @Setter
     private LocalDateTime createdOn;
 
     @Column(name = "updated_on", nullable = false)
-    @Setter
     private LocalDateTime updatedOn;
 
-    @Setter
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_name", referencedColumnName = "role_name", nullable = false)
-    @ManyToOne(fetch = FetchType.EAGER)
     private Role role;
-
-    @JoinColumn(name = "department_id", referencedColumnName = "department_id")
-    @ManyToOne(fetch = FetchType.EAGER)
-    @Setter
-    private Department department;
-
-    @JoinColumn(name = "company_id", referencedColumnName = "company_id")
-    @OneToOne(fetch = FetchType.EAGER)
-    @Setter
-    private Company company;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private final Set<Review> reviews = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Shift> shifts = new LinkedHashSet<>();
+
+    // TODO: Made for company (?)
+    @Column(name = "company_admin_id")
+    private Integer companyAdminId;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Department department;
+
     public User(String email, String username, String password) {
         this.email = email;
-        this.setUsername(username);
-        this.setPassword(password);
-        this.setCreatedOn(LocalDateTime.now());
-        this.setUpdatedOn(LocalDateTime.now());
+        this.username = username;
+        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+        this.createdOn = LocalDateTime.now();
+        this.updatedOn = LocalDateTime.now();
         this.isDeleted = false;
     }
 
     public boolean checkPassword(String checkedPassword) {
         return BCrypt.checkpw(checkedPassword, this.password);
-    }
-
-    public void setPassword(String password) {
-        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
     public void addReview(Review review) {

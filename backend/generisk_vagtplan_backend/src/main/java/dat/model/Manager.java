@@ -1,5 +1,5 @@
 package dat.model;
-
+/*
 import dat.dto.ManagerDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
@@ -39,3 +39,4 @@ public class Manager extends SoftDeletableEntity implements Serializable, dat.mo
         return new ManagerDTO(this);
     }
 }
+*/

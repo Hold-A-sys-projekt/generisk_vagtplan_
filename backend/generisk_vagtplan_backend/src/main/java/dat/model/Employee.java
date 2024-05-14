@@ -1,6 +1,6 @@
 package dat.model;
 
-
+/*
 import dat.dto.EmployeeDTO;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
@@ -44,3 +44,4 @@ public class Employee extends SoftDeletableEntity implements dat.model.Entity<Em
         return new EmployeeDTO(this);
     }
 }
+*/

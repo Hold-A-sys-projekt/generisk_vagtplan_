@@ -1,7 +1,7 @@
 package dat.dto;
 
 import dat.dao.EmployeeDAO;
-import dat.model.Employee;
+import dat.model.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @ToString
 @NoArgsConstructor
-public class EmployeeDTO implements DTO<Employee>{
+public class EmployeeDTO implements DTO<User>{
 
     private Integer id;
 
@@ -21,16 +21,19 @@ public class EmployeeDTO implements DTO<Employee>{
 
     private List<ShiftDTO> shifts;
 
-    public EmployeeDTO(Employee employee) {
-        this.id = employee.getId();
-        this.name = employee.getName();
-        this.shifts = employee.getShifts().stream().map(ShiftDTO::new).toList();
+    public EmployeeDTO(User user) {
+        this.id = user.getId();
+        this.name = user.getUsername();
+        this.role = user.getRole().toString();
+        this.shifts = null;
+
     }
 
 
     @Override
-    public Employee toEntity() {
+    public User toEntity() {
         EmployeeDAO employeeDAO = EmployeeDAO.getInstance();
-        return null;
+        return employeeDAO.readById(this.id).orElse(null);
     }
 }
+//TODO: DELETE

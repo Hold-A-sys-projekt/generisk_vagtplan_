@@ -1,7 +1,6 @@
 package dat.dto;
-
+/*
 import dat.dao.ManagerDAO;
-import dat.model.Employee;
 import dat.model.Manager;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,8 +26,9 @@ public class ManagerDTO implements DTO<Manager> {
         ManagerDAO managerDAO = ManagerDAO.getInstance();
         return managerDAO.readById(this.managername).orElse(null);
     }
-
-
-
-
 }
+*/
+
+
+
+//TODO: NEEDED?

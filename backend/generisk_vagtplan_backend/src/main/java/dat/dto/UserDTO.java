@@ -18,8 +18,8 @@ public class UserDTO implements DTO<User> {
     private String email;
     private Long createdAt;
     private Integer id;
-    private DepartmentDTO department;
     private boolean isDeleted;
+    private DepartmentDTO department;
     private Long deletedOn;
     private RoleDTO role;
 
@@ -45,8 +45,8 @@ public class UserDTO implements DTO<User> {
         this.username = username;
         this.email = email;
         this.createdAt = createdAt;
-        this.id = id;
         this.department = department;
+        this.id = id;
         this.role = role;
     }
 

@@ -35,7 +35,7 @@ public class Department extends SoftDeletableEntity implements dat.model.Entity<
     //TODO: This wasnt here but everything else
     // hints that a department has a list of users and vice versa
     @OneToMany(mappedBy = "department", fetch = FetchType.EAGER)
-    private Set<User> users = new LinkedHashSet<>();
+    private final Set<User> users = new LinkedHashSet<>();
 
     @Override
     public void setId(Object id) {

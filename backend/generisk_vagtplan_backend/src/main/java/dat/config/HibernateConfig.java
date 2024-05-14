@@ -81,7 +81,8 @@ public class HibernateConfig {
                 ExampleEntity.class,
                 Company.class,
                 Review.class,
-                Shift.class
+                Shift.class,
+                Department.class
         ).forEach(config::addAnnotatedClass);
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build();

@@ -8,11 +8,11 @@ export async function getUserRoles() {
 }
 
 export async function updateUserDepartment(user) {
-  return await fetch(`http://localhost:7070/api/users/${user.id}`, {
+  return await fetch(`http://localhost:7070/api/users/${user.id}/department`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ user }),
+    body: JSON.stringify({ department: user.department}),
   });
 }

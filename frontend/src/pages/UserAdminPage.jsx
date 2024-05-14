@@ -31,6 +31,7 @@ const UserAdminPage = () => {
 
   const loadUsers = async () => {
     setUsers(await getUsers());
+    console.log(users);
   };
 
   useEffect(() => {

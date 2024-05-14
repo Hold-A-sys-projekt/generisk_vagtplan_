@@ -35,7 +35,9 @@ build/
 .vscode/
 
 ### Mac OS ###
-.DS_Store### Java template
+.DS_Store
+
+### Java template ###
 # Compiled class file
 *.class
 
@@ -61,7 +63,7 @@ build/
 hs_err_pid*
 replay_pid*
 
-### Maven template
+### Maven template ###
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
@@ -73,7 +75,7 @@ buildNumber.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
 
-### JetBrains template
+### JetBrains template ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
@@ -149,7 +151,7 @@ fabric.properties
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
 
-### Windows template
+### Windows template ###
 # Windows thumbnail cache files
 Thumbs.db
 Thumbs.db:encryptable
@@ -175,7 +177,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-### macOS template
+### macOS template ###
 # General
 .DS_Store
 .AppleDouble
@@ -203,3 +205,5 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+### Node modules ###
+node_modules/

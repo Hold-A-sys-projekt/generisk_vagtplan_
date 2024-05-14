@@ -24,8 +24,10 @@ public class UserRoutes implements Route {
                 put("/department", userController::updateDepartment);
                 //update the role of a user
                 put("/role", userController::updateRole);
+                put(userController::put);
+                delete(userController::softDelete);
             });
-            get(userController::getAll);
+            get(userController::getAllNonDeleted);
         };
     }
 }

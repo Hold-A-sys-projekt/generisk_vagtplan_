@@ -5,7 +5,6 @@ import dat.dto.UserDTO;
 import dat.exception.ApiException;
 import dat.model.User;
 import io.javalin.http.Context;
-
 import java.util.Optional;
 
 public class UserController extends Controller<User, UserDTO> {

@@ -4,7 +4,6 @@ import dat.dao.DAO;
 import dat.dao.EmployeeDAO;
 import dat.dao.ShiftDAO;
 import dat.dto.ShiftDTO;
-import dat.model.Employee;
 import dat.model.Shift;
 import dat.model.Status;
 import io.javalin.http.Context;
@@ -71,11 +70,11 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
 
         try {
 
-            int id = Integer.parseInt(ctx.queryParam("employee_id"));
 
 
             ShiftDTO shiftDTO = ctx.bodyAsClass(ShiftDTO.class);
 
+            int id = shiftDTO.getUserId();
 
             Shift shift = new Shift(shiftDTO.getShiftStart(), shiftDTO.getShiftEnd());
 
@@ -111,6 +110,6 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
 
     public void getShiftsByEmployeeId(Context context) {
         int employeeId = Integer.parseInt(context.pathParam("id"));
-        context.json(shiftDAO.getShiftsByEmployeeId(employeeId));
+        context.json(shiftDAO.getShiftsByUserId(employeeId));
     }
 }

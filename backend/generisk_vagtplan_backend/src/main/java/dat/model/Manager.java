@@ -11,7 +11,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-// soft delete
 @jakarta.persistence.Entity
 @NoArgsConstructor
 @ToString
@@ -28,9 +27,6 @@ public class Manager extends SoftDeletableEntity implements Serializable, dat.mo
     @Column(name = "managername", unique = true, nullable = false, length = 25)
     @Setter
     private String managername;
-
-
-
 
 
     @Override

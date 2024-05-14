@@ -51,6 +51,7 @@ public class UserDTO implements DTO<User> {
         this.role = role;
     }
 
+    // For testing purposes
     public UserDTO(String username, Long createdAt, Integer id, String email, DepartmentDTO department, RoleDTO role, boolean isDeleted, Long deletedOn) {
         this.username = username;
         this.email = email;

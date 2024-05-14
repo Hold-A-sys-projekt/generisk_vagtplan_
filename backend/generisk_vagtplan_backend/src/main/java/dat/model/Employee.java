@@ -10,7 +10,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-// soft delete
 @Entity
 @Getter
 @Setter

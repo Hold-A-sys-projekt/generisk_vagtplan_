@@ -10,8 +10,7 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @MappedSuperclass
-public abstract class SoftDeletableEntity
-{
+public abstract class SoftDeletableEntity {
     @Column(name = "is_deleted", nullable = false)
     boolean isDeleted = false;
 

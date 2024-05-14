@@ -41,6 +41,11 @@ public abstract class Controller<EntityType extends Entity<DTOType>, DTOType ext
         ctx.json(createFromEntities(this.dao.readAll()));
     }
 
+    /**
+     * Get all entities that are not soft-deleted
+     *
+     */
+
     public void getAllNonDeleted(Context ctx) {
         ctx.status(200);
         ctx.json((createFromEntities(this.dao.readAllNonDeleted())));
@@ -108,7 +113,7 @@ public abstract class Controller<EntityType extends Entity<DTOType>, DTOType ext
         ((SoftDeletableEntity) entity).setDeleted(true);
         ((SoftDeletableEntity) entity).setDeletedOn(LocalDateTime.now());
         this.dao.update(entity);
-        // houseKeeper.vacuum(); //TODO: Uncomment this line
+        houseKeeper.vacuum(); // Clean old data from db
         ctx.status(204);
     }
 

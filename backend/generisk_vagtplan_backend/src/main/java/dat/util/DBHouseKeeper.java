@@ -30,12 +30,6 @@ public class DBHouseKeeper
         this.emf = HibernateConfig.getEntityManagerFactory();
     }
 
-    public static void main(String[] args)
-    {
-        DBHouseKeeper houseKeeper = new DBHouseKeeper();
-        houseKeeper.vacuum();
-    }
-
     public void vacuum()
     {
         List<Class<?>> softDeletableClasses = scanForSoftDeletableClasses();

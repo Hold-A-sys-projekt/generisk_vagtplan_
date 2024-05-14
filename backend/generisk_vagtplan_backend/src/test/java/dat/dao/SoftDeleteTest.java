@@ -1,9 +1,7 @@
 package dat.dao;
 
 import dat.config.HibernateConfig;
-import dat.controller.Controller;
 import dat.controller.ShiftController;
-import dat.controller.UserController;
 import dat.model.Role;
 import dat.model.Shift;
 import dat.model.User;
@@ -22,8 +20,6 @@ public class SoftDeleteTest {
 
     EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
     DAO<User> userDAO = new DAO<>(User.class, emf);
-    DAO<Shift> shiftDAO = new DAO<>(Shift.class, emf);
-    private final ShiftController shiftController = new ShiftController(ShiftDAO.getInstance());
     DBHouseKeeper houseKeeper = new DBHouseKeeper();
 
     @Test

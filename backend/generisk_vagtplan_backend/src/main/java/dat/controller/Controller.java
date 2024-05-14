@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public abstract class Controller<EntityType extends Entity<DTOType>, DTOType extends DTO<EntityType>> {
 
     protected final DAO<EntityType> dao;
-    private DBHouseKeeper houseKeeper;
+    private final DBHouseKeeper houseKeeper;
 
 
     public Controller(final DAO<EntityType> dao) {

@@ -18,6 +18,7 @@ import {
 import { useEffect, useState } from "react";
 import Select from "@/components/Select";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 
 const UserAdminPage = () => {
   const [users, setUsers] = useState([]);
@@ -36,7 +37,6 @@ const UserAdminPage = () => {
 
   const loadUsers = async () => {
     setUsers(await getUsers());
-    console.log(users);
   };
 
   useEffect(() => {
@@ -58,7 +58,7 @@ const UserAdminPage = () => {
                 <TableHead>Rolle</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
+            <TableBody className="text-left">
               {users.map((user) => (
                 <UserRow user={user} key={user.id} roles={userRoles} />
               ))}
@@ -72,16 +72,41 @@ const UserAdminPage = () => {
 
 const UserRow = ({ user, roles }) => {
   const [selectedDepartment, setSelectedDepartment] = useState(user.department);
+  const { toast } = useToast();
 
-  const handleSelectRole = (role) => {
-    console.log(role);
-    updateUserRole({ ...user, role: role });
+  const handleSelectRole = async (role) => {
+    const result = await updateUserRole({ ...user, role: role });
+    if(result.ok) {
+      toast({
+        variant: "success",
+        title: "Success!",
+        description: "The user's role was successfully updated.",
+      })
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with updating user's role",
+      })
+    }
   };
 
-  const onSaveNewDepartment = () => {
+  const onSaveNewDepartment = async () => {
     user = { ...user, department: selectedDepartment };
-
-    updateUserDepartment(user);
+    const result = await updateUserDepartment(user);
+    if(result.ok) {
+      toast({
+        variant: "success",
+        title: "Success!",
+        description: "The user's department was successfully updated.",
+      })
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with updating user's department",
+      })
+    }
   };
 
   return (

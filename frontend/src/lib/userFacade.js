@@ -23,6 +23,6 @@ export async function updateUserRole(user) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ role: user.role}),
+    body: JSON.stringify({ role: user.role }),
   });
 }

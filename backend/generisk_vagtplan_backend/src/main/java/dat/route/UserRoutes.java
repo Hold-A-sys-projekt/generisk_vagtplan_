@@ -21,7 +21,9 @@ public class UserRoutes implements Route {
             path("/{id}", () -> {
                 get(userController::getById);
                 //update the department of a user
-                put("/department", userController::updateDepartmentOnUser);
+                put("/department", userController::updateDepartment);
+                //update the role of a user
+                put("/role", userController::updateRole);
             });
             get(userController::getAll);
         };

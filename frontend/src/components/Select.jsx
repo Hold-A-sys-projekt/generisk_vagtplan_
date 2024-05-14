@@ -10,10 +10,10 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-export default function Select({ items, title, defaultValue }) {
+export default function Select({ items, title, defaultValue, onSelect }) {
     console.log(items)
     return (
-    <ChadSelect defaultValue={defaultValue}>
+    <ChadSelect defaultValue={defaultValue} onValueChange={(value) => onSelect(value)}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder={defaultValue} />
       </SelectTrigger>

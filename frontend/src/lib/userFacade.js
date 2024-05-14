@@ -16,3 +16,13 @@ export async function updateUserDepartment(user) {
     body: JSON.stringify({ department: user.department}),
   });
 }
+
+export async function updateUserRole(user) {
+  return await fetch(`http://localhost:7070/api/users/${user.id}/role`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ role: user.role}),
+  });
+}

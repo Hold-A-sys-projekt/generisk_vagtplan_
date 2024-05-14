@@ -9,7 +9,12 @@ import {
   TableRow,
   TableBody,
 } from "@/components/ui/table";
-import { getUserRoles, getUsers, updateUserDepartment } from "@/lib/userFacade";
+import {
+  getUserRoles,
+  getUsers,
+  updateUserDepartment,
+  updateUserRole,
+} from "@/lib/userFacade";
 import { useEffect, useState } from "react";
 import Select from "@/components/Select";
 import { Button } from "@/components/ui/button";
@@ -68,6 +73,11 @@ const UserAdminPage = () => {
 const UserRow = ({ user, roles }) => {
   const [selectedDepartment, setSelectedDepartment] = useState(user.department);
 
+  const handleSelectRole = (role) => {
+    console.log(role);
+    updateUserRole({ ...user, role: role });
+  };
+
   const onSaveNewDepartment = () => {
     user = { ...user, department: selectedDepartment };
 
@@ -83,7 +93,7 @@ const UserRow = ({ user, roles }) => {
           selectedDepartment={selectedDepartment}
           setSelectedDepartment={setSelectedDepartment}
         />
-        <Button variant="outline" onClick={onSaveNewDepartment}>
+        <Button variant="outline" className="ml-2" onClick={onSaveNewDepartment}>
           Gem
         </Button>
       </TableCell>
@@ -93,6 +103,7 @@ const UserRow = ({ user, roles }) => {
           items={roles}
           defaultValue={user.role.name}
           title="Roles"
+          onSelect={handleSelectRole}
         />{" "}
       </TableCell>
     </TableRow>

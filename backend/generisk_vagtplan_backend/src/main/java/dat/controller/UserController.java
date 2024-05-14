@@ -17,7 +17,7 @@ public class UserController extends Controller<User, UserDTO> {
         this.dao = dao;
     }
 
-    public void updateDepartmentOnUser(Context ctx) throws ApiException {
+    public void updateDepartment(Context ctx) throws ApiException {
         this.validateId(ctx); // Will throw ApiException if id is invalid
         final String id = ctx.pathParam("id");
         Optional<User> user = dao.readById(Integer.parseInt(id));
@@ -31,4 +31,17 @@ public class UserController extends Controller<User, UserDTO> {
         ctx.json(entity.toDTO());
     }
 
+    public void updateRole(Context ctx) throws ApiException {
+        this.validateId(ctx); // Will throw ApiException if id is invalid
+        final String id = ctx.pathParam("id");
+        Optional<User> user = dao.readById(Integer.parseInt(id));
+        if (user.isEmpty()) {
+            throw new ApiException(404, "User not found");
+        }
+        final User jsonRequest = ctx.bodyAsClass(this.dao.getClazz());
+        user.get().setRole(jsonRequest.getRole());
+        final User entity = this.dao.update(user.get());
+        ctx.status(200);
+        ctx.json(entity.toDTO());
+    }
 }

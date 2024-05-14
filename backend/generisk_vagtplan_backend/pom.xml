@@ -48,14 +48,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Faker for dummies-->
-        <dependency>
-        <groupId>com.github.javafaker</groupId>
-        <artifactId>javafaker</artifactId>
-        <version>1.0.2</version>
-        </dependency>
-
-
         <!--   Security     -->
         <dependency>
             <!--  https://nimbusds.com/products/nimbus-jose-jwt   -->

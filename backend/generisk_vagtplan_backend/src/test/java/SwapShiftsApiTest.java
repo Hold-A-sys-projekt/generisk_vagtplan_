@@ -26,8 +26,8 @@ public class SwapShiftsApiTest {
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body("size()", greaterThanOrEqualTo(3)) // Ensure there are at least 3 items
-                .body("[0].shiftId", notNullValue()); // Ensure the first item has a shiftId
+                .body("size()", greaterThanOrEqualTo(3)) 
+                .body("[0].shiftId", notNullValue()); 
     }
 
     @Test

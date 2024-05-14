@@ -206,6 +206,6 @@ Temporary Items
 .apdisk
 
 ### Node modules ###
-node_modules/
-package.json
 package-lock.json
+node_modules/
+frontend/package-lock.json

@@ -64,7 +64,6 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
         {
     "shiftStart": "2024-07-01T08:00:00",
     "shiftEnd": "2026-07-01T08:00:00"
-
 }
          */
 

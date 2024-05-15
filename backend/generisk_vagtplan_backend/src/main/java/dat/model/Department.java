@@ -46,6 +46,11 @@ public class Department extends SoftDeletableEntity implements dat.model.Entity<
         this.id = (Integer) id;
     }
 
+    public void addUser(User user) {
+        users.add(user);
+        user.setDepartment(this);
+    }
+
     @Override
     public DepartmentDTO toDTO() {
         return new DepartmentDTO(this);

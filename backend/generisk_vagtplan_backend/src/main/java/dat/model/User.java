@@ -58,12 +58,9 @@ public class User extends SoftDeletableEntity implements Serializable, dat.model
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Shift> shifts = new LinkedHashSet<>();
 
-    // TODO: Made for company (?)
-    @Column(name = "company_admin_id")
-    private Integer companyAdminId;
-
     @ManyToOne(fetch = FetchType.EAGER)
     private Department department;
+
 
     public User(String email, String username, String password) {
         this.email = email;
@@ -71,6 +68,16 @@ public class User extends SoftDeletableEntity implements Serializable, dat.model
         this.password = BCrypt.hashpw(password, BCrypt.gensalt());
         this.createdOn = LocalDateTime.now();
         this.updatedOn = LocalDateTime.now();
+        this.isDeleted = false;
+    }
+    //TODO: today added role to this and made a second constructor
+    public User(String email, String username, String password, Role role, Department department, Company company) {
+        this.email = email;
+        this.username = username;
+        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+        this.createdOn = LocalDateTime.now();
+        this.updatedOn = LocalDateTime.now();
+        this.role = role;
         this.isDeleted = false;
     }
 
@@ -81,6 +88,11 @@ public class User extends SoftDeletableEntity implements Serializable, dat.model
     public void addReview(Review review) {
         this.reviews.add(review);
         review.setUser(this);
+    }
+
+    public void addShift(Shift shift) {
+        this.shifts.add(shift);
+        shift.setUser(this);
     }
 
     @Override

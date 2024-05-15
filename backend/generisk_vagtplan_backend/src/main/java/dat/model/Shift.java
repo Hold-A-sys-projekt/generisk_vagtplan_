@@ -51,7 +51,7 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
     }
 
     public void setUser(User user) {
-        if (user != null && "Employee".equals(user.getRole().getName())) {
+        if (user != null && "employee".equals(user.getRole().getName())) {
             this.user = user;
             if (user.getShifts() != null && !user.getShifts().contains(this)) {
                 user.getShifts().add(this);

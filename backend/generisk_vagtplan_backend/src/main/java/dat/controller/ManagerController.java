@@ -1,7 +1,6 @@
 package dat.controller;
 
 import dat.dao.ManagerDAO;
-import dat.dto.EmployeeDTO;
 import dat.dto.UserDTO;
 import dat.model.Role;
 import dat.model.User;
@@ -28,8 +27,8 @@ public class ManagerController extends Controller<User, UserDTO> {
     public void updateEmployeeRole(Context ctx) {
         int employeeId = Integer.parseInt(ctx.pathParam("id"));
         try {
-            EmployeeDTO requestBody = ctx.bodyAsClass(EmployeeDTO.class);
-            String newRole = requestBody.getRole();
+            UserDTO requestBody = ctx.bodyAsClass(UserDTO.class);
+            String newRole = requestBody.getRole().getName();
 
             User employee = dao.getEmployee(employeeId);
             if (employee != null) {

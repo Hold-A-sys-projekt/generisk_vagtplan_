@@ -22,6 +22,8 @@ public class Role implements Serializable, dat.model.Entity<RoleDTO> {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    //TODO: today maybe make this have an id instead of PK name ?
+
     @Id
     @Basic(optional = false)
     @Column(name = "role_name", length = 20)
@@ -56,8 +58,22 @@ public class Role implements Serializable, dat.model.Entity<RoleDTO> {
 
     }
 
+    public void addUser(User user) {
+        userList.add(user);
+        if (user.getRole() != this) {
+            user.setRole(this);
+        }
+    }
+
     @Override
     public RoleDTO toDTO() {
         return new RoleDTO(name);
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }

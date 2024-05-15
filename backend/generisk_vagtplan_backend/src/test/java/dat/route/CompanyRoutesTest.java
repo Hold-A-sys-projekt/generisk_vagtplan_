@@ -18,6 +18,7 @@ private String BASE_URL = "http://localhost:7070/api/companies";
 private User user = null;
 static UserDAO userDAO;
 private EntityManager em = emf.createEntityManager();
+
     @BeforeAll
     static void init() {
         HibernateConfig.setTestStatus(true);

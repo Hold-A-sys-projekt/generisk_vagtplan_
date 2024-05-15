@@ -15,12 +15,13 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+// soft delete
 @Entity
 @Table(name = "users")
 @NamedQueries(@NamedQuery(name = "User.deleteAllRows", query = "DELETE FROM User"))
 @Getter
 @NoArgsConstructor
-public class User implements Serializable, dat.model.Entity<UserDTO> {
+public class User extends SoftDeletableEntity implements Serializable, dat.model.Entity<UserDTO> {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -48,11 +49,20 @@ public class User implements Serializable, dat.model.Entity<UserDTO> {
     @Setter
     private LocalDateTime updatedOn;
 
-    @JoinTable(name = "user_roles", joinColumns = {
-            @JoinColumn(name = "username", referencedColumnName = "username")}, inverseJoinColumns = {
-            @JoinColumn(name = "role_name", referencedColumnName = "role_name")})
-    @ManyToMany(fetch = FetchType.EAGER)
-    private final Set<RouteRoles> routeRoles = new LinkedHashSet<>();
+    @Setter
+    @JoinColumn(name = "role_name", referencedColumnName = "role_name", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Role role;
+
+    @JoinColumn(name = "department_id", referencedColumnName = "department_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @Setter
+    private Department department;
+
+    @JoinColumn(name = "company_id", referencedColumnName = "company_id")
+    @OneToOne(fetch = FetchType.EAGER)
+    @Setter
+    private Company company;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
@@ -64,6 +74,7 @@ public class User implements Serializable, dat.model.Entity<UserDTO> {
         this.setPassword(password);
         this.setCreatedOn(LocalDateTime.now());
         this.setUpdatedOn(LocalDateTime.now());
+        this.isDeleted = false;
     }
 
     public boolean checkPassword(String checkedPassword) {
@@ -72,10 +83,6 @@ public class User implements Serializable, dat.model.Entity<UserDTO> {
 
     public void setPassword(String password) {
         this.password = BCrypt.hashpw(password, BCrypt.gensalt());
-    }
-
-    public void addRole(RouteRoles routeRoles) {
-        this.routeRoles.add(routeRoles);
     }
 
     public void addReview(Review review) {

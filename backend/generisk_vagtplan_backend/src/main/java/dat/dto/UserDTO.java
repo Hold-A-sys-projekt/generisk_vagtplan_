@@ -4,7 +4,6 @@ import dat.dao.UserDAO;
 import dat.model.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 import java.time.ZoneId;
@@ -15,25 +14,58 @@ import java.time.ZoneId;
 public class UserDTO implements DTO<User> {
 
     private String username;
-    private String description;
-    private Long createdAt;
+    private String email;
+    private Long createdOn;
     private Integer id;
+    private DepartmentDTO department;
+    private boolean isDeleted;
+    private Long deletedOn;
+    private RoleDTO role;
 
     public UserDTO(String username, int id) {
         this.username = username;
         this.id = id;
     }
 
-    public UserDTO(String username, Long createdAt, Integer id) {
+    public UserDTO(String username, Long createdOn, Integer id) {
         this.username = username;
+        this.createdOn = createdOn;
+        this.id = id;
+    }
+
+    public UserDTO(String username, Long createdOn, Integer id, String email) {
+        this.username = username;
+        this.createdOn = createdOn;
+        this.id = id;
+        this.email = email;
+    }
+
+    public UserDTO(String username, Long createdOn, Integer id, String email, DepartmentDTO department, RoleDTO role) {
+        this.username = username;
+        this.email = email;
+        this.createdOn = createdOn;
+        this.id = id;
+        this.department = department;
+        this.role = role;
+    }
+
+    // For testing purposes
+    public UserDTO(String username, Long createdAt, Integer id, String email, DepartmentDTO department, RoleDTO role, boolean isDeleted, Long deletedOn) {
+        this.username = username;
+        this.email = email;
         this.createdAt = createdAt;
         this.id = id;
+        this.department = department;
+        this.role = role;
+        this.isDeleted = isDeleted;
+        this.deletedOn = deletedOn;
     }
 
     public UserDTO(User user) {
         this(user.getUsername(),
                 user.getCreatedOn().atZone(ZoneId.systemDefault()).toInstant().getEpochSecond() * 1000,
-                user.getId());
+                user.getId(), user.getEmail(), user.getDepartment().toDTO(), user.getRole().toDTO(), user.isDeleted(),
+                user.getDeletedOn() == null ? null : user.getDeletedOn().atZone(ZoneId.systemDefault()).toInstant().getEpochSecond() * 1000);
     }
 
     public void setId(String id) {

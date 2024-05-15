@@ -1,6 +1,6 @@
 package dat.model;
 
-import io.javalin.security.RouteRole;
+import dat.dto.RoleDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -14,10 +14,10 @@ import java.util.Set;
 
 @Entity
 @Table(name = "roles")
-@NamedQueries(@NamedQuery(name = "Role.deleteAllRows", query = "DELETE FROM RouteRoles"))
+@NamedQueries(@NamedQuery(name = "Role.deleteAllRows", query = "DELETE FROM Role"))
 @Getter
 @NoArgsConstructor
-public class RouteRoles implements Serializable, RouteRole {
+public class Role implements Serializable, dat.model.Entity<RoleDTO> {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -27,10 +27,10 @@ public class RouteRoles implements Serializable, RouteRole {
     @Column(name = "role_name", length = 20)
     private String name;
 
-    @ManyToMany(mappedBy = "routeRoles", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
     private final Set<User> userList = new LinkedHashSet<>();
 
-    public RouteRoles(String name) {
+    public Role(String name) {
         this.name = name;
     }
 
@@ -38,8 +38,8 @@ public class RouteRoles implements Serializable, RouteRole {
     public boolean equals(Object other) {
         if (this == other) return true;
         if (other == null || getClass() != other.getClass()) return false;
-        RouteRoles otherRouteRoles = (RouteRoles) other;
-        return Objects.equals(this.name.toLowerCase(), otherRouteRoles.name.toLowerCase());
+        Role otherRole = (Role) other;
+        return Objects.equals(this.name.toLowerCase(), otherRole.name.toLowerCase());
     }
 
     @Override
@@ -47,7 +47,17 @@ public class RouteRoles implements Serializable, RouteRole {
         return Objects.hash(this.name);
     }
 
-    public static RouteRoles of(String name) {
-        return new RouteRoles(name);
+    public static Role of(String name) {
+        return new Role(name);
+    }
+
+    @Override
+    public void setId(Object id) {
+
+    }
+
+    @Override
+    public RoleDTO toDTO() {
+        return new RoleDTO(name);
     }
 }

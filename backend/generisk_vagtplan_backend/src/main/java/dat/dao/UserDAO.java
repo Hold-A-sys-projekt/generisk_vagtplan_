@@ -4,7 +4,7 @@ import dat.config.HibernateConfig;
 import dat.dto.UserDTO;
 import dat.dto.UserInfoDTO;
 import dat.exception.AuthorizationException;
-import dat.model.RouteRoles;
+import dat.model.Role;
 import dat.model.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -16,7 +16,7 @@ public class UserDAO extends DAO<User> {
 
     private static UserDAO INSTANCE;
 
-    private final DAO<RouteRoles> ROLE_DAO = new DAO<>(RouteRoles.class, emf);
+    private final DAO<Role> ROLE_DAO = new DAO<>(Role.class, emf);
 
     private UserDAO(EntityManagerFactory emf) {
         super(User.class, emf);
@@ -37,6 +37,7 @@ public class UserDAO extends DAO<User> {
     public User getVerifiedUser(String email, String password) throws AuthorizationException {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
+            //TODO: using email parameter as those are always unique in workplaces or should this be name?
             User user = em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
                     .setParameter("email", email)
                     .getSingleResult();
@@ -57,8 +58,8 @@ public class UserDAO extends DAO<User> {
 
     public User registerUser(String email, String username, String password, String userRole) throws AuthorizationException {
         User user = new User(email, username, password);
-        Optional<RouteRoles> role = ROLE_DAO.readById(userRole);
-        user.addRole(role.or(() -> Optional.of(createRole(userRole))).get());
+        Optional<Role> role = ROLE_DAO.readById(userRole);
+        user.setRole(role.or(() -> Optional.of(createRole(userRole))).get());
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             em.persist(user);
@@ -69,9 +70,9 @@ public class UserDAO extends DAO<User> {
         }
     }
 
-    private RouteRoles createRole(String role) {
-        RouteRoles newRouteRoles = new RouteRoles(role);
-        return ROLE_DAO.create(newRouteRoles);
+    private Role createRole(String role) {
+        Role newRole = new Role(role);
+        return ROLE_DAO.create(newRole);
     }
 
     public User update(UserDTO userDTO) {

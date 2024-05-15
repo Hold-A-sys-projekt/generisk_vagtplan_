@@ -1,0 +1,28 @@
+
+## Get entities for testing
+
+GET {{url}}/users/1
+
+### Soft delete user
+
+DELETE {{url}}/users/1
+
+### Get all users
+
+GET {{url}}/users
+
+### Test same with Departments
+
+GET {{url}}/departments/1
+
+### Soft delete department
+
+DELETE {{url}}/departments/1
+
+### Get all departments
+
+GET {{url}}/departments
+
+### Reviews are not soft-deletable. will throw error if dev implements soft-delete route
+
+DELETE {{url}}/reviews/1

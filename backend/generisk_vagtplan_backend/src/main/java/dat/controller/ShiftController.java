@@ -4,8 +4,8 @@ import dat.dao.DAO;
 import dat.dao.EmployeeDAO;
 import dat.dao.ShiftDAO;
 import dat.dto.ShiftDTO;
-import dat.model.Employee;
 import dat.model.Shift;
+import dat.model.Status;
 import io.javalin.http.Context;
 
 import java.time.LocalDateTime;
@@ -64,17 +64,16 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
         {
     "shiftStart": "2024-07-01T08:00:00",
     "shiftEnd": "2026-07-01T08:00:00"
-
 }
          */
 
         try {
 
-            int id = Integer.parseInt(ctx.queryParam("employee_id"));
 
 
             ShiftDTO shiftDTO = ctx.bodyAsClass(ShiftDTO.class);
 
+            int id = shiftDTO.getUserId();
 
             Shift shift = new Shift(shiftDTO.getShiftStart(), shiftDTO.getShiftEnd());
 
@@ -89,5 +88,27 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
 
 
 
+    }
+
+    public void getShiftStatus(Context context) {
+        int shiftId = Integer.parseInt(context.pathParam("id"));
+
+        Shift shift = shiftDAO.getShiftStatus(shiftId);
+
+        context.json(shift.toDTO());
+    }
+
+    public void updateShiftStatus(Context context) {
+        int shiftId = Integer.parseInt(context.pathParam("id"));
+        Status status = Status.valueOf(context.queryParam("status"));
+
+        Shift shift = shiftDAO.updateShiftStatus(shiftId, status);
+
+        context.json(shift.toDTO());
+    }
+
+    public void getShiftsByEmployeeId(Context context) {
+        int employeeId = Integer.parseInt(context.pathParam("id"));
+        context.json(shiftDAO.getShiftsByUserId(employeeId));
     }
 }

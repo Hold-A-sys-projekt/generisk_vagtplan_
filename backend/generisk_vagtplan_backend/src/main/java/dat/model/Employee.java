@@ -1,6 +1,6 @@
 package dat.model;
 
-
+/*
 import dat.dto.EmployeeDTO;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
@@ -17,13 +17,15 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "employees")
-public class Employee implements dat.model.Entity<EmployeeDTO> {
+public class Employee extends SoftDeletableEntity implements dat.model.Entity<EmployeeDTO> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String name;
+
+    private String role;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Shift> shifts = new LinkedHashSet<>();
@@ -42,3 +44,4 @@ public class Employee implements dat.model.Entity<EmployeeDTO> {
         return new EmployeeDTO(this);
     }
 }
+*/

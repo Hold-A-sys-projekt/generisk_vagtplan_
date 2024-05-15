@@ -204,3 +204,8 @@ Temporary Items
 .apdisk
 
 package-lock.json
+
+
+# Env
+**/Env.txt
+**/env.txt

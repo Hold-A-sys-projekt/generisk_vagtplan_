@@ -1,5 +1,5 @@
 package dat.dto;
-
+/*
 import dat.dao.EmployeeDAO;
 import dat.model.User;
 import lombok.Getter;
@@ -36,4 +36,6 @@ public class EmployeeDTO implements DTO<User>{
         return employeeDAO.readById(this.id).orElse(null);
     }
 }
+*/
+
 //TODO: DELETE

@@ -24,10 +24,11 @@ public class Employee implements dat.model.Entity<EmployeeDTO> {
     private int id;
 
     private String name;
-
+  
     private String role;
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+ 
     private Set<Shift> shifts = new LinkedHashSet<>();
 
     public Employee(String name) {

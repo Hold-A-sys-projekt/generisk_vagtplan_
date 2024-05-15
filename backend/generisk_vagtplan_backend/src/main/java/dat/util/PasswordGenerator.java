@@ -1,10 +1,11 @@
 package dat.util;
 
 import java.util.Random;
+import java.util.stream.Stream;
 
 public class PasswordGenerator {
 
-    private static char[] passwordGenerator(){
+    public static String passwordGenerator(){
     int passwordLength = 10;
 
         String Capital_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -17,15 +18,14 @@ public class PasswordGenerator {
 
         Random rndm_method = new Random();
 
-        char[] password = new char[passwordLength];
+        StringBuilder password = new StringBuilder();
 
         for (int i = 0; i < passwordLength; i++)
         {
-            password[i] =
-                    values.charAt(rndm_method.nextInt(values.length()));
+            password.append(values.charAt(rndm_method.nextInt(values.length())));
 
         }
-        return password;
+        return password.toString();
     }
     
 }

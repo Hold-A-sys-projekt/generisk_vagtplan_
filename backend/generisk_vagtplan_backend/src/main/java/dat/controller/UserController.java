@@ -4,7 +4,10 @@ import dat.dao.UserDAO;
 import dat.dto.UserDTO;
 import dat.exception.ApiException;
 import dat.model.User;
+import dat.util.PasswordGenerator;
 import io.javalin.http.Context;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Optional;
 
 public class UserController extends Controller<User, UserDTO> {
@@ -42,5 +45,21 @@ public class UserController extends Controller<User, UserDTO> {
         final User entity = this.dao.update(user.get());
         ctx.status(200);
         ctx.json(entity.toDTO());
+    }
+
+    public void resetPassword(Context ctx) throws ApiException {
+        this.validateId(ctx); // Will throw ApiException if id is invalid
+        final String id = ctx.pathParam("id");
+        Optional<User> user = dao.readById(Integer.parseInt(id));
+        if (user.isEmpty()) {
+            throw new ApiException(404, "User not found");
+        }
+        final String Password = PasswordGenerator.passwordGenerator();
+        final User entity = user.get();
+        entity.setPassword(Password);
+        final User updatedEntity = this.dao.update(entity);
+        //TODO: Send email with new password
+        ctx.status(200);
+        ctx.json(updatedEntity.toDTO());
     }
 }

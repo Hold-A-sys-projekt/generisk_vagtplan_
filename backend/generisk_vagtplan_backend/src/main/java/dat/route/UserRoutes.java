@@ -26,6 +26,8 @@ public class UserRoutes implements Route {
                 put("/role", userController::updateRole);
                 put(userController::put);
                 delete(userController::softDelete);
+                //reset-password
+                get("/reset-password", userController::resetPassword);
             });
             get(userController::getAllNonDeleted);
         };

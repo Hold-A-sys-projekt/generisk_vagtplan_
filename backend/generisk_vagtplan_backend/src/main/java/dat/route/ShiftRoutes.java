@@ -8,7 +8,7 @@ import io.javalin.apibuilder.EndpointGroup;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
-public class ShiftRoutes implements Route{
+public class ShiftRoutes implements Route {
 
 
 
@@ -23,6 +23,7 @@ public class ShiftRoutes implements Route{
     public EndpointGroup getRoutes() {
         return () -> {
             path("/", () -> {
+                get("/{status}", shiftController::getByStatus);
                 get(shiftController::getAll);
                 post(shiftController::post);
                 path("/{id}", () -> {

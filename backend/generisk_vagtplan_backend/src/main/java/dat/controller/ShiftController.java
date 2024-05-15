@@ -133,4 +133,10 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
             context.status(200);
         }
     }
+
+    public void getByStatus(Context context)
+    {
+        Status status = Status.valueOf(context.pathParam("status"));
+        context.json(shiftDAO.getByStatus(status));
+    }
 }

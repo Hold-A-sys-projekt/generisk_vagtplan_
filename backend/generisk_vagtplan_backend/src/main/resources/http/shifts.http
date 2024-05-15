@@ -1,0 +1,8 @@
+
+### GET all shifts
+
+GET {{url}}/shifts
+
+### GET shift by status
+
+GET {{url}}/shifts/FOR_SALE

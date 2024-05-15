@@ -17,4 +17,9 @@ public class CompanyDAO extends DAO<Company> {
 
         return INSTANCE;
     }
+
+    @Override
+    public Company create(Company entity) {
+        return super.create(entity);
+    }
 }

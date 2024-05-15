@@ -14,9 +14,8 @@ import java.time.ZoneId;
 public class UserDTO implements DTO<User> {
 
     private String username;
-    private String description;
     private String email;
-    private Long createdAt;
+    private Long createdOn;
     private Integer id;
     private DepartmentDTO department;
     private boolean isDeleted;
@@ -28,23 +27,23 @@ public class UserDTO implements DTO<User> {
         this.id = id;
     }
 
-    public UserDTO(String username, Long createdAt, Integer id) {
+    public UserDTO(String username, Long createdOn, Integer id) {
         this.username = username;
-        this.createdAt = createdAt;
+        this.createdOn = createdOn;
         this.id = id;
     }
 
-    public UserDTO(String username, Long createdAt, Integer id, String email) {
+    public UserDTO(String username, Long createdOn, Integer id, String email) {
         this.username = username;
-        this.createdAt = createdAt;
+        this.createdOn = createdOn;
         this.id = id;
         this.email = email;
     }
 
-    public UserDTO(String username, Long createdAt, Integer id, String email, DepartmentDTO department, RoleDTO role) {
+    public UserDTO(String username, Long createdOn, Integer id, String email, DepartmentDTO department, RoleDTO role) {
         this.username = username;
         this.email = email;
-        this.createdAt = createdAt;
+        this.createdOn = createdOn;
         this.id = id;
         this.department = department;
         this.role = role;

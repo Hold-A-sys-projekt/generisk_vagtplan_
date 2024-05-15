@@ -113,4 +113,24 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
         int employeeId = Integer.parseInt(context.pathParam("id"));
         context.json(shiftDAO.getShiftsByEmployeeId(employeeId));
     }
+
+    public void setForSale(Context context)
+    {
+        int employeeId = Integer.parseInt(context.queryParam("e_id"));
+        int shiftId = Integer.parseInt(context.pathParam("id"));
+
+        Shift shift = shiftDAO.readById(shiftId).orElse(null);
+        Employee employee = employeeDAO.readById(employeeId).orElse(null);
+
+        if (shift == null || employee == null) {
+            context.status(404);
+            return;
+        }
+
+        if (shift.getEmployee().getId() == employeeId) {
+            shift.setStatus(Status.FOR_SALE);
+            shiftDAO.update(shift);
+            context.status(200);
+        }
+    }
 }

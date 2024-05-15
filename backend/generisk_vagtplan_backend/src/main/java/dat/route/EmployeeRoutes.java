@@ -28,7 +28,6 @@ public class EmployeeRoutes implements Route{
                     delete(employeeController::softDelete);
                     path("/shifts", () -> {
                         get("/current",employeeController::getCurrentShift);
-                        get(employeeController::getEmployeeShifts);
                     });
                 });
             });

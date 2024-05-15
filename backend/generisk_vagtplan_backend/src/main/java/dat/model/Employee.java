@@ -27,9 +27,6 @@ public class Employee extends SoftDeletableEntity implements dat.model.Entity<Em
   
     private String role;
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
- 
-    private Set<Shift> shifts = new LinkedHashSet<>();
 
     public Employee(String name) {
         this.name = name;

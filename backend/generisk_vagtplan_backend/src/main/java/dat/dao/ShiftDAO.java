@@ -26,25 +26,25 @@ public class ShiftDAO extends DAO<Shift>{
         super(Shift.class, emf);
     }
 
-    public List<Shift> getShiftsByEmployeeId(int employeeId) throws DatabaseException {
+    public List<Shift> getShiftsByEmployeeId(int userId) throws DatabaseException {
         try {
-            return emf.createEntityManager().createQuery("SELECT s FROM Shift s WHERE s.employee.id = :employeeId", Shift.class)
-                    .setParameter("employeeId", employeeId)
+            return emf.createEntityManager().createQuery("SELECT s FROM Shift s WHERE s.user.id = :userId", Shift.class)
+                    .setParameter("userId", userId)
                     .getResultList();
             // Catches if no shifts are found
         } catch (PersistenceException e) {
             // Throws exception which is caught by the apiException method in the ExceptionManagerHandler
-            throw new DatabaseException(404, "No shifts found for employee with id: " + employeeId);
+            throw new DatabaseException(404, "No shifts found for employee with id: " + userId);
         }
     }
 
-    public Shift create (Shift shift, int employeeId) {
+    public Shift create (Shift shift, int userId) {
         EntityManager em = emf.createEntityManager();
 
         try {
             em.getTransaction().begin();
-            Employee employee = em.find(Employee.class, employeeId);
-            shift.setEmployee(employee);
+            User user = em.find(User.class, userId);
+            shift.setUser(user);
             em.persist(shift);
             em.getTransaction().commit();
             return shift;

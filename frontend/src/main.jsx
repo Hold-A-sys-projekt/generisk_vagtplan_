@@ -13,6 +13,7 @@ import UserAdminPage from "./pages/UserAdminPage.jsx";
 import Reviews from "./components/reviews.jsx";
 import Calendar_Schedule from "@/pages/Calendar_Schedule.jsx";
 import { ToastProvider } from "@radix-ui/react-toast";
+import CalendarPage from "@/pages/CalendarPage.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

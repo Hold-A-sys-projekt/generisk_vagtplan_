@@ -71,7 +71,7 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
 
         try {
 
-            int id = Integer.parseInt(ctx.queryParam("employee_id"));
+            int id = Integer.parseInt(ctx.queryParam("user_id"));
 
 
             ShiftDTO shiftDTO = ctx.bodyAsClass(ShiftDTO.class);

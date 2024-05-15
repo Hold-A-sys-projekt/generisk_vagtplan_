@@ -64,6 +64,10 @@ public class User extends SoftDeletableEntity implements Serializable, dat.model
     @Setter
     private Company company;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+
+    private Set<Shift> shifts = new LinkedHashSet<>();
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private final Set<Review> reviews = new LinkedHashSet<>();

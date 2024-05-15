@@ -25,23 +25,6 @@ public class EmployeeController extends Controller<Employee, EmployeeDTO> {
         this.dao = dao;
     }
 
-    public void getEmployeeShifts(Context context) {
-
-        int employeeId = Integer.parseInt(context.pathParam("id"));
-
-        Employee employee = dao.readById(employeeId).orElse(null);
-
-        if (employee == null) {
-            context.status(404);
-            return;
-        }
-
-        List<ShiftDTO> shifts = employee.getShifts().stream()
-                .map(Shift::toDTO)
-                .toList();
-
-        context.json(shifts);
-    }
 
     public void getCurrentShift(Context context) {
         int employeeId = Integer.parseInt(context.pathParam("id"));

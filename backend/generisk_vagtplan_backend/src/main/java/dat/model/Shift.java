@@ -36,17 +36,16 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
     private LocalDateTime punchOut;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-
-    private Employee employee;
+    private User user;
 
     @Column(name = "shift_status")
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    public Shift(LocalDateTime shiftStart, LocalDateTime shiftEnd, Employee employee) {
+    public Shift(LocalDateTime shiftStart, LocalDateTime shiftEnd, User user) {
         this.shiftStart = shiftStart;
         this.shiftEnd = shiftEnd;
-        setEmployee(employee);
+        setUser(user);
     }
 
     public Shift(LocalDateTime shiftStart, LocalDateTime shiftEnd) {
@@ -54,10 +53,10 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
         this.shiftEnd = shiftEnd;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-        if (employee != null && !employee.getShifts().contains(this)) {
-            employee.getShifts().add(this);
+    public void setUser(User user) {
+        this.user = user;
+        if (user != null && !user.getShifts().contains(this)) {
+            user.getShifts().add(this);
         }
     }
 
@@ -78,8 +77,8 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
                 ", shiftEnd=" + shiftEnd +
                 ", punchIn=" + punchIn +
                 ", punchOut=" + punchOut +
-                ", employeeId=" + employee.getId() +
-                ", employeeName=" + employee.getName() +
+                ", employeeId=" + user.getId() +
+                ", employeeName=" + user.getUsername() +
                 '}';
     }
 }

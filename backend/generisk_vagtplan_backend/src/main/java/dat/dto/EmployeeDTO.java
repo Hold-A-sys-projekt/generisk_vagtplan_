@@ -24,7 +24,6 @@ public class EmployeeDTO implements DTO<Employee>{
     public EmployeeDTO(Employee employee) {
         this.id = employee.getId();
         this.name = employee.getName();
-        this.shifts = employee.getShifts().stream().map(ShiftDTO::new).toList();
     }
 
 

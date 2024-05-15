@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import facade from "@/util/apiFacade";
+import AssignModal from './assignmodal';
 import apiFacade from "@/util/apiFacade";
 
 function Modal({ isOpen, onClose, selectedDay }) {
@@ -13,7 +14,7 @@ function Modal({ isOpen, onClose, selectedDay }) {
   const [startHours, setStartHours] = useState([]);
   const [endHours, setEndHours] = useState([]);
   const [workerNames, setWorkerNames] = useState([])
- 
+  const [showAssignModal, setShowAssignModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,11 +22,13 @@ function Modal({ isOpen, onClose, selectedDay }) {
         const shiftsResponse = await facade.fetchData('shifts', 'GET');
         setShifts(shiftsResponse);
   
-        const employeesResponse = await facade.fetchData('employees', 'GET');
-        setWorkerNames(employeesResponse.map(employee => ({
-          id: employee.id,
-          name: employee.name
+        const employeesResponse = await facade.fetchData('users', 'GET');
+        setWorkerNames(employeesResponse.map(user => ({
+          id: user.id,
+          name: user.username
+
         })));
+
         
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -62,7 +65,7 @@ function Modal({ isOpen, onClose, selectedDay }) {
           workerNames !== null &&
           workerNames.length > 0
         ) {
-          const workerName = workerNames.find(worker => worker.id === shift.employeeId)?.name;
+          const workerName = workerNames.find(worker => worker.id === shift.userId)?.name;
           setWorkers(prevWorkers => [...prevWorkers, workerName]);
           setStartHours((prevStartHours) => [...prevStartHours, shiftsStartHour]);
           setEndHours((prevEndHours) => [...prevEndHours, shiftsEndHour]);
@@ -86,7 +89,7 @@ function Modal({ isOpen, onClose, selectedDay }) {
           worker: worker
         };
       });
-      setSchedule(updatedSchedule);
+      setSchedule(updatedSchedule)
     }
   }, [shifts, workerNames]);
 
@@ -97,6 +100,15 @@ function Modal({ isOpen, onClose, selectedDay }) {
   const handleBack = () => {
     setIsEditMode(false);
     setRemovedIndices([]);
+  };
+
+  const handleAssignWorker = () => {
+    setShowAssignModal(true);
+  };
+
+  const handleCloseAssignModal = () => {
+    setShowAssignModal(false);
+    onClose()
   };
 
   const handleRemoveWorker = (index) => {
@@ -121,22 +133,15 @@ function Modal({ isOpen, onClose, selectedDay }) {
             setSelectedShifts(updatedSelectedShifts);
             alert("Shift removed successfully");
           })
-          .catch(error => {
-            console.error("Error removing shift:", error);
-            alert("Failed to remove shift.");
-          });
     } else {
       console.log("Shift removal canceled.");
     }
+    onClose()
   }
 
 
   const handleSwapWorker = (index) => {
     alert("Swap functionality to be implemented");
-  };
-
-  const handleAssignWorker = (index) => {
-    alert("Assign functionality to be implemented");
   };
 
   const getShiftClasses = (index) => {
@@ -150,85 +155,74 @@ function Modal({ isOpen, onClose, selectedDay }) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-lg font-semibold mb-4">
-          Shifts for {selectedDay.toLocaleDateString()}
-        </h2>
-        <div className="space-y-4">
-          {schedule.map((shift, index) => (
-            <div
-              key={index}
-              className={`shift-container ${getShiftClasses(index)}`}
-            >
-              <p className="text-sm font-semibold">{shift.hour}</p>
-              {isEditMode ? (
-                <div className="flex justify-between items-center">
-                  <p className="text-sm">Worker: {shift.worker}</p>
-                  <div className="space-x-2">
-                    {!removedIndices.includes(index) && (
-                      <button
-                        onClick={() => handleRemoveWorker(index)}
-                        className="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-2 rounded"
-                      >
-                        Remove
-                      </button>
-                    )}
-                    {removedIndices.includes(index) && (
-                      <button
-                        onClick={() => handleAssignWorker(index)}
-                        className="bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-2 rounded"
-                      >
-                        Assign
-                      </button>
-                    )}
-                    <button
-                      onClick={() => handleSwapWorker(index)}
-                      className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-2 rounded"
-                    >
-                      Swap
-                    </button>
-                    <button
-                        onClick={() => handleRemoveShift(index)}
-                        className="delete-button"
-                    >
-                      X
-                    </button>
-                  </div>
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
+        <div className="bg-white p-6 rounded-lg shadow-lg">
+          <h2 className="text-lg font-semibold mb-4">
+            Shifts for {selectedDay.toLocaleDateString()}
+          </h2>
+          <div className="space-y-4">
+            {schedule.map((shift, index) => (
+                <div
+                    key={index}
+                    className={`shift-container ${getShiftClasses(index)}`}
+                >
+                  <p className="text-sm font-semibold">{shift.hour}</p>
+                  {isEditMode ? (
+                      <div className="flex justify-between items-center">
+                        <p className="text-sm">Worker: {shift.worker}</p>
+                        <div className="space-x-2">
+                          <button
+                              onClick={() => handleRemoveShift(index)}
+                              className="delete-button"
+                          >
+                            X
+                          </button>
+                        </div>
+                      </div>
+                  ) : (
+                      <p className="text-sm">Worker: {shift.worker}</p>
+                  )}
                 </div>
-              ) : (
-                <p className="text-sm">Worker: {shift.worker}</p>
-              )}
-            </div>
-          ))}
+            ))}
+          </div>
+          <div className="mt-4 flex justify-between">
+            {isEditMode ? (
+                <>
+                  <button
+                      onClick={handleBack}
+                      className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded"
+                  >
+                    Back
+                  </button>
+                  <button
+                      onClick={() => handleAssignWorker()}
+                      className="bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-2 rounded"
+                  >
+                    Assign
+                  </button>
+                </>
+            ) : (
+                <>
+                  <button
+                      onClick={onClose}
+                      className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+                  >
+                    Close
+                  </button>
+                  <button
+                      onClick={handleEdit}
+                      className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded"
+                  >
+                    Edit
+                  </button>
+                </>
+            )}
+          </div>
         </div>
-        <div className="mt-4 flex justify-between">
-          {isEditMode ? (
-            <button
-              onClick={handleBack}
-              className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded"
-            >
-              Back
-            </button>
-          ) : (
-            <>
-              <button
-                onClick={onClose}
-                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-              >
-                Close
-              </button>
-              <button
-                onClick={handleEdit}
-                className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded"
-              >
-                Edit
-              </button>
-            </>
-          )}
-        </div>
+        {showAssignModal && (
+            <AssignModal isOpen={showAssignModal} onClose={handleCloseAssignModal} employees={workerNames} selectedDay={selectedDay} />
+        )}
       </div>
-    </div>
   );
 }
 

@@ -9,7 +9,7 @@ import enUS from 'date-fns/locale/en-US';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import './App.css';
+import '../App.css';
 import {addDays} from "date-fns";
 
 const locales = {

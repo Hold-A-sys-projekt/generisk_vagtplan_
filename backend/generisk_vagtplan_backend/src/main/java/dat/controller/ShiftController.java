@@ -9,6 +9,7 @@ import dat.model.Status;
 import io.javalin.http.Context;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ShiftController extends Controller<Shift, ShiftDTO>{
 
@@ -82,7 +83,7 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
             ctx.json(res.toDTO());
         } catch (Exception e) {
             e.printStackTrace();
-            ctx.status(400);
+            ctx.status(400).result("Invalid input");
         }
 
 
@@ -109,6 +110,12 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
 
     public void getShiftsByEmployeeId(Context context) {
         int employeeId = Integer.parseInt(context.pathParam("id"));
-        context.json(shiftDAO.getShiftsByUserId(employeeId));
+       List<Shift> res =  shiftDAO.getShiftsByUserId(employeeId);
+       if (res.isEmpty()){
+           context.status(404).result("No shifts found for user with id: " + employeeId);
+           return;
+       }
+        context.json(res.stream().map(Shift::toDTO).toList());
+
     }
 }

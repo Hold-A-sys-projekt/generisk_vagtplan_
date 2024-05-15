@@ -32,7 +32,7 @@ public class User extends SoftDeletableEntity implements Serializable, dat.model
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(name = "email", unique = false, nullable = false)
     private String email;
 //TODO: username should probably be their real name
     @Column(name = "username", unique = true, nullable = false, length = 25)
@@ -61,6 +61,9 @@ public class User extends SoftDeletableEntity implements Serializable, dat.model
     @ManyToOne(fetch = FetchType.EAGER)
     private Department department;
 
+    @OneToOne
+    private Company company;
+
 
     public User(String email, String username, String password) {
         this.email = email;
@@ -72,7 +75,7 @@ public class User extends SoftDeletableEntity implements Serializable, dat.model
     }
 
     //TODO: second constructor, delete if not used
-    public User(String email, String username, String password, Role role, Department departmenty) {
+    public User(String email, String username, String password, Role role, Department department) {
         this.email = email;
         this.username = username;
         this.password = BCrypt.hashpw(password, BCrypt.gensalt());

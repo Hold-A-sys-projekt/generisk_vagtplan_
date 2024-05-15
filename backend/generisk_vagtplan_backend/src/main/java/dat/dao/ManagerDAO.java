@@ -24,7 +24,7 @@ public class ManagerDAO extends DAO<User> {
 
     public User addEmployee(User user) {
 
-        if (!user.getRole().equals("EMPLOYEE")) {
+        if (!user.getRole().equals("employee")) {
             throw new IllegalArgumentException("You may only add employees to the system");
         }
 

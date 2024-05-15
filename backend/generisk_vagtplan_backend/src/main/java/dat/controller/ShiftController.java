@@ -113,4 +113,23 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
         int employeeId = Integer.parseInt(context.pathParam("id"));
         context.json(shiftDAO.getShiftsByEmployeeId(employeeId));
     }
+
+    public void updateShiftDateAndTime(Context context) {
+        int shiftId = Integer.parseInt(context.pathParam("id"));
+        ShiftDTO shiftDTO = context.bodyAsClass(ShiftDTO.class);
+
+        Shift shift = shiftDAO.readById(shiftId).orElse(null);
+
+        if (shift == null) {
+            context.status(404);
+            return;
+        }
+
+        shift.setShiftStart(shiftDTO.getShiftStart());
+        shift.setShiftEnd(shiftDTO.getShiftEnd());
+
+        shiftDAO.update(shift);
+
+        context.json(shift.toDTO());
+    }
 }

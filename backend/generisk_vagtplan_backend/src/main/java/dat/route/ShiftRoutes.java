@@ -29,6 +29,8 @@ public class ShiftRoutes implements Route{
                     get(shiftController::getById);
                     post("/punch-in" ,shiftController::punchIn);
                     post("/punch-out" ,shiftController::punchOut);
+                    put("/updateShift", shiftController::updateShiftDateAndTime);
+
                 });
             });
         };

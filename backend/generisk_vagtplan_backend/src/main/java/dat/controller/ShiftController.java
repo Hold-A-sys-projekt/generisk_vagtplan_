@@ -128,7 +128,7 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
         shift.setShiftStart(shiftDTO.getShiftStart());
         shift.setShiftEnd(shiftDTO.getShiftEnd());
 
-        shiftDAO.update(shift);
+        shiftDAO.updateShift(shift);
 
         context.json(shift.toDTO());
     }

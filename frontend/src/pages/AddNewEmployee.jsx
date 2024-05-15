@@ -34,6 +34,18 @@ const AddNewEmployee = () => {
       console.error('Error saving employee data:', error);
     }
   };
+  const [isTextBoxVisible, setIsTextBoxVisible] = useState(false); // State to track if the text box is visible
+  const [textBoxValue, setTextBoxValue] = useState(''); // State to track the value of the text box
+
+  // Function to handle button click
+  const handleButtonClick = () => {
+    setIsTextBoxVisible(!isTextBoxVisible); // Toggle the visibility of the text box
+  };
+
+  // Function to handle text box change
+  const handleTextBoxChange = (event) => {
+    setTextBoxValue(event.target.value); // Update the value of the text box
+  };
 
  
   return (
@@ -68,9 +80,18 @@ const AddNewEmployee = () => {
                     />
                 </div>
                 <div>
-                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleButtonClick}>
                         Add New Employee
+
                     </button>
+                    {isTextBoxVisible && (
+        <div>
+        
+        <br />
+        <br />
+      <h2> Succesfully added new employee</h2>
+        </div>
+      )}
                 </div>
             </form>
         </div>

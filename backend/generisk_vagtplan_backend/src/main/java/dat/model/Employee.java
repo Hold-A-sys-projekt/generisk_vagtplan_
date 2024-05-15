@@ -1,6 +1,7 @@
 package dat.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dat.dto.EmployeeDTO;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
@@ -28,6 +29,7 @@ public class Employee implements dat.model.Entity<EmployeeDTO> {
     private String role;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore // Prevent infinite recursion
     private Set<Shift> shifts = new LinkedHashSet<>();
 
     public Employee(String name) {

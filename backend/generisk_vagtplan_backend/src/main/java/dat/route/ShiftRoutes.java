@@ -30,6 +30,10 @@ public class ShiftRoutes implements Route{
                     post("/punch-in" ,shiftController::punchIn);
                     post("/punch-out" ,shiftController::punchOut);
                 });
+                // fetch shifts by employee id
+                path("/employee/{id}", () -> {
+                    get(shiftController::getShiftsByEmployeeId);
+                });
             });
         };
     }

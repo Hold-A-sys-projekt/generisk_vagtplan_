@@ -39,18 +39,16 @@ public class EmployeeController extends Controller<User, UserDTO> {
             String email = jsonNode.get("email").asText();
             String rolename = jsonNode.get("role").asText();
             int departmentId = jsonNode.get("department").asInt();
-            int companyId = jsonNode.get("company").asInt();
 
 
             Role role = roleDAO.readByName(rolename);
             Department department = departmentDAO.readById(departmentId).orElse(null);
-            Company company = companyDAO.readById(companyId).orElse(null);
 
             if (role == null) {
                 throw new ApiException(400, "Role does not exist");
             }
 
-            User user = new User(email, username, password, role, department, company );
+            User user = new User(email, username, password, role, department );
 
             role.addUser(user);
             department.addUser(user);

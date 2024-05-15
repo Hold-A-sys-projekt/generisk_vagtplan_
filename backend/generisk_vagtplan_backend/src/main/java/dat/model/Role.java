@@ -22,8 +22,6 @@ public class Role implements Serializable, dat.model.Entity<RoleDTO> {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    //TODO: today maybe make this have an id instead of PK name ?
-
     @Id
     @Basic(optional = false)
     @Column(name = "role_name", length = 20)

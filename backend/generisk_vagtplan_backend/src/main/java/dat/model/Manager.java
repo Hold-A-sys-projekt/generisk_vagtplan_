@@ -17,7 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class Manager implements Serializable, dat.model.Entity<ManagerDTO>  {
+public class Manager extends SoftDeletableEntity implements Serializable, dat.model.Entity<ManagerDTO>  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,9 +27,6 @@ public class Manager implements Serializable, dat.model.Entity<ManagerDTO>  {
     @Column(name = "managername", unique = true, nullable = false, length = 25)
     @Setter
     private String managername;
-
-
-
 
 
     @Override

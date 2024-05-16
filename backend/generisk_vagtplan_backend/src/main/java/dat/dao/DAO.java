@@ -1,5 +1,6 @@
 package dat.dao;
 
+import dat.model.SoftDeletableEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.Getter;
@@ -43,6 +44,21 @@ public class DAO<EntityType> {
     public List<EntityType> readAll() {
         try (EntityManager em = this.emf.createEntityManager()) {
             return em.createQuery("SELECT t FROM " + this.clazz.getSimpleName() + " t", this.clazz).getResultList();
+        }
+    }
+
+    /**
+     * Read all non-soft-deleted entities
+     *
+     * @return A list of all non-soft-deleted entities
+     */
+    public List<EntityType> readAllNonDeleted()
+    {
+        if (!SoftDeletableEntity.class.isAssignableFrom(this.clazz)) {
+            throw new UnsupportedOperationException("This entity does not support soft delete");
+        }
+        try (EntityManager em = this.emf.createEntityManager()) {
+            return em.createQuery("SELECT t FROM " + this.clazz.getSimpleName() + " t WHERE t.isDeleted = false", this.clazz).getResultList();
         }
     }
 

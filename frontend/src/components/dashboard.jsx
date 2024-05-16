@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import UserAdminPage from "@/pages/UserAdminPage.jsx";
 import AssignRole from '@/pages/AssignRole.jsx';
 import AddNewEmployee from "@/pages/AddNewEmployee.jsx";
+import Punch from "@/components/punch.jsx";
 
 
 const Dashboard = () => {
@@ -17,7 +18,15 @@ const Dashboard = () => {
         <div>
             <h1>Dashboard</h1>
             {userRole === "administrator" && (
-                <UserAdminPage/>
+                <div>
+                    <p>Welcome Administrator!</p>
+                </div>
+            )}
+            {userRole === "companyAdmin" && (
+                <div>
+                    <p>Welcome Company Administrator!</p>
+                    <UserAdminPage/>
+                </div>
             )}
             {userRole === "manager" && (
                 <div>
@@ -30,6 +39,7 @@ const Dashboard = () => {
             {userRole === "employee" && (
                 <div>
                     <p>Welcome Employee!</p>
+                    <Punch/>
                 </div>
             )}
         </div>

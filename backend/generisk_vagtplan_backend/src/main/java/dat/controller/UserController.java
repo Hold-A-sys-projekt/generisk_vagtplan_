@@ -4,10 +4,12 @@ import dat.dao.UserDAO;
 import dat.dto.UserDTO;
 import dat.exception.ApiException;
 import dat.model.User;
+import dat.util.EmailSender;
 import dat.util.PasswordGenerator;
 import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Optional;
 
 public class UserController extends Controller<User, UserDTO> {
@@ -58,7 +60,7 @@ public class UserController extends Controller<User, UserDTO> {
         final User entity = user.get();
         entity.setPassword(Password);
         final User updatedEntity = this.dao.update(entity);
-        //TODO: Send email with new password
+        EmailSender.sendEmail(entity.getEmail(), "Password Reset", List.of("Your password have been reset", "Your new password is: " + Password, "", "If this wasn't you, please contact support"), false);
         ctx.status(200);
         ctx.json(updatedEntity.toDTO());
     }

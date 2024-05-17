@@ -50,10 +50,10 @@ public class UserDTO implements DTO<User> {
     }
 
     // For testing purposes
-    public UserDTO(String username, Long createdAt, Integer id, String email, DepartmentDTO department, RoleDTO role, boolean isDeleted, Long deletedOn) {
+    public UserDTO(String username, Long createdOn, Integer id, String email, DepartmentDTO department, RoleDTO role, boolean isDeleted, Long deletedOn) {
         this.username = username;
         this.email = email;
-        this.createdAt = createdAt;
+        this.createdOn = createdOn;
         this.id = id;
         this.department = department;
         this.role = role;

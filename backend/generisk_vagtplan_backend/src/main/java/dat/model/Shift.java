@@ -51,13 +51,14 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
     }
 
     public void setUser(User user) {
-        if (user != null && "employee".equals(user.getRole().getName())) {
-            this.user = user;
-            if (user.getShifts() != null && !user.getShifts().contains(this)) {
-                user.getShifts().add(this);
+        if (user != null && user.getId() != 0) {
+            if("employee".equals(user.getRole().getName())) {
+                this.user = user;
+            } else {
+                throw new IllegalArgumentException("User must be an employee");
             }
         } else {
-            throw new IllegalArgumentException("User must be an employee to be assigned a shift.");
+            throw new IllegalArgumentException("Invalid user");
         }
     }
 

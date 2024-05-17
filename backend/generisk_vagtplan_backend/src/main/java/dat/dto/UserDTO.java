@@ -51,7 +51,7 @@ public class UserDTO implements DTO<User> {
         this.role = role;
     }
 
-    // For testing purposes
+    // updatedOn is required by DB, therefore the below is here
     public UserDTO(String username, LocalDateTime createdOn, LocalDateTime updatedOn, Integer id, String email, DepartmentDTO department, RoleDTO role, boolean isDeleted, LocalDateTime deletedOn) {
         this.username = username;
         this.email = email;

@@ -32,9 +32,9 @@ public class User extends SoftDeletableEntity implements Serializable, dat.model
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(name = "email", unique = false, nullable = false)
     private String email;
-//TODO: username is a persons firstname (supposedly)
+//TODO: username should probably be their real name
     @Column(name = "username", unique = true, nullable = false, length = 25)
     private String username;
 
@@ -61,6 +61,9 @@ public class User extends SoftDeletableEntity implements Serializable, dat.model
     @ManyToOne(fetch = FetchType.EAGER)
     private Department department;
 
+    @OneToOne
+    private Company company;
+
 
     public User(String email, String username, String password) {
         this.email = email;
@@ -70,13 +73,15 @@ public class User extends SoftDeletableEntity implements Serializable, dat.model
         this.updatedOn = LocalDateTime.now();
         this.isDeleted = false;
     }
-    //TODO: today added role to this and made a second constructor
-    public User(String email, String username, String password, Role role, Department department, Company company) {
+
+    //TODO: second constructor, delete if not used
+    public User(String email, String username, String password, Role role, Department department) {
         this.email = email;
         this.username = username;
         this.password = BCrypt.hashpw(password, BCrypt.gensalt());
         this.createdOn = LocalDateTime.now();
         this.updatedOn = LocalDateTime.now();
+        this.department = department;
         this.role = role;
         this.isDeleted = false;
     }

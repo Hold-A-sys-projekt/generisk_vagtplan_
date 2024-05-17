@@ -37,17 +37,16 @@ public class ShiftDAO extends DAO<Shift> {
     }
 
     public Shift create(Shift shift, int userId) {
-        EntityManager em = emf.createEntityManager();
 
-        try {
+        try (EntityManager em = emf.createEntityManager();){
             em.getTransaction().begin();
             User user = em.find(User.class, userId);
             shift.setUser(user);
             em.persist(shift);
             em.getTransaction().commit();
             return shift;
-        } finally {
-            em.close();
+        } catch (Exception e) {
+            throw e;
         }
 
 

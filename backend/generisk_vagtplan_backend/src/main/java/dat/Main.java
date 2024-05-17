@@ -6,6 +6,5 @@ public class Main {
 
     public static void main(String[] args) {
         ApplicationConfig.startServer(7070);
-        System.out.println("Server started on " + ApplicationConfig.getBaseURL());
     }
 }

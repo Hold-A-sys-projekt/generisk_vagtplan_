@@ -15,6 +15,7 @@ import Calendar_Schedule from "@/pages/Calendar_Schedule.jsx";
 import {ToastProvider} from "@radix-ui/react-toast";
 import Login from "@/components/login.jsx";
 import Dashboard from "@/components/dashboard.jsx";
+import Companysignup from "@/components/companysignup.jsx";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -27,6 +28,7 @@ const router = createBrowserRouter(
             <Route path="/calendar" element={<Calendar_Schedule/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/dashboard" element={<Dashboard/>}/>
+            <Route path="/companysignup" element={<Companysignup/>}/>
         </Route>
     )
 );

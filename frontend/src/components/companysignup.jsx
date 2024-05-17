@@ -1,7 +1,7 @@
-// companysignup.js
+
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import compFacade from "@libs/companyfacade.js"
+import compFacade from "../lib/companyFacade.js"
 
 const Companysignup = () => {
     const [signupCredentials, setSignupCredentials] = useState({
@@ -63,14 +63,14 @@ const Companysignup = () => {
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="admin"
               >
-                Admin
+                Company Admin
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                 id="admin"
                 name="admin"
                 type="text"
-                placeholder="Admin"
+                placeholder="Company Admin"
                 value={signupCredentials.admin}
                 onChange={handleInputChange}
                 required

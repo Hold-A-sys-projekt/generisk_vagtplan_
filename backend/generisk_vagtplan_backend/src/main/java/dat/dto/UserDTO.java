@@ -6,54 +6,58 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.time.ZoneId;
+import java.time.LocalDateTime;
 
 @Getter
 @ToString
 @NoArgsConstructor
 public class UserDTO implements DTO<User> {
 
-    private String username;
-    private String email;
-    private Long createdOn;
     private Integer id;
+    private String email;
+    private String username;
+    private RoleDTO role;
+    private LocalDateTime createdOn;
+    private LocalDateTime updatedOn;
     private DepartmentDTO department;
     private boolean isDeleted;
-    private Long deletedOn;
-    private RoleDTO role;
+    private LocalDateTime deletedOn;
+
 
     public UserDTO(String username, int id) {
         this.username = username;
         this.id = id;
     }
 
-    public UserDTO(String username, Long createdOn, Integer id) {
+    public UserDTO(String username, LocalDateTime createdOn, Integer id) {
         this.username = username;
         this.createdOn = createdOn;
         this.id = id;
     }
 
-    public UserDTO(String username, Long createdOn, Integer id, String email) {
+    public UserDTO(String username, LocalDateTime createdOn, Integer id, String email) {
         this.username = username;
         this.createdOn = createdOn;
         this.id = id;
         this.email = email;
     }
 
-    public UserDTO(String username, Long createdOn, Integer id, String email, DepartmentDTO department, RoleDTO role) {
+    public UserDTO(String username, LocalDateTime createdOn, Integer id, String email, DepartmentDTO department, RoleDTO role) {
         this.username = username;
         this.email = email;
         this.createdOn = createdOn;
-        this.id = id;
         this.department = department;
+        this.id = id;
         this.role = role;
     }
 
     // For testing purposes
-    public UserDTO(String username, Long createdOn, Integer id, String email, DepartmentDTO department, RoleDTO role, boolean isDeleted, Long deletedOn) {
+    // updatedOn is required by DB, therefore the below is here
+    public UserDTO(String username, LocalDateTime createdOn, LocalDateTime updatedOn, Integer id, String email, DepartmentDTO department, RoleDTO role, boolean isDeleted, LocalDateTime deletedOn) {
         this.username = username;
         this.email = email;
         this.createdOn = createdOn;
+        this.updatedOn = updatedOn;
         this.id = id;
         this.department = department;
         this.role = role;
@@ -63,9 +67,9 @@ public class UserDTO implements DTO<User> {
 
     public UserDTO(User user) {
         this(user.getUsername(),
-                user.getCreatedOn().atZone(ZoneId.systemDefault()).toInstant().getEpochSecond() * 1000,
-                user.getId(), user.getEmail(), user.getDepartment().toDTO(), user.getRole().toDTO(), user.isDeleted(),
-                user.getDeletedOn() == null ? null : user.getDeletedOn().atZone(ZoneId.systemDefault()).toInstant().getEpochSecond() * 1000);
+                user.getCreatedOn(), user.getUpdatedOn(),
+                user.getId(), user.getEmail(), (user.getDepartment() == null ? null : user.getDepartment().toDTO()), user.getRole().toDTO(), user.isDeleted(),
+                user.getDeletedOn());
     }
 
     public void setId(String id) {
@@ -76,5 +80,9 @@ public class UserDTO implements DTO<User> {
     public User toEntity() {
         UserDAO userDAO = UserDAO.getInstance();
         return userDAO.readById(this.username).orElse(null);
+    }
+
+    public void setUpdatedOn(LocalDateTime updatedOn) {
+        this.updatedOn = updatedOn;
     }
 }

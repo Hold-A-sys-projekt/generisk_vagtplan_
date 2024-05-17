@@ -40,3 +40,6 @@ build/
 
 ### ENV ###
 /src/main/java/dat/util/Env.txt
+/src/main/java/dat/util/env.txt
+**/Env.txt
+**/env.txt

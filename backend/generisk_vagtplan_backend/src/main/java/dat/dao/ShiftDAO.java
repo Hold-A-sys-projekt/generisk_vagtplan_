@@ -26,6 +26,7 @@ public class ShiftDAO extends DAO<Shift> {
         super(Shift.class, emf);
     }
 
+
     public List<Shift> getShiftsByUserId(int userId) throws DatabaseException {
         try {
             return emf.createEntityManager().createQuery("SELECT s FROM Shift s WHERE s.user.id = :userId", Shift.class)

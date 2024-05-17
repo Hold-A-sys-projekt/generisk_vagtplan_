@@ -3,6 +3,8 @@ import './App.css'
 
 import Navbar from './components/navbar'
 import { Toaster } from './components/ui/toaster'
+
+import ShiftCalender from './components/shiftCalender'
 function App() {
 
   return (
@@ -10,6 +12,7 @@ function App() {
       <Navbar />
       <Outlet />
       <Toaster />
+      <ShiftCalender/>
     </>
   )
 }

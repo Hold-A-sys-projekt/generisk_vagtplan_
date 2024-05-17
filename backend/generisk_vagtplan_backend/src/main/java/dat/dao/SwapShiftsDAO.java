@@ -1,9 +1,8 @@
 package dat.dao;
 
 import dat.config.HibernateConfig;
-import dat.model.Employee;
-import dat.model.SwapShifts;
 import dat.model.User;
+import dat.model.SwapShifts;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
@@ -70,12 +69,12 @@ public class SwapShiftsDAO extends DAO<SwapShifts> {
     }
 
     private void performSwap(SwapShifts swap, EntityManager em) {
-        Employee user1 = swap.getShift1().getEmployee();
-        Employee user2 = swap.getShift2().getEmployee();
+        User user1 = swap.getShift1().getUser();
+        User user2 = swap.getShift2().getUser();
 
         // Swapping the users associated with each shift
-        swap.getShift1().setEmployee(user2);
-        swap.getShift2().setEmployee(user1);
+        swap.getShift1().setUser(user2);
+        swap.getShift2().setUser(user1);
 
         em.merge(swap.getShift1());
         em.merge(swap.getShift2());

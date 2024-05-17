@@ -5,7 +5,10 @@ import dat.dto.UserDTO;
 import dat.exception.ApiException;
 import dat.model.User;
 import io.javalin.http.Context;
+
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class UserController extends Controller<User, UserDTO> {
 
@@ -43,4 +46,30 @@ public class UserController extends Controller<User, UserDTO> {
         ctx.status(200);
         ctx.json(entity.toDTO());
     }
+
+    public void getUsersByRole(Context ctx) {
+        String role = ctx.queryParam("role");
+        System.out.println("Received role parameter: " + role);
+
+        if (role == null || role.isEmpty()) {
+            System.out.println("Role parameter is missing or empty");
+            ctx.status(400).result("Role parameter is required");
+            return;
+        }
+
+        try {
+            List<User> users = dao.getUsersByRole(role);
+            System.out.println("Fetched users: " + users);
+            List<UserDTO> userDTOs = users.stream().map(User::toDTO).collect(Collectors.toList());
+            ctx.json(userDTOs);
+        } catch (Exception e) {
+            System.err.println("Error fetching users by role: " + e.getMessage());
+            ctx.status(500).result("Internal server error");
+        }
+    }
+
+
+
+
+
 }

@@ -10,6 +10,7 @@ import io.javalin.http.Context;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ShiftController extends Controller<Shift, ShiftDTO>{
 
@@ -119,7 +120,20 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
 
     }
 
-
-
-    
+    public void getShiftsByUserIdWithDTOs(Context context) {
+    int userId = Integer.parseInt(context.pathParam("id"));
+    List<Shift> shifts = shiftDAO.getShiftsByUserId(userId);
+    if (shifts.isEmpty()) {
+        context.status(404).result("No shifts found for user with id: " + userId);
+        return;
+    }
+    List<ShiftDTO> shiftDTOs = shifts.stream().map(Shift::toDTO).collect(Collectors.toList());
+    // Log the shiftDTOs
+    shiftDTOs.forEach(shiftDTO -> System.out.println("ShiftDTO: " + shiftDTO));
+    context.json(shiftDTOs);
 }
+
+}
+
+
+

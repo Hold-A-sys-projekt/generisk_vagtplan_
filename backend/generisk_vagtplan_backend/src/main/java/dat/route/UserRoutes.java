@@ -27,6 +27,9 @@ public class UserRoutes implements Route {
                 put(userController::put);
                 delete(userController::softDelete);
             });
+            path("/role", () -> {
+                get(userController::getUsersByRole);
+            });
             get(userController::getAllNonDeleted);
         };
     }

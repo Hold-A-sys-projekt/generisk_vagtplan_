@@ -24,7 +24,7 @@ const ShiftOverview = ({employeeId}) => {
     return (
         <div className="container mx-auto px-4">
             <div className="flex justify-between items-center">
-                <h1 className="text-2xl font-bold">My Tasks</h1>
+                <h1 className="text-2xl font-bold">My shifts</h1>
             </div>
             <div className="mt-4">
                 {shifts.map((shift) => (

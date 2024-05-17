@@ -20,7 +20,10 @@ public class UserRoutes implements Route {
         return () -> {
             path("/{id}", () -> {
                 get(userController::getById);
-                put(userController::put);
+                //update the department of a user
+                put("/department", userController::updateDepartment);
+                //update the role of a user
+                put("/role", userController::updateRole);
             });
             get(userController::getAll);
         };

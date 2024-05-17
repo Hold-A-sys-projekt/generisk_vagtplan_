@@ -36,13 +36,13 @@ build/
 .vscode/
 
 ### Mac OS ###
-<<<<<<< Updated upstream
 .DS_Store
 
 ### ENV ###
 /src/main/java/dat/util/Env.txt
-=======
-.DS_Store### Java template
+
+.DS_Store
+### Java template
 # Compiled class file
 *.class
 
@@ -211,4 +211,3 @@ Temporary Items
 .apdisk
 
 package-lock.json
->>>>>>> Stashed changes

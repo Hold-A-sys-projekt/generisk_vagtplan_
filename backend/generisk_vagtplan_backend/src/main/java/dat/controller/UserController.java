@@ -3,6 +3,7 @@ package dat.controller;
 import dat.dao.UserDAO;
 import dat.dto.UserDTO;
 import dat.exception.ApiException;
+import dat.message.Message;
 import dat.model.User;
 import io.javalin.http.Context;
 
@@ -53,7 +54,7 @@ public class UserController extends Controller<User, UserDTO> {
 
         if (role == null || role.isEmpty()) {
             System.out.println("Role parameter is missing or empty");
-            ctx.status(400).result("Role parameter is required");
+            ctx.status(400).json(new Message(400, System.currentTimeMillis(), "Role parameter is required"));
             return;
         }
 
@@ -64,7 +65,7 @@ public class UserController extends Controller<User, UserDTO> {
             ctx.json(userDTOs);
         } catch (Exception e) {
             System.err.println("Error fetching users by role: " + e.getMessage());
-            ctx.status(500).result("Internal server error");
+            ctx.status(500).json(new Message(500, System.currentTimeMillis(), "Internal server error"));
         }
     }
 

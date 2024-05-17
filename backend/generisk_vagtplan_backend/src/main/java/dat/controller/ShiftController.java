@@ -119,7 +119,7 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
 
     }
 
-    public void setForSale(Context context)
+/*    public void setForSale(Context context)
     {
         int employeeId = Integer.parseInt(context.queryParam("e_id"));
         int shiftId = Integer.parseInt(context.pathParam("id"));
@@ -137,7 +137,7 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
             shiftDAO.update(shift);
             context.status(200);
         }
-    }
+    }*/
 
     public void getByStatus(Context context)
     {

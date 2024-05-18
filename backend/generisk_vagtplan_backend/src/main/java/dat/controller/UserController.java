@@ -60,7 +60,11 @@ public class UserController extends Controller<User, UserDTO> {
         final User entity = user.get();
         entity.setPassword(Password);
         final User updatedEntity = this.dao.update(entity);
-        EmailSender.sendEmail(entity.getEmail(), "Password Reset", List.of("Your password have been reset", "Your new password is: " + Password, "", "If this wasn't you, please contact support"), false);
+        EmailSender.sendEmail(entity.getEmail(), "Password Reset", List.of(
+                "<h1>Your password have been reset</h1> ",
+                        "<p>Your new password is: <b>" + Password, "</b></p> ",
+                        "<p>If this wasn't you, please contact support</p>"),
+                false);
         ctx.status(200);
         ctx.json(updatedEntity.toDTO());
     }

@@ -19,6 +19,7 @@ public class ShiftRoutes implements Route{
         return "/shifts";
     }
 
+
     @Override
     public EndpointGroup getRoutes() {
         return () -> {
@@ -31,8 +32,8 @@ public class ShiftRoutes implements Route{
                     post("/punch-out" ,shiftController::punchOut);
                 });
                 // fetch shifts by employee id
-                path("/employee/{id}", () -> {
-                    get(shiftController::getShiftsByEmployeeId);
+                path("/user/{id}", () -> {
+                    get(shiftController::getShiftsByUserIdWithDTOs);
                 });
             });
         };

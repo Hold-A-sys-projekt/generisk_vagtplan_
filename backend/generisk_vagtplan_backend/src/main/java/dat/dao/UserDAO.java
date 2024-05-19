@@ -10,6 +10,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
 
+import java.util.List;
 import java.util.Optional;
 
 public class UserDAO extends DAO<User> {
@@ -74,6 +75,22 @@ public class UserDAO extends DAO<User> {
         Role newRole = new Role(role);
         return ROLE_DAO.create(newRole);
     }
+
+    public List<User> getUsersByRole(String roleName) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            System.out.println("Executing query with roleName: " + roleName);
+            return em.createQuery("SELECT u FROM User u WHERE u.role.name = :roleName", User.class)
+                     .setParameter("roleName", roleName)
+                     .getResultList();
+        } catch (Exception e) {
+            System.err.println("Error executing query with roleName: " + roleName + " - " + e.getMessage());
+            throw e;
+        } finally {
+            em.close();
+        }
+    }
+
 
     public User update(UserDTO userDTO) {
         try (EntityManager em = emf.createEntityManager()) {

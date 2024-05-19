@@ -75,4 +75,13 @@ public class ShiftDAO extends DAO<Shift> {
             em.close();
         }
     }
+
+    public List<Shift> getByStatus(Status status)
+    {
+        try (EntityManager em = emf.createEntityManager()) {
+            return em.createQuery("SELECT s FROM Shift s WHERE s.status = :status", Shift.class)
+                    .setParameter("status", status)
+                    .getResultList();
+        }
+    }
 }

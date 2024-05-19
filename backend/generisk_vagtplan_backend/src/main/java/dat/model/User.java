@@ -1,6 +1,8 @@
 package dat.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dat.dto.UserDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
@@ -49,6 +51,7 @@ public class User extends SoftDeletableEntity implements Serializable, dat.model
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_name", referencedColumnName = "role_name", nullable = false)
+    @JsonBackReference
     private Role role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -56,6 +59,7 @@ public class User extends SoftDeletableEntity implements Serializable, dat.model
     private final Set<Review> reviews = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonManagedReference
     private Set<Shift> shifts = new LinkedHashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER)

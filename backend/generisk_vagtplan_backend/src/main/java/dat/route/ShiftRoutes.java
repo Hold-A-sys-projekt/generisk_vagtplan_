@@ -23,12 +23,14 @@ public class ShiftRoutes implements Route{
     public EndpointGroup getRoutes() {
         return () -> {
             path("/", () -> {
+                get("/{status}", shiftController::getByStatus);
                 get(shiftController::getAll);
                 post(shiftController::post);
                 path("/{id}", () -> {
                     get(shiftController::getById);
                     post("/punch-in" ,shiftController::punchIn);
                     post("/punch-out" ,shiftController::punchOut);
+                    //post("/set-for-sale", shiftController::setForSale);
                 });
             });
         };

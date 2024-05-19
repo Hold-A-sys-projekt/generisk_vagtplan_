@@ -1,6 +1,9 @@
 package dat.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import dat.dto.ShiftDTO;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
@@ -33,6 +36,7 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
     private LocalDateTime punchOut;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference
     private User user;
 
     @Column(name = "shift_status")
@@ -75,6 +79,8 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
         return new ShiftDTO(this);
     }
 
+
+
     public String toString() {
         return "Shift{" +
                 "id=" + id +
@@ -84,6 +90,7 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
                 ", punchOut=" + punchOut +
                 ", userId=" + (user != null ? user.getId() : null) +
                 ", userName=" + (user != null ? user.getUsername() : null) +
+                ", status='" + status +
                 '}';
     }
 }

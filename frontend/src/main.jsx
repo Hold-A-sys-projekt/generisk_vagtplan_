@@ -7,6 +7,7 @@ import Index from '@/pages/Index.jsx'
 import UserAdminPage from './pages/UserAdminPage.jsx'
 import Reviews from './components/reviews.jsx'
 import Calendar_Schedule from "@/pages/Calendar_Schedule.jsx";
+import ShiftSale from "@/pages/ShiftSale.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -17,6 +18,7 @@ const router = createBrowserRouter(
       </Route>
       <Route path="/reviews" element={<Reviews/>} />
         <Route path="/calendar" element={<Calendar_Schedule />} />
+        <Route path="/shiftsale" element={<ShiftSale />} />
     </Route>
   )
 )

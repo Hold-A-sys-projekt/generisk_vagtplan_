@@ -27,7 +27,7 @@ GET {{shifts}}/
 
 ### POST NEW SHIFT
 
-POST {{shifts}}?employee_id=3
+POST {{shifts}}?employee_id=1
 Content-Type: application/json
 
 {

@@ -27,7 +27,7 @@ public class HibernateConfig {
             Properties properties = new Properties();
             properties.put("hibernate.connection.url", "jdbc:postgresql://localhost:5432/gvs");
             properties.put("hibernate.connection.username", "postgres");
-            properties.put("hibernate.connection.password", "postgres");
+            properties.put("hibernate.connection.password", "admin");
             properties.put("hibernate.show_sql", "false"); // show sql in console
             properties.put("hibernate.format_sql", "true"); // format sql in console
             properties.put("hibernate.use_sql_comments", "true"); // show sql comments in console
@@ -82,7 +82,9 @@ public class HibernateConfig {
                 Company.class,
                 Review.class,
                 Shift.class,
-                Department.class
+                Department.class,
+                SwapShifts.class,
+                SwapRequests.class
         ).forEach(config::addAnnotatedClass);
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build();

@@ -58,7 +58,8 @@ public class ApplicationConfig {
                 new RoleRoutes(),
                 new DepartmentRoutes(),
                 new EmailRoutes(),
-                new SwapShiftsRoutes()
+                new SwapShiftsRoutes(),
+                new SwapRequestsRoutes()
         ); // TODO: addRoutes(new XRoutes(), new YRoutes(), new ZRoutes());
     }
 

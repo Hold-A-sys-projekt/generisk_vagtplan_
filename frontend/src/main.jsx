@@ -13,6 +13,7 @@ import UserAdminPage from "./pages/UserAdminPage.jsx";
 import Reviews from "./components/reviews.jsx";
 import Calendar_Schedule from "@/pages/Calendar_Schedule.jsx";
 import { ToastProvider } from "@radix-ui/react-toast";
+import ShiftSwapsManager from "@/pages/ShiftSwapManager.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,6 +24,7 @@ const router = createBrowserRouter(
       </Route>
       <Route path="/reviews" element={<Reviews />} />
       <Route path="/calendar" element={<Calendar_Schedule />} />
+      <Route path="/swapshifts" element={<ShiftSwapsManager />} />
     </Route>
   )
 );

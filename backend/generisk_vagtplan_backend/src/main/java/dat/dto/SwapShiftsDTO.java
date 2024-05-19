@@ -1,35 +1,29 @@
 package dat.dto;
 
-
-
 import dat.model.SwapShifts;
-import dat.model.Shift;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
+@NoArgsConstructor
 public class SwapShiftsDTO implements DTO<SwapShifts> {
 
     private Integer id;
-    private Shift shift1;
-    private Shift shift2;
+    private SwapRequestsDTO request;
     private String isAccepted;
 
-    public SwapShiftsDTO(SwapShifts entity) {
-        this.id = entity.getId();
-        this.shift1 = entity.getShift1();
-        this.shift2 = entity.getShift2();
-        this.isAccepted = entity.getIsAccepted();
+    public SwapShiftsDTO(SwapShifts swapShifts) {
+        this.id = swapShifts.getId();
+        this.request = new SwapRequestsDTO(swapShifts.getRequest());
+        this.isAccepted = swapShifts.getIsAccepted();
     }
 
+    @Override
     public SwapShifts toEntity() {
-        SwapShifts swap = new SwapShifts();
-        swap.setShift1(this.shift1);
-        swap.setShift2(this.shift2);
-        swap.setIsAccepted(this.isAccepted);
-        return swap;
+        SwapShifts swapShifts = new SwapShifts();
+        swapShifts.setId(this.id);
+        swapShifts.setRequest(this.request.toEntity());
+        swapShifts.setIsAccepted(this.isAccepted);
+        return swapShifts;
     }
 }

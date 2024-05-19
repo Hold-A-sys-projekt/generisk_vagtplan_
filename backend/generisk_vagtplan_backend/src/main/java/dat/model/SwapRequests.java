@@ -1,8 +1,9 @@
 package dat.model;
 
 
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import dat.dto.SwapShiftsDTO;
+import dat.dto.SwapRequestsDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -14,16 +15,21 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "swapshifts")
-public class SwapShifts implements dat.model.Entity<SwapShiftsDTO> {
+@Table(name = "swap_requests")
+public class SwapRequests implements dat.model.Entity<SwapRequestsDTO> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "request_id", referencedColumnName = "id")
-    @JsonBackReference("swaprequest-swapshift")
-    private SwapRequests request;
+    @JoinColumn(name = "shift_id1", referencedColumnName = "id")
+    @JsonBackReference("shift-swaprequest1")
+    private Shift shift1;
+
+    @ManyToOne
+    @JoinColumn(name = "shift_id2", referencedColumnName = "id")
+    @JsonBackReference("shift-swaprequest2")
+    private Shift shift2;
 
     private String isAccepted = "";
 
@@ -33,7 +39,7 @@ public class SwapShifts implements dat.model.Entity<SwapShiftsDTO> {
     }
 
     @Override
-    public SwapShiftsDTO toDTO() {
-        return new SwapShiftsDTO(this);
+    public SwapRequestsDTO toDTO() {
+        return new SwapRequestsDTO(this);
     }
 }

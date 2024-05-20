@@ -22,7 +22,7 @@ const Dashboard = () => {
                     <p>Welcome Administrator!</p>
                 </div>
             )}
-            {userRole === "companyAdmin" && (
+            {userRole === "company_admin" && (
                 <div>
                     <p>Welcome Company Administrator!</p>
                     <UserAdminPage/>

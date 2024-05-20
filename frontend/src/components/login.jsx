@@ -24,8 +24,18 @@ const Login = () => {
             (loggedIn) => {
                 if (loggedIn) {
                     console.log("Login success");
-                    const role = facade.getUserRoles();
-                    sessionStorage.setItem('userRole', role); // save user role in session storage
+
+
+
+                    // get user
+
+                    // get use role
+
+                    // get user ID?
+
+
+
+
                     navigate("/dashboard");
                 } else {
                     console.log("Login failed");

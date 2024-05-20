@@ -9,7 +9,7 @@ import { CalendarDays } from 'lucide-react';
 
 export default function Calendar() {
   const [shifts, setShifts] = useState([]);
-  const [clickedShift, setClickedShift] = useState(null);
+  const [clickedShifts, setClickedShifts] = useState([]);
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedUserShifts, setSelectedUserShifts] = useState([]);
@@ -51,7 +51,7 @@ export default function Calendar() {
   const handleEventClick = async (arg) => {
     const clickedShiftData = arg.event.extendedProps.shift;
     console.log('Clicked shift data:', clickedShiftData);
-    setClickedShift(clickedShiftData);
+    setClickedShifts([clickedShiftData]);
     if (clickedShiftData.userRole) {
       fetchUsersWithSameRole(clickedShiftData.userRole);
     } else {
@@ -61,17 +61,17 @@ export default function Calendar() {
   };
 
   const fetchUsersWithSameRole = async (role) => {
-    console.log('Fetching users with role:', role); // Add logging
+    console.log('Fetching users with role:', role);
     try {
       const response = await fetch(`http://localhost:7070/api/users/role?role=${role}`);
       if (!response.ok) {
         throw new Error('Failed to fetch users');
       }
       const data = await response.json();
-      console.log('Fetched users:', data); // Add logging
+      console.log('Fetched users:', data);
       setUsers(Array.isArray(data) ? data : []);
     } catch (error) {
-      console.error('Error fetching users:', error); // Add logging
+      console.error('Error fetching users:', error);
       setUsers([]);
     }
   };
@@ -101,6 +101,37 @@ export default function Calendar() {
     }
   };
 
+  const handleSelectedUserShiftClick = async (arg) => {
+    const clickedShiftData = arg.event.extendedProps.shift;
+    console.log('Selected user shift ID:', clickedShiftData.id);
+    setClickedShifts(prevShifts => [...prevShifts, clickedShiftData]);
+  };
+
+  const handleSelectShiftsClick = async () => {
+    if (clickedShifts.length < 2) {
+      console.error('Select at least two shifts');
+      return;
+    }
+    const shiftIds = clickedShifts.map(shift => shift.id);
+    console.log('Selected shift IDs:', shiftIds);
+    try {
+      const response = await fetch('http://localhost:7070/api/shifts/select', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ shiftIds }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to select shifts');
+      }
+      const data = await response.json();
+      console.log('Shifts selected:', data);
+    } catch (error) {
+      console.error('Error selecting shifts:', error);
+    }
+  };
+
   return (
     <div className="relative">
       <FullCalendar
@@ -110,26 +141,34 @@ export default function Calendar() {
         events={shifts}
         eventClick={handleEventClick}
       />
-      {clickedShift && (
-        <div className="absolute top-0 left-0 bg-white p-4 shadow-lg rounded-lg">
-          <HoverCardDemo shift={clickedShift} />
+      {clickedShifts.length > 0 && (
+        <div className="absolute top-0 left-0 bg-white p-4 shadow-lg rounded-lg space-y-4">
+          {clickedShifts.map((shift, index) => (
+            <HoverCardDemo key={index} shift={shift} />
+          ))}
           <select onChange={handleUserChange} value={selectedUser || ''}>
             <option value="" disabled>Select a user</option>
             {Array.isArray(users) && users.map(user => (
               <option key={user.id} value={user.id}>{user.username}</option>
             ))}
           </select>
-          {selectedUser && (
-            <div className="mt-4">
-              <h2>{users.find(user => user.id === parseInt(selectedUser))?.username}'s Shifts</h2>
-              <FullCalendar
-                plugins={[dayGridPlugin, interactionPlugin]}
-                initialView="dayGridMonth"
-                weekends={true}
-                events={selectedUserShifts}
-              />
-            </div>
+          {clickedShifts.length >= 2 && (
+            <Button onClick={handleSelectShiftsClick}>Select Both Shifts</Button>
           )}
+        </div>
+      )}
+      {selectedUser && (
+        <div className="mt-8">
+          <h2 className="text-lg font-bold">
+            {users.find(user => user.id === parseInt(selectedUser))?.username}'s Shifts
+          </h2>
+          <FullCalendar
+            plugins={[dayGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            weekends={true}
+            events={selectedUserShifts}
+            eventClick={handleSelectedUserShiftClick}
+          />
         </div>
       )}
     </div>

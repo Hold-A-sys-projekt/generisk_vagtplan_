@@ -76,4 +76,11 @@ public class ShiftDAO extends DAO<Shift> {
             em.close();
         }
     }
+
+    public List<Shift> getShiftsByIds(List<Integer> shiftIds) {
+    return emf.createEntityManager().createQuery("SELECT s FROM Shift s WHERE s.id IN :shiftIds", Shift.class)
+            .setParameter("shiftIds", shiftIds)
+            .getResultList();
+}
+
 }

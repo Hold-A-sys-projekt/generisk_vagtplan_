@@ -35,6 +35,9 @@ public class ShiftRoutes implements Route{
                 path("/user/{id}", () -> {
                     get(shiftController::getShiftsByUserIdWithDTOs);
                 });
+                path("/select", () -> {
+                    post(shiftController::selectShifts);
+                });
             });
         };
     }

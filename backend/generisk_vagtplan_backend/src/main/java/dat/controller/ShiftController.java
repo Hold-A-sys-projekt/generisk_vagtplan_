@@ -133,7 +133,40 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
     context.json(shiftDTOs);
 }
 
+ public void selectShifts(Context context) {
+        List<Integer> shiftIds = context.bodyAsClass(ShiftIdsDTO.class).getShiftIds();
+
+        List<Shift> shifts = shiftDAO.getShiftsByIds(shiftIds);
+        if (shifts.size() != shiftIds.size()) {
+            context.status(404).result("One or more shifts not found");
+            return;
+        }
+
+        
+        /* for (Shift shift : shifts) {
+            shift.setStatus(Status.SELECTED);
+            shiftDAO.update(shift);
+        } */
+
+        context.json(shifts.stream().map(Shift::toDTO).collect(Collectors.toList()));
+    }
+
+    // DTO class to handle the request body
+    public static class ShiftIdsDTO {
+        private List<Integer> shiftIds;
+
+        public List<Integer> getShiftIds() {
+            return shiftIds;
+        }
+
+        public void setShiftIds(List<Integer> shiftIds) {
+            this.shiftIds = shiftIds;
+        }
+    }
 }
+
+
+
 
 
 

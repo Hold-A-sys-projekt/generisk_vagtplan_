@@ -44,10 +44,10 @@ public class TokenFactory implements ITokenFactory {
     }
 
     @Override
-    public String createToken(String userName) throws ApiException {
+    public String createToken(String userName, String role) throws ApiException {
         try {
             Date date = new Date();
-            return signToken(userName, date);
+            return signToken(userName, role, date);
         } catch (JOSEException e) {
             throw new ApiException(500, "Could not create token");
         }
@@ -81,7 +81,8 @@ public class TokenFactory implements ITokenFactory {
             throw new AuthorizationException(401, "Token is expired");
 
         String username = claimsSet.getClaim("username").toString();
-        return new UserDTO(username);
+        String role = claimsSet.getClaim("role").toString();
+        return new UserDTO(username, role);
     }
 
     private SignedJWT parseTokenAndVerify(String token) throws ParseException, JOSEException, AuthorizationException {
@@ -94,17 +95,18 @@ public class TokenFactory implements ITokenFactory {
         return signedJWT;
     }
 
-    private String signToken(String userName, Date date) throws JOSEException {
-        JWTClaimsSet claims = createClaims(userName, date);
+    private String signToken(String userName, String role, Date date) throws JOSEException {
+        JWTClaimsSet claims = createClaims(userName, role, date);
         JWSObject jwsObject = createHeaderAndPayload(claims);
         return signTokenWithSecretKey(jwsObject);
     }
 
-    private JWTClaimsSet createClaims(String username, Date date) {
+    private JWTClaimsSet createClaims(String username, String role, Date date) {
         return new JWTClaimsSet.Builder()
                 .subject(username)
                 .issuer(ISSUER)
                 .claim("username", username)
+                .claim("role", role)
                 .expirationTime(new Date(date.getTime() + Integer.parseInt(TOKEN_EXPIRE_TIME)))
                 .build();
     }

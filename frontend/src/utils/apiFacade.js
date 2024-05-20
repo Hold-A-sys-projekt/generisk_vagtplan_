@@ -4,7 +4,12 @@ const AUTHENTICATION_ROUTE = "users/login";
 function apiFacade() {
     const setToken = (token) => {
         localStorage.setItem("jwtToken", token);
+        console.log("Token received:", token);
+        const role = getUserRoles();
+        localStorage.setItem("userRole", role);
+        console.log("Role received after setting token:", role);
     };
+
 
     const getToken = () => {
         return localStorage.getItem("jwtToken");
@@ -12,6 +17,7 @@ function apiFacade() {
 
     const logout = (callback) => {
         localStorage.removeItem("jwtToken");
+        localStorage.removeItem("userRole");
         callback(false)
     }
 
@@ -27,13 +33,18 @@ function apiFacade() {
 
         const payload = {username: user, password: password};
 
+        // Create options with method and payload
         const options = makeOptions("POST", payload);
 
+        // Do the fetch request to the server using login info
         return fetch(URL + AUTHENTICATION_ROUTE, options)
             .then(handleHttpErrors)
             .then((json) => {
-                callback(true)
-                setToken(json.token)
+                callback(true);
+                setToken(json.token);
+                console.log("API response after login:", json); // Log API response
+                const role = json.role;
+                console.log("Role received:", role);
             })
             .catch((error) => {
                 if (error.status) {
@@ -43,6 +54,8 @@ function apiFacade() {
                 }
             });
     };
+
+
     const fetchData = (endpoint, method, payload) => {
         const options = makeOptions(method, payload, true); //True adds the token
         return fetch(URL + endpoint, options).then(handleHttpErrors);
@@ -68,16 +81,16 @@ function apiFacade() {
 
     const getUserRoles = () => {
         const token = getToken();
-        if (token != null) {
-            const payloadBase64 = getToken().split(".")[1];
+        if (token !== null) {
+            const payloadBase64 = token.split(".")[1];
             const decodedClaims = JSON.parse(window.atob(payloadBase64));
-            return decodedClaims;
+            const role = decodedClaims.role;
+            return role;
         } else {
             console.log("No token found in localStorage");
             return "";
         }
     };
-
 
     const hasUserAccess = (neededRole, loggedIn) => {
         const roles = getUserRoles().split(",");

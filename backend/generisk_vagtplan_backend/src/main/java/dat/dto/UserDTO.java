@@ -2,13 +2,11 @@ package dat.dto;
 
 import dat.dao.UserDAO;
 import dat.model.User;
-import dat.security.RouteRoles;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Getter
 @ToString
@@ -31,8 +29,9 @@ public class UserDTO implements DTO<User> {
         this.id = id;
     }
 
-    public UserDTO(String username) {
+    public UserDTO(String username, String role) {
         this.username = username;
+        this.role = new RoleDTO(role);
     }
 
     public UserDTO(String username, LocalDateTime createdOn, Integer id) {

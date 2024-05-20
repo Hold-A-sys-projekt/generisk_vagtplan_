@@ -24,18 +24,6 @@ const Login = () => {
             (loggedIn) => {
                 if (loggedIn) {
                     console.log("Login success");
-
-
-
-                    // get user
-
-                    // get use role
-
-                    // get user ID?
-
-
-
-
                     navigate("/dashboard");
                 } else {
                     console.log("Login failed");
@@ -44,7 +32,6 @@ const Login = () => {
             }
         );
     };
-
 
     return (
         <div className="flex justify-center items-center h-screen">
@@ -104,4 +91,3 @@ const Login = () => {
 };
 
 export default Login;
-

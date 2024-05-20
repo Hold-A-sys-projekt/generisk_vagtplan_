@@ -61,10 +61,10 @@ public class UserController extends Controller<User, UserDTO> {
 
         // get the user from the database
         User user = dao.getVerifiedUser(userInfo);
-        logger.info("User verified successfully: " + user.getUsername());
+        logger.info("User verified successfully: " + user.getUsername() + user.getRole().getName());
 
         // supply the user with a token
-        String token = getToken(user.getUsername());
+        String token = getToken(user.getUsername(), user.getRole().getName());
         logger.info("Generated token for user: " + user.getUsername());
 
         // verify the token before sending it back
@@ -73,20 +73,19 @@ public class UserController extends Controller<User, UserDTO> {
 
         // response to client including username and token
         ctx.status(200);
-        ctx.result(createResponse(user.getUsername(), token));
+        ctx.result(createResponse(user.getUsername(), user.getRole().getName(), token));
         logger.info("Login successful for user: " + user.getUsername());
     }
 
-    public String getToken(String username) throws ApiException {
-        return tokenFactory.createToken(username);
+    public String getToken(String username, String role) throws ApiException {
+        return tokenFactory.createToken(username, role);
     }
 
-    private String createResponse(String username, String token) {
+    private String createResponse(String username, String role, String token) {
         JsonObject responseJson = new JsonObject();
         responseJson.addProperty("username", username);
+        responseJson.addProperty("role", role);
         responseJson.addProperty("token", token);
         return responseJson.toString();
     }
-
-
 }

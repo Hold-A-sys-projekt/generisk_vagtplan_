@@ -26,7 +26,7 @@ const router = createBrowserRouter(
       </Route>
       <Route path="/reviews" element={<Reviews />} />
       <Route path="employee/">
-        <Route path="my-shifts" element={<ShiftOverview employeeId={2} />} />
+        <Route path="my-shifts" element={<ShiftOverview />} />
       </Route>
       <Route path="/calendar" element={<Calendar_Schedule />} />
     </Route>

@@ -22,13 +22,10 @@ public class SwapRequestsController extends Controller<SwapRequests, SwapRequest
     public void createRequest(Context ctx) {
         try {
             SwapRequestsDTO dto = ctx.bodyAsClass(SwapRequestsDTO.class);
-            logger.info("Received swap request DTO: {}", dto);
             SwapRequests request = dto.toEntity();
             dao.create(request);
             ctx.status(201).json(new SwapRequestsDTO(request));
-            logger.info("Created swap request: {}", request.getId());
         } catch (Exception e) {
-            logger.error("Error creating swap request", e);
             ctx.status(500).result("Internal Server Error");
         }
     }
@@ -37,7 +34,7 @@ public class SwapRequestsController extends Controller<SwapRequests, SwapRequest
         try {
             int requestId = Integer.parseInt(ctx.pathParam("id"));
             boolean isAccepted = Boolean.parseBoolean(ctx.queryParam("accepted"));
-            logger.info("Processing acceptance for request ID: {} with status: {}", requestId, isAccepted);
+
             ((SwapRequestsDAO) dao).updateRequestAcceptance(requestId, isAccepted ? "Approved" : "Not Approved");
 
             if (isAccepted) {
@@ -46,12 +43,23 @@ public class SwapRequestsController extends Controller<SwapRequests, SwapRequest
                 swapShift.setRequest(request);
                 swapShift.setIsAccepted("Pending");
                 swapShiftsDAO.createSwap(swapShift);
-                logger.info("Created swap shift for request ID: {}", requestId);
             }
-
             ctx.status(204);
         } catch (Exception e) {
-            logger.error("Error accepting swap request", e);
+            ctx.status(500).result("Internal Server Error");
+        }
+    }
+
+    public void getRequestsById(Context ctx) {
+        try {
+            int id = Integer.parseInt(ctx.pathParam("id"));
+            SwapRequests request = ((SwapRequestsDAO) dao).findById(id);
+            if (request != null) {
+                ctx.json(new SwapRequestsDTO(request));
+            } else {
+                ctx.status(404).result("Not Found");
+            }
+        } catch (Exception e) {
             ctx.status(500).result("Internal Server Error");
         }
     }

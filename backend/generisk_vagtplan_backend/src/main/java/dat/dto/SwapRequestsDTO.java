@@ -4,13 +4,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import dat.model.Shift;
 import dat.model.SwapRequests;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor
-
 @Getter
 @Setter
 public class SwapRequestsDTO implements DTO<SwapRequests> {
@@ -19,17 +17,20 @@ public class SwapRequestsDTO implements DTO<SwapRequests> {
     private Shift shift1;
     private Shift shift2;
     private String isAccepted;
+    private String url;  // URL field for the swap request
 
     @JsonCreator
     public SwapRequestsDTO(
             @JsonProperty("id") int id,
             @JsonProperty("shift1") Shift shift1,
             @JsonProperty("shift2") Shift shift2,
-            @JsonProperty("isAccepted") String isAccepted) {
+            @JsonProperty("isAccepted") String isAccepted,
+            @JsonProperty("url") String url) {
         this.id = id;
         this.shift1 = shift1;
         this.shift2 = shift2;
         this.isAccepted = isAccepted;
+        this.url = url;
     }
 
     public SwapRequestsDTO(SwapRequests entity) {
@@ -46,5 +47,10 @@ public class SwapRequestsDTO implements DTO<SwapRequests> {
         swap.setShift2(this.shift2);
         swap.setIsAccepted(this.isAccepted);
         return swap;
+    }
+
+    public SwapRequestsDTO setUrl(String url) {
+        this.url = url;
+        return this;
     }
 }

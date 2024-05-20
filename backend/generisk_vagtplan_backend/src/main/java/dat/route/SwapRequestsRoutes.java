@@ -31,7 +31,7 @@ public class SwapRequestsRoutes implements Route {
                     post(swapRequestsController::acceptRequest);
                 });
                 path("{id}", () -> {
-                    get(swapRequestsController::getById);
+                    get(swapRequestsController::getRequestsById);
                 });
             });
         };

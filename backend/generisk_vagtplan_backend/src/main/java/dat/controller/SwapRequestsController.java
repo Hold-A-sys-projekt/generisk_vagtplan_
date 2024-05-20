@@ -5,9 +5,13 @@ import dat.dao.SwapShiftsDAO;
 import dat.dto.SwapRequestsDTO;
 import dat.model.SwapRequests;
 import dat.model.SwapShifts;
+import dat.model.User;
+import dat.util.EmailSender;
 import io.javalin.http.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 public class SwapRequestsController extends Controller<SwapRequests, SwapRequestsDTO> {
 
@@ -24,7 +28,23 @@ public class SwapRequestsController extends Controller<SwapRequests, SwapRequest
             SwapRequestsDTO dto = ctx.bodyAsClass(SwapRequestsDTO.class);
             SwapRequests request = dto.toEntity();
             dao.create(request);
-            ctx.status(201).json(new SwapRequestsDTO(request));
+
+            // Generate the request URL
+            String requestUrl = "http://localhost:7070/api/swaprequests/" + request.getId();
+
+            // Send an email to the requested user
+            User requestedUser = request.getShift2().getUser();
+            String email = requestedUser.getEmail();
+            String subject = "Swap Shift Request";
+            List<String> messages = List.of(
+                    "You have received a new shift swap request.",
+                    "Click the link below to view and respond to the request:",
+                    requestUrl
+            );
+            EmailSender.sendEmail(email, subject, messages, false);
+
+            // Respond with the created request details
+            ctx.status(201).json(new SwapRequestsDTO(request).setUrl(requestUrl));
         } catch (Exception e) {
             ctx.status(500).result("Internal Server Error");
         }

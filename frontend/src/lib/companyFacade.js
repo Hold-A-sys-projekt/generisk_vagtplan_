@@ -1,6 +1,6 @@
 import facade from "@/utils/apiFacade.js"
 
-const URL = "http://localhost:7070/api/";
+const URL = "http://localhost:7070/api/companies/";
 const SIGNUP_ROUTE = "create";
 
 function companyFacade() {

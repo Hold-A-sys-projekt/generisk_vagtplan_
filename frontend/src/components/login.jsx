@@ -24,8 +24,6 @@ const Login = () => {
             (loggedIn) => {
                 if (loggedIn) {
                     console.log("Login success");
-                    const role = facade.getUserRoles();
-                    sessionStorage.setItem('userRole', role); // save user role in session storage
                     navigate("/dashboard");
                 } else {
                     console.log("Login failed");
@@ -34,7 +32,6 @@ const Login = () => {
             }
         );
     };
-
 
     return (
         <div className="flex justify-center items-center h-screen">
@@ -94,4 +91,3 @@ const Login = () => {
 };
 
 export default Login;
-

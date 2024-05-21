@@ -3,16 +3,23 @@ import UserAdminPage from "@/pages/UserAdminPage.jsx";
 import AssignRole from '@/pages/AssignRole.jsx';
 import AddNewEmployee from "@/pages/AddNewEmployee.jsx";
 import Punch from "@/components/punch.jsx";
+import facade from "@/utils/apiFacade.js";
+import {useNavigate} from "react-router-dom";
 
 
 const Dashboard = () => {
 
     const [userRole, setUserRole] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const role = sessionStorage.getItem('userRole');
+        const role = localStorage.getItem('userRole');
         setUserRole(role);
     }, []);
+
+    const handleLogout = () => {
+        facade.logout(() => navigate("/"));
+    };
 
     return (
         <div>
@@ -22,7 +29,7 @@ const Dashboard = () => {
                     <p>Welcome Administrator!</p>
                 </div>
             )}
-            {userRole === "companyAdmin" && (
+            {userRole === "company_admin" && (
                 <div>
                     <p>Welcome Company Administrator!</p>
                     <UserAdminPage/>
@@ -42,6 +49,10 @@ const Dashboard = () => {
                     <Punch/>
                 </div>
             )}
+            <button onClick={handleLogout}
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                Logout
+            </button>
         </div>
     );
 };

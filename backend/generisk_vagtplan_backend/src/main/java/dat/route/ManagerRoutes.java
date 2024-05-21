@@ -20,6 +20,13 @@ public class ManagerRoutes implements Route {
     @Override
     public EndpointGroup getRoutes() {
         return () -> {
+            path("/", () -> {
+                get(managerController::getAllNonDeleted);
+                path("/{id}", () -> {
+                    get(managerController::getById);
+                    delete(managerController::softDelete);
+                });
+            });
             path("/employees", () -> {
                 post(managerController::addEmployee);
             });

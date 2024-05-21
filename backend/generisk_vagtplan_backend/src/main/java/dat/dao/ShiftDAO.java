@@ -6,12 +6,11 @@ import dat.exception.DatabaseException;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceException;
 
 import java.util.List;
 
-public class ShiftDAO extends DAO<Shift>{
+public class ShiftDAO extends DAO<Shift> {
 
 
     private static ShiftDAO INSTANCE;
@@ -22,38 +21,37 @@ public class ShiftDAO extends DAO<Shift>{
         }
         return INSTANCE;
     }
+
     private ShiftDAO(EntityManagerFactory emf) {
         super(Shift.class, emf);
     }
 
-    public List<Shift> getShiftsByEmployeeId(int employeeId) throws DatabaseException {
+    public List<Shift> getShiftsByUserId(int userId) throws DatabaseException {
         try {
-            return emf.createEntityManager().createQuery("SELECT s FROM Shift s WHERE s.employee.id = :employeeId", Shift.class)
-                    .setParameter("employeeId", employeeId)
+            return emf.createEntityManager().createQuery("SELECT s FROM Shift s WHERE s.user.id = :userId", Shift.class)
+                    .setParameter("userId", userId)
                     .getResultList();
-            // Catches if no shifts are found
         } catch (PersistenceException e) {
-            // Throws exception which is caught by the apiException method in the ExceptionManagerHandler
-            throw new DatabaseException(404, "No shifts found for employee with id: " + employeeId);
+            throw new DatabaseException(404, "No shifts found for user with id: " + userId);
         }
     }
 
-    public Shift create (Shift shift, int employeeId) {
-        EntityManager em = emf.createEntityManager();
+    public Shift create(Shift shift, int userId) {
 
-        try {
+        try (EntityManager em = emf.createEntityManager();){
             em.getTransaction().begin();
-            Employee employee = em.find(Employee.class, employeeId);
-            shift.setEmployee(employee);
+            User user = em.find(User.class, userId);
+            shift.setUser(user);
             em.persist(shift);
             em.getTransaction().commit();
             return shift;
-        } finally {
-            em.close();
+        } catch (Exception e) {
+            throw e;
         }
 
 
     }
+
     //get shift status
     public Shift getShiftStatus(int shiftId) {
         return emf.createEntityManager().createQuery("SELECT s FROM Shift s WHERE s.id = :shiftId", Shift.class)
@@ -62,7 +60,7 @@ public class ShiftDAO extends DAO<Shift>{
     }
 
 
-    public Shift updateShiftStatus(int shiftId, Status status){
+    public Shift updateShiftStatus(int shiftId, Status status) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -77,6 +75,4 @@ public class ShiftDAO extends DAO<Shift>{
             em.close();
         }
     }
-
-
 }

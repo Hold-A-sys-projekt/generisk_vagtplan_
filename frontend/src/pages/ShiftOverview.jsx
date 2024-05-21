@@ -15,7 +15,6 @@ const ShiftOverview = () => {
 
     useEffect(() => {
 
-        console.log("shiftText", shiftText);
         fetchShifts();
     }, [shiftText]);
 
@@ -28,7 +27,6 @@ const ShiftOverview = () => {
                 return res.json();
             })
             .then((data) => {
-                console.log('Shifts:', data);
                 setShifts(data);
             })
             .catch((error) => {

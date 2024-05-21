@@ -55,16 +55,14 @@ public class ManagerController extends Controller<User, UserDTO> {
         context.json(dao.getAllEmployees());
     }
 
-    public void updateShift(Context context){
+    public void updateShift(Context context) {
 
         int userId = Integer.parseInt(context.pathParam("userid"));
         int shiftId = Integer.parseInt(context.pathParam("id"));
 
         try {
             ShiftDTO shiftDTO = context.bodyAsClass(ShiftDTO.class);
-            System.out.println("CONTROLLER IS: "+ shiftDTO);
             Shift shift = shiftDTO.toEntity();
-            System.out.println("CONTROLLER AFTER BECAME: "+ shift);
             Shift updatedShift = shiftDAO.updateShift(shift);
             context.json(updatedShift.toDTO());
 

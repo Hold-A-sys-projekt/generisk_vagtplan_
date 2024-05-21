@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from 'react';
 import ShiftEdit from './ShiftEdit';
 
-const ManageShift = ({ id, shiftStart, shiftEnd, punchIn, punchOut, userId, status, setShiftText, refreshShifts }) => {
+const ManageShift = ({id, shiftStart, shiftEnd, punchIn, punchOut, userId, status, setShiftText, refreshShifts}) => {
     const [isEditing, setIsEditing] = useState(false);
     const [punched, setPunched] = useState('in');
     const [completed, setCompleted] = useState(false);
@@ -32,7 +32,6 @@ const ManageShift = ({ id, shiftStart, shiftEnd, punchIn, punchOut, userId, stat
 
     const handleSave = (updatedShift) => {
         // API call to save the updated shift
-        console.log('Updated shift IS NOW IN THE MANAGER :', updatedShift)
         fetch(`http://localhost:7070/api/managers/employees/${userId}/shifts/${id}`, {
             method: 'PUT',
             headers: {
@@ -51,7 +50,13 @@ const ManageShift = ({ id, shiftStart, shiftEnd, punchIn, punchOut, userId, stat
 
     return (
         <div className={`border border-gray-400 rounded-md p-4 mb-4`}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: "space-between", gap: "2%", placeContent: "center" }}>
+            <div style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: "space-between",
+                gap: "2%",
+                placeContent: "center"
+            }}>
                 <div className="w-full sm:w-1/6 border-r border-b sm:border-b-0 sm:border-r-0">
                     <div className="border-b px-2 py-1">ID: {id}</div>
                 </div>
@@ -74,17 +79,17 @@ const ManageShift = ({ id, shiftStart, shiftEnd, punchIn, punchOut, userId, stat
                     >
                         {completed ? 'Completed' : `Punch ${punched}`}
                     </button>
-                        <button
-                            onClick={() => setIsEditing(true)}
-                            className="editbutton bg-gray-500 text-white px-4 py-2 rounded-md mt-2 w-full"
-                        >
-                            Edit
-                        </button>
+                    <button
+                        onClick={() => setIsEditing(true)}
+                        className="editbutton bg-gray-500 text-white px-4 py-2 rounded-md mt-2 w-full"
+                    >
+                        Edit
+                    </button>
                 </div>
             </div>
             {isEditing && (
                 <ShiftEdit
-                    shift={{ id, shiftStart, shiftEnd, punchIn, punchOut, userId, status }}
+                    shift={{id, shiftStart, shiftEnd, punchIn, punchOut, userId, status}}
                     onClose={() => setIsEditing(false)}
                     onSave={handleSave}
                     refreshShifts={refreshShifts}

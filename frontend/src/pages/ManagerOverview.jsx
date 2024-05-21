@@ -18,10 +18,7 @@ const ManagerOverview = () => {
         const fetchEmployeeData = async () => {
             if (employeeId) {
                 const user = await fetchSingleEmployee(employeeId);
-                console.log("user", user);
                 setSelectedEmployee(user);
-                console.log("the sel em: ", selectedEmployee)
-                console.log(employeeId);
                 fetchShifts(employeeId);
             }
         };
@@ -33,7 +30,6 @@ const ManagerOverview = () => {
         if (employeeId === null) {
             return;
         }
-        console.log("shiftText", shiftText);
 
         fetchShifts(employeeId);
     }, [shiftText]);
@@ -61,7 +57,6 @@ const ManagerOverview = () => {
                 return res.json();
             })
             .then((data) => {
-                console.log('Employees:', data);
                 setEmployees(data);
             })
             .catch((error) => {
@@ -79,7 +74,6 @@ const ManagerOverview = () => {
                 return res.json();
             })
             .then((data) => {
-                console.log('Shifts:', data);
                 setShifts(data);
             })
             .catch((error) => {

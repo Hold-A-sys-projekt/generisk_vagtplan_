@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
-const ShiftEdit = ({ shift, onClose, onSave, refreshShifts}) => {
+const ShiftEdit = ({shift, onClose, onSave, refreshShifts}) => {
     const [shiftStart, setShiftStart] = useState(shift.shiftStart);
     const [shiftEnd, setShiftEnd] = useState(shift.shiftEnd);
     const [punchIn, setPunchIn] = useState(shift.punchIn);
@@ -11,16 +11,16 @@ const ShiftEdit = ({ shift, onClose, onSave, refreshShifts}) => {
         e.preventDefault();
 
 
-        if (shiftStart === "" ) {
+        if (shiftStart === "") {
             setShiftStart(null);
         }
-        if (shiftEnd === "" ) {
+        if (shiftEnd === "") {
             setShiftEnd(null);
         }
-        if (punchIn === "" ) {
+        if (punchIn === "") {
             setPunchIn(null);
         }
-        if (punchOut === "" ) {
+        if (punchOut === "") {
             setPunchOut(null);
         }
 
@@ -31,10 +31,6 @@ const ShiftEdit = ({ shift, onClose, onSave, refreshShifts}) => {
             punchIn: punchIn || null,
             punchOut: punchOut || null,
         };
-
-
-        console.log('Updated shift IS :', updatedShift);
-
         // Call the save function passed from parent
         onSave(updatedShift);
         refreshShifts();

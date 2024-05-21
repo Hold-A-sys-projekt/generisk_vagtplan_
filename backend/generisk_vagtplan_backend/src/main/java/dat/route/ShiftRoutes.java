@@ -1,7 +1,9 @@
 package dat.route;
 
+import dat.controller.BuyRequestController;
 import dat.controller.ShiftController;
 import dat.controller.UserController;
+import dat.dao.BuyRequestDAO;
 import dat.dao.ShiftDAO;
 import dat.dao.UserDAO;
 import io.javalin.apibuilder.EndpointGroup;
@@ -13,7 +15,7 @@ public class ShiftRoutes implements Route {
 
 
     private final ShiftController shiftController = new ShiftController(ShiftDAO.getInstance());
-
+    private final BuyRequestController buyRequestController = new BuyRequestController(BuyRequestDAO.getInstance());
     @Override
     public String getBasePath() {
         return "/shifts";
@@ -23,7 +25,7 @@ public class ShiftRoutes implements Route {
     public EndpointGroup getRoutes() {
         return () -> {
             path("/", () -> {
-                get("/{status}", shiftController::getByStatus);
+                // get("/{status}", shiftController::getByStatus);
                 get(shiftController::getAll);
                 post(shiftController::post);
                 path("/{id}", () -> {
@@ -31,6 +33,7 @@ public class ShiftRoutes implements Route {
                     post("/punch-in" ,shiftController::punchIn);
                     post("/punch-out" ,shiftController::punchOut);
                     patch("/status", shiftController::updateShiftStatus);
+                    post("/request", buyRequestController::createBuyRequest);
                 });
             });
         };

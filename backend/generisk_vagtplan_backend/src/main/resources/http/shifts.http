@@ -19,3 +19,12 @@ PATCH {{url}}/shifts/1/status?s=FOR_SALE
 
 PATCH {{url}}/shifts/100/status?s=FOR_SALE
 
+### Create buyRequest
+
+POST {{url}}/shifts/1/request
+content-type: application/json
+
+{
+    "userId": 1,
+    "shiftId": 1
+}

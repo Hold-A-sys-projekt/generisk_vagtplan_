@@ -13,18 +13,28 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useRef } from "react";
 import { updateUser } from "@/lib/userFacade";
+import { useToast } from "../ui/use-toast";
 
 export default function EditUserModal({ user }) {
     const usernameRef = useRef(user.username)
     const emailRef = useRef(user.email)
 
-    const submitHandler = () => {
+    const { toast } = useToast();
+
+    const submitHandler = async () => {
         user = { 
             ...user,
-            username: usernameRef,
-            email: emailRef,
+            username: usernameRef.current.value ? usernameRef.current.value : user.username,
+            email: emailRef.current.value ? emailRef.current.value : user.email,
         }
-        updateUser(user)
+        console.log(user)
+        const respons = await updateUser(user)
+        
+        if (respons.ok) {
+            toast({title: "User updated", variant: "success", description: "User account details has been updated successfully"});
+        } else {
+            toast({title: "Failed to update user", variant: "destructive", description: "There was a problem with updating account details"});
+        }
     }
 
 
@@ -73,7 +83,7 @@ export default function EditUserModal({ user }) {
               Close
             </Button>
           </DialogClose>
-          <Button onClick={() => submitHandler}>Save</Button>
+          <Button onClick={() => submitHandler()}>Save</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -29,7 +29,7 @@ export async function updateUserRole(user) {
 
 //TODO: setup this endpoint on the backend
 export async function updateUser(user) {
-  return await fetch(`http://localhost:7070/api/users/${user.id}`, {
+  return await fetch(`http://localhost:7070/api/users/${user.id}/email-username`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

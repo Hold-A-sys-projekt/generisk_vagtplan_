@@ -1,5 +1,6 @@
 package dat.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dat.dto.CompanyDTO;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
@@ -19,6 +20,7 @@ public class Company extends SoftDeletableEntity implements dat.model.Entity<Com
 
     @JoinColumn(name = "company_admin_id", referencedColumnName = "id", nullable = false)
     @OneToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
     private User companyAdmin;
 
     @Column(name = "company_name", nullable = false)

@@ -76,4 +76,15 @@ public class ShiftDAO extends DAO<Shift> {
             em.close();
         }
     }
+
+    public Shift updateShift(Shift shift) {
+
+        try(EntityManager em = emf.createEntityManager();) {
+            em.getTransaction().begin();
+            System.out.println("SHIFT INFO IS IN DAO " + shift);
+            Shift updatedShift = em.merge(shift);
+            em.getTransaction().commit();
+            return updatedShift;
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package dat.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dat.dto.ShiftDTO;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
@@ -33,6 +34,7 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
     private LocalDateTime punchOut;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
     private User user;
 
     @Column(name = "shift_status")

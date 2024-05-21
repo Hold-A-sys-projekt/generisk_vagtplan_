@@ -46,7 +46,7 @@ const ShiftOverview = () => {
                 <input
                     type="text"
                     value={userId}
-                    onChange={(e) => setUserId(Number(e.target.value))}
+                    onChange={(e) => setUserId(e.target.value)}
                     className="border border-gray-400 rounded-md p-2 w-full mt-4"
                     placeholder="Enter your user ID"
                 />
@@ -68,8 +68,8 @@ const ShiftOverview = () => {
                         punchOut={shift.punchOut}
                         userId={shift.userId}
                         status={shift.status}
-                        setShiftText={setShiftText} // Pass the refresh function
-                        refreshShifts={fetchShifts} // Pass the refresh
+                        setShiftText={setShiftText}
+                        refreshShifts={fetchShifts}
                     />
                 ))}
             </div>

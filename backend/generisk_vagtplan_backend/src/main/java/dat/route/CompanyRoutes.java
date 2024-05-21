@@ -18,7 +18,7 @@ public class CompanyRoutes implements Route {
     public EndpointGroup getRoutes() {
         return () -> {
             path("/create", () -> {
-               post(companyController::post);
+                post(companyController::post);
             });
         };
     }

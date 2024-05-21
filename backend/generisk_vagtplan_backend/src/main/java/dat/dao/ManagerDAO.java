@@ -1,17 +1,19 @@
 package dat.dao;
 
 import dat.config.HibernateConfig;
-import dat.model.Role;
-import dat.model.User;
-
+import dat.model.Employee;
+import dat.model.Manager;
 import jakarta.persistence.EntityManager;
+
 import jakarta.persistence.EntityManagerFactory;
 
-public class ManagerDAO extends DAO<User> {
+import javax.management.relation.Role;
+
+public class ManagerDAO extends DAO<Manager>{
     private static ManagerDAO INSTANCE;
 
     private ManagerDAO(EntityManagerFactory emf) {
-        super(User.class, emf);
+        super(Manager.class, emf);
     }
 
     public static ManagerDAO getInstance() {
@@ -21,38 +23,32 @@ public class ManagerDAO extends DAO<User> {
 
         return INSTANCE;
     }
-
-    public User addEmployee(User user) {
-
-        if (!user.getRole().equals("employee")) {
-            throw new IllegalArgumentException("You may only add employees to the system");
-        }
-
+    public Employee addEmployee(Employee employee) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            em.persist(user);
+            em.persist(employee);
             em.getTransaction().commit();
-            return user;
+            return employee;
         }
     }
 
-    public User getEmployee(int id) {
+    public Employee getEmployee(int id) {
         try (EntityManager em = emf.createEntityManager()) {
-            return em.find(User.class, id);
+            return em.find(Employee.class, id);
         }
     }
 
-    public User updateEmployeeRole(User user, String newRole) {
+    public Employee updateEmployeeRole(Employee employee, String newRole) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
 
-            User updatedUser = em.find(User.class, user.getId());
-            if (updatedUser != null) {
-                updatedUser.setRole(new Role(newRole));
-                em.merge(updatedUser);
+            Employee updatedEmployee = em.find(Employee.class, employee.getId());
+            if (updatedEmployee != null) {
+                updatedEmployee.setRole(newRole);
+                em.merge(updatedEmployee);
             }
             em.getTransaction().commit();
-            return updatedUser;
+            return updatedEmployee;
         }
     }
 }

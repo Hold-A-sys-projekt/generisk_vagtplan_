@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Table(name = "companies")
-public class Company extends SoftDeletableEntity implements dat.model.Entity<CompanyDTO> {
+public class Company implements dat.model.Entity<CompanyDTO> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

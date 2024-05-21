@@ -1,13 +1,14 @@
 package dat.controller;
 
 import dat.dao.ManagerDAO;
-import dat.dto.UserDTO;
-import dat.model.Role;
-import dat.model.User;
+import dat.dto.EmployeeDTO;
+import dat.dto.ManagerDTO;
+import dat.model.Employee;
+import dat.model.Manager;
 import io.javalin.http.Context;
 
 
-public class ManagerController extends Controller<User, UserDTO> {
+public class ManagerController extends Controller<Manager, ManagerDTO> {
     private final ManagerDAO dao;
 
     public ManagerController(ManagerDAO dao) {
@@ -16,10 +17,10 @@ public class ManagerController extends Controller<User, UserDTO> {
     }
 
     public void addEmployee(Context ctx) {
-        UserDTO employeeDTO = ctx.bodyAsClass(UserDTO.class);
-        User employee = new User();
-        employee.setUsername(employeeDTO.getUsername());
-        employee.setRole(employeeDTO.getRole().toEntity());
+        EmployeeDTO employeeDTO = ctx.bodyAsClass(EmployeeDTO.class);
+        Employee employee = new Employee();
+        employee.setName(employeeDTO.getName());
+        employee.setRole(employeeDTO.getRole());
         dao.addEmployee(employee);
         ctx.status(201);
     }
@@ -27,12 +28,12 @@ public class ManagerController extends Controller<User, UserDTO> {
     public void updateEmployeeRole(Context ctx) {
         int employeeId = Integer.parseInt(ctx.pathParam("id"));
         try {
-            UserDTO requestBody = ctx.bodyAsClass(UserDTO.class);
-            String newRole = requestBody.getRole().getName();
+            EmployeeDTO requestBody = ctx.bodyAsClass(EmployeeDTO.class);
+            String newRole = requestBody.getRole();
 
-            User employee = dao.getEmployee(employeeId);
+            Employee employee = dao.getEmployee(employeeId);
             if (employee != null) {
-                employee.setRole(new Role(newRole));
+                employee.setRole(newRole);
                 dao.updateEmployeeRole(employee, newRole);
                 ctx.status(200).json(employee);
             } else {

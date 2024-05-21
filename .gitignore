@@ -204,8 +204,6 @@ Temporary Items
 .apdisk
 
 package-lock.json
-/backend/.idea
-/backend/generisk_vagtplan_backend/.idea
 
 
 # Env

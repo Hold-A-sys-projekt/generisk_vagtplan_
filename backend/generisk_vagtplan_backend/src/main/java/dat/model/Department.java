@@ -6,15 +6,11 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 @Entity
 @Getter
 @NoArgsConstructor
 @Table(name = "departments")
-public class Department extends SoftDeletableEntity implements dat.model.Entity<DepartmentDTO>{
+public class Department implements dat.model.Entity<DepartmentDTO>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,9 +29,6 @@ public class Department extends SoftDeletableEntity implements dat.model.Entity<
         this.company = company;
     }
 
-    @OneToMany(mappedBy = "department", fetch = FetchType.EAGER)
-    private final Set<User> users = new LinkedHashSet<>();
-
     @Override
     public void setId(Object id) {
         if (!(id instanceof Integer)) {
@@ -43,11 +36,6 @@ public class Department extends SoftDeletableEntity implements dat.model.Entity<
         }
 
         this.id = (Integer) id;
-    }
-
-    public void addUser(User user) {
-        users.add(user);
-        user.setDepartment(this);
     }
 
     @Override

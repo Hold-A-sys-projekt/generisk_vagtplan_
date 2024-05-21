@@ -76,13 +76,16 @@ public class HibernateConfig {
 
         // TODO: asList(X.class, Y.class, Z.class)
         Arrays.asList(
+                Employee.class,
+                Manager.class,
                 User.class,
                 Role.class,
                 ExampleEntity.class,
+                Employee.class,
+                Department.class,
                 Company.class,
                 Review.class,
-                Shift.class,
-                Department.class
+                Shift.class
         ).forEach(config::addAnnotatedClass);
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build();

@@ -6,3 +6,16 @@ GET {{url}}/shifts
 ### GET shift by status
 
 GET {{url}}/shifts/FOR_SALE
+
+###
+
+GET {{url}}/shifts/COVERED
+
+### update shift status
+
+PATCH {{url}}/shifts/1/status?s=FOR_SALE
+
+### Fail on not found
+
+PATCH {{url}}/shifts/100/status?s=FOR_SALE
+

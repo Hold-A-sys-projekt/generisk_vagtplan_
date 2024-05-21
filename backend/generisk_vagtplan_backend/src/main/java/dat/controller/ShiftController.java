@@ -102,11 +102,11 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
 
     public void updateShiftStatus(Context context) {
         int shiftId = Integer.parseInt(context.pathParam("id"));
-        Status status = Status.valueOf(context.queryParam("status"));
+        Status status = Status.valueOf(context.queryParam("s"));
 
-        Shift shift = shiftDAO.updateShiftStatus(shiftId, status);
+        shiftDAO.updateShiftStatus(shiftId, status);
 
-        context.json(shift.toDTO());
+        context.status(200);
     }
 
     public void getShiftsByEmployeeId(Context context) {
@@ -123,6 +123,7 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
     public void getByStatus(Context context)
     {
         Status status = Status.valueOf(context.pathParam("status"));
-        context.json(shiftDAO.getByStatus(status));
+        List<ShiftDTO> res = shiftDAO.getByStatus(status).stream().map(Shift::toDTO).toList();
+        context.json(res);
     }
 }

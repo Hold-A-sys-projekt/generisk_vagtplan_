@@ -14,10 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "shifts")
-
-
 public class Shift implements dat.model.Entity<ShiftDTO> {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,17 +32,17 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
     @Column(name = "punch_out")
     private LocalDateTime punchOut;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Employee employee;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User user;
 
     @Column(name = "shift_status")
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    public Shift(LocalDateTime shiftStart, LocalDateTime shiftEnd, Employee employee) {
+    public Shift(LocalDateTime shiftStart, LocalDateTime shiftEnd, User user) {
         this.shiftStart = shiftStart;
         this.shiftEnd = shiftEnd;
-        setEmployee(employee);
+        this.setUser(user);
     }
 
     public Shift(LocalDateTime shiftStart, LocalDateTime shiftEnd) {
@@ -53,18 +50,24 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
         this.shiftEnd = shiftEnd;
     }
 
-
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-        if (employee != null && !employee.getShifts().contains(this)) {
-            employee.getShifts().add(this);
+    public void setUser(User user) {
+        if (user != null && user.getId() != 0) {
+            if("employee".equals(user.getRole().getName())) {
+                this.user = user;
+            } else {
+                throw new IllegalArgumentException("User must be an employee");
+            }
+        } else {
+            throw new IllegalArgumentException("Invalid user");
         }
     }
 
 
     @Override
     public void setId(Object id) {
+        if (id != null) {
+            this.id = (int) id;
+        }
     }
 
     @Override
@@ -79,8 +82,8 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
                 ", shiftEnd=" + shiftEnd +
                 ", punchIn=" + punchIn +
                 ", punchOut=" + punchOut +
-                ", employeeId=" + employee.getId() +
-                ", employeeName=" + employee.getName() +
+                ", userId=" + (user != null ? user.getId() : null) +
+                ", userName=" + (user != null ? user.getUsername() : null) +
                 '}';
     }
 }

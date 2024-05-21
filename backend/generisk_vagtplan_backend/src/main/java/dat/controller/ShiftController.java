@@ -3,9 +3,11 @@ package dat.controller;
 import dat.dao.DAO;
 import dat.dao.EmployeeDAO;
 import dat.dao.ShiftDAO;
+import dat.dao.UserDAO;
 import dat.dto.ShiftDTO;
 import dat.model.Shift;
 import dat.model.Status;
+import dat.model.User;
 import io.javalin.http.Context;
 
 import java.time.LocalDateTime;
@@ -15,8 +17,7 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
 
     private final ShiftDAO shiftDAO;
 
-    private final EmployeeDAO employeeDAO = EmployeeDAO.getInstance();
-
+    private final UserDAO userDAO = UserDAO.getInstance();
 
     public ShiftController(ShiftDAO dao) {
         super(dao);
@@ -118,26 +119,6 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
         context.json(res.stream().map(Shift::toDTO).toList());
 
     }
-
-/*    public void setForSale(Context context)
-    {
-        int employeeId = Integer.parseInt(context.queryParam("e_id"));
-        int shiftId = Integer.parseInt(context.pathParam("id"));
-
-        Shift shift = shiftDAO.readById(shiftId).orElse(null);
-        Employee employee = employeeDAO.readById(employeeId).orElse(null);
-
-        if (shift == null || employee == null) {
-            context.status(404);
-            return;
-        }
-
-        if (shift.getEmployee().getId() == employeeId) {
-            shift.setStatus(Status.FOR_SALE);
-            shiftDAO.update(shift);
-            context.status(200);
-        }
-    }*/
 
     public void getByStatus(Context context)
     {

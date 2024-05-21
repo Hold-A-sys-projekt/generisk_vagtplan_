@@ -7,36 +7,45 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogClose,
-} from "@/components/ui/dialog";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { useRef } from "react";
-import { updateUser } from "@/lib/userFacade";
-import { useToast } from "../ui/use-toast";
+} from '@/components/ui/dialog';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import { useRef } from 'react';
+import { updateUser } from '@/lib/userFacade';
+import { useToast } from '../ui/use-toast';
 
 export default function EditUserModal({ user }) {
-    const usernameRef = useRef(user.username)
-    const emailRef = useRef(user.email)
+  const usernameRef = useRef(user.username);
+  const emailRef = useRef(user.email);
 
-    const { toast } = useToast();
+  const { toast } = useToast();
 
-    const submitHandler = async () => {
-        user = { 
-            ...user,
-            username: usernameRef.current.value ? usernameRef.current.value : user.username,
-            email: emailRef.current.value ? emailRef.current.value : user.email,
-        }
-        console.log(user)
-        const respons = await updateUser(user)
-        
-        if (respons.ok) {
-            toast({title: "User updated", variant: "success", description: "User account details has been updated successfully"});
-        } else {
-            toast({title: "Failed to update user", variant: "destructive", description: "There was a problem with updating account details"});
-        }
+  const submitHandler = async () => {
+    user = {
+      ...user,
+      username: usernameRef.current.value
+        ? usernameRef.current.value
+        : user.username,
+      email: emailRef.current.value ? emailRef.current.value : user.email,
+    };
+    console.log(user);
+    const respons = await updateUser(user);
+
+    if (respons.ok) {
+      toast({
+        title: 'User updated',
+        variant: 'success',
+        description: 'User account details has been updated successfully',
+      });
+    } else {
+      toast({
+        title: 'Failed to update user',
+        variant: 'destructive',
+        description: 'There was a problem with updating account details',
+      });
     }
-
+  };
 
   return (
     <Dialog>
@@ -73,8 +82,8 @@ export default function EditUserModal({ user }) {
             </div>
           </div>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            This action will permanently change the user's information. Please
+            make sure the information is correct before saving.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="sm:justify-start">
@@ -83,7 +92,9 @@ export default function EditUserModal({ user }) {
               Close
             </Button>
           </DialogClose>
-          <Button onClick={() => submitHandler()}>Save</Button>
+          <DialogClose asChild>
+            <Button onClick={() => submitHandler()}>Save</Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>

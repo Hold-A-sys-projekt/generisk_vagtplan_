@@ -7,7 +7,7 @@ import io.javalin.apibuilder.EndpointGroup;
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class CompanyRoutes implements Route {
-    private final CompanyController companyController = new CompanyController(CompanyDAO.getInstance());
+    private final CompanyController companyController = new CompanyController();
 
     @Override
     public String getBasePath() {
@@ -17,8 +17,8 @@ public class CompanyRoutes implements Route {
     @Override
     public EndpointGroup getRoutes() {
         return () -> {
-            path("/create", () -> {
-                post(companyController::post);
+            path("/companies/{companyName}/{companyAdmin}", () -> {
+                post(companyController::create);
             });
         };
     }

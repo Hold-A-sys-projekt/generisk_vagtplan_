@@ -4,7 +4,6 @@ import dat.config.ApplicationConfig;
 import dat.config.HibernateConfig;
 import dat.dao.UserDAO;
 import dat.exception.AuthorizationException;
-import dat.model.Company;
 import dat.model.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -76,16 +75,17 @@ class CompanyRoutesTest {
     }
 
     @Test
-    void create() {
-        Company company1 = new Company("testCompany4", user);
-        given()
-                .contentType("application/json")
-                .body(company1)
-                .when()
-                .post(BASE_URL + "/create")
-                .then()
-                .assertThat()
-                .statusCode(201);
+    void createWithPathParams() {
+
+                given()
+                        .contentType("application/json")
+                        .pathParam("companyName", "testCompany")
+                        .pathParam("companyAdmin", user.getUsername())
+                        .when()
+                        .post(BASE_URL + "/companies/{companyName}/{companyAdmin}") // Updated path with parameters
+                        .then()
+                        .assertThat()
+                        .statusCode(201);
     }
 
 }

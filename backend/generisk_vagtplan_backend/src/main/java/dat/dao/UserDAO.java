@@ -53,6 +53,19 @@ public class UserDAO extends DAO<User> {
         }
     }
 
+    public User getUser(String username) throws AuthorizationException {
+        try (EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            User user = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
+                    .setParameter("username", username)
+                    .getSingleResult();
+            em.getTransaction().commit();
+            return user;
+        } catch (NoResultException e) {
+            throw new AuthorizationException(401, "Invalid username or password");
+        }
+    }
+
     public User registerUser(UserInfoDTO userInfo) throws AuthorizationException {
         return registerUser(userInfo.email(), userInfo.username(), userInfo.password(), "USER");
     }

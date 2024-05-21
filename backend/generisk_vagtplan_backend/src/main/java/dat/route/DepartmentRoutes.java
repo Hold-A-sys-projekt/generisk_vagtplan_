@@ -19,9 +19,8 @@ public class DepartmentRoutes implements Route{
         return () -> {
             path("/{id}", () -> {
                 get(controller::getById);
-                delete(controller::softDelete);
             });
-            get(controller::getAllNonDeleted);
+            get(controller::getAll);
         };
     }
 }

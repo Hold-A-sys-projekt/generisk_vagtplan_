@@ -12,7 +12,6 @@ import java.util.Objects;
 public class EmailController {
     public void sendEmail(Context ctx) {
         final EmailDTO emailDTO = ctx.bodyAsClass(EmailDTO.class);
-        System.out.println(emailDTO);
 
         if (Objects.isNull(emailDTO)) {
             ctx.status(400);

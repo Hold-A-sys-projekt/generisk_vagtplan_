@@ -1,7 +1,7 @@
 import * as React from "react"
 
 import {
-  Select as ShadSelect,
+  Select as ChadSelect,
   SelectContent,
   SelectGroup,
   SelectItem,
@@ -10,10 +10,10 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-export default function Select({ items, title, defaultValue, onSelect }) {
+export default function Select({ items, title, defaultValue }) {
     console.log(items)
     return (
-    <ShadSelect defaultValue={defaultValue} onValueChange={(value) => onSelect(value)}>
+    <ChadSelect defaultValue={defaultValue}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder={defaultValue} />
       </SelectTrigger>
@@ -26,7 +26,7 @@ export default function Select({ items, title, defaultValue, onSelect }) {
           }
         </SelectGroup>
       </SelectContent>
-    </ShadSelect>
+    </ChadSelect>
   )
 }
 

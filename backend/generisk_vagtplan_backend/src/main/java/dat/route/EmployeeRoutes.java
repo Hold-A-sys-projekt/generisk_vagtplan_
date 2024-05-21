@@ -21,11 +21,10 @@ public class EmployeeRoutes implements Route{
     public EndpointGroup getRoutes() {
         return () -> {
             path("/", () -> {
-                get(employeeController::getAllNonDeleted);
-                post(employeeController::createEmployee);
+                get(employeeController::getAll);
+                post(employeeController::post);
                 path("/{id}", () -> {
                     get(employeeController::getById);
-                    delete(employeeController::softDelete);
                     path("/shifts", () -> {
                         get("/current",employeeController::getCurrentShift);
                         get(employeeController::getEmployeeShifts);

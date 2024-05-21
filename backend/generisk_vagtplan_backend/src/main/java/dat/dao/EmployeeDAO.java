@@ -3,21 +3,23 @@ package dat.dao;
 import dat.config.HibernateConfig;
 import dat.exception.ApiException;
 import dat.exception.DatabaseException;
+import dat.model.Employee;
 import dat.model.Shift;
-import dat.model.User;
-
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceException;
 
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-public class EmployeeDAO extends DAO<User> {
+public class EmployeeDAO extends DAO<Employee> {
+
 
     private static EmployeeDAO INSTANCE;
 
     private EmployeeDAO(EntityManagerFactory emf) {
-        super(User.class, emf);
+        super(Employee.class, emf);
     }
 
     public static EmployeeDAO getInstance() {
@@ -27,12 +29,12 @@ public class EmployeeDAO extends DAO<User> {
         return INSTANCE;
     }
 
-    public Optional<Shift> readCurrentShift(int userId, LocalDateTime currentDate) {
-        // No need to catch NoResultException, as the result is Optional. Added try-catch to catch other possible DB errors and throw an ApiException.
+    public Optional<Shift> readCurrentShift(int employeeId, LocalDateTime currentDate) {
+        // No need to catch NoResultException, as the result is Optional. Added try-catch catch other possible DB errors and throw an ApiException.
         try {
             return emf.createEntityManager()
-                    .createQuery("SELECT s FROM Shift s WHERE s.user.id = :userId AND s.shiftStart >= :currentDate ORDER BY s.shiftStart ASC", Shift.class)
-                    .setParameter("userId", userId)
+                    .createQuery("SELECT s FROM Shift s WHERE s.employee.id = :employeeId AND s.shiftStart >= :currentDate ORDER BY s.shiftStart ASC", Shift.class)
+                    .setParameter("employeeId", employeeId)
                     .setParameter("currentDate", currentDate)
                     .setMaxResults(1)
                     .getResultStream()
@@ -40,5 +42,8 @@ public class EmployeeDAO extends DAO<User> {
         } catch (PersistenceException e) {
             throw new DatabaseException(500, "Something went wrong. Please try again or contact support!");
         }
+
     }
+
+
 }

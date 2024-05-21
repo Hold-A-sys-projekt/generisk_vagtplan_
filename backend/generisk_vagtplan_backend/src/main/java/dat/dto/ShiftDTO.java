@@ -25,27 +25,27 @@ public class ShiftDTO implements DTO<Shift> {
 
     private LocalDateTime punchOut;
 
-    private Integer userId;
+    private Integer employeeId;
 
     private Status status;
 
-    public ShiftDTO(Integer id, LocalDateTime shiftStart, LocalDateTime shiftEnd, LocalDateTime punchIn, LocalDateTime punchOut, Integer userId, Status status) {
+    public ShiftDTO(Integer id, LocalDateTime shiftStart, LocalDateTime shiftEnd, LocalDateTime punchIn, LocalDateTime punchOut, Integer employeeId, Status status) {
         this.id = id;
         this.shiftStart = shiftStart;
         this.shiftEnd = shiftEnd;
         this.punchIn = punchIn;
         this.punchOut = punchOut;
-        this.userId = userId;
+        this.employeeId = employeeId;
         this.status = status;
     }
 
-    public ShiftDTO(Integer id, LocalDateTime shiftStart, LocalDateTime shiftEnd, LocalDateTime punchIn, LocalDateTime punchOut, Integer userId) {
+    public ShiftDTO(Integer id, LocalDateTime shiftStart, LocalDateTime shiftEnd, LocalDateTime punchIn, LocalDateTime punchOut, Integer employeeId) {
         this.id = id;
         this.shiftStart = shiftStart;
         this.shiftEnd = shiftEnd;
         this.punchIn = punchIn;
         this.punchOut = punchOut;
-        this.userId = userId;
+        this.employeeId = employeeId;
     }
 
     public ShiftDTO(Shift shift) {
@@ -54,7 +54,7 @@ public class ShiftDTO implements DTO<Shift> {
         this.shiftEnd = shift.getShiftEnd();
         this.punchIn = shift.getPunchIn();
         this.punchOut = shift.getPunchOut();
-        this.userId = shift.getUser().getId();
+        this.employeeId = shift.getEmployee().getId();
     }
 
 

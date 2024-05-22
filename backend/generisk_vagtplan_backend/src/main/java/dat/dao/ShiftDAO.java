@@ -86,4 +86,13 @@ public class ShiftDAO extends DAO<Shift> {
                     .getResultList();
         }
     }
+
+    public List<BuyRequest> getBuyRequestsByShiftId(int shiftId)
+    {
+        try (EntityManager em = emf.createEntityManager()) {
+            return em.createQuery("SELECT b FROM BuyRequest b WHERE b.shift.id = :shiftId", BuyRequest.class)
+                    .setParameter("shiftId", shiftId)
+                    .getResultList();
+        }
+    }
 }

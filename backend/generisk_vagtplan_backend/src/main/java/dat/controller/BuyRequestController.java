@@ -11,6 +11,8 @@ import dat.model.Shift;
 import dat.model.User;
 import io.javalin.http.Context;
 
+import java.util.List;
+
 public class BuyRequestController extends Controller<BuyRequest, BuyRequestDTO>
 {
     private UserDAO userDAO;
@@ -40,5 +42,13 @@ public class BuyRequestController extends Controller<BuyRequest, BuyRequestDTO>
 
         ctx.status(201);
         ctx.json(buyRequest.toDTO());
+    }
+
+    public void getBuyRequests(Context context)
+    {
+        int shiftId = Integer.parseInt(context.pathParam("id"));
+        List<BuyRequest> buyRequests = shiftDAO.getBuyRequestsByShiftId(shiftId);
+        context.status(200);
+        context.json(createFromEntities(buyRequests));
     }
 }

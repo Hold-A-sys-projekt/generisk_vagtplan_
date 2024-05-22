@@ -33,7 +33,12 @@ public class ShiftRoutes implements Route {
                     post("/punch-in" ,shiftController::punchIn);
                     post("/punch-out" ,shiftController::punchOut);
                     patch("/status", shiftController::updateShiftStatus);
-                    post("/request", buyRequestController::createBuyRequest);
+                    // buyrequest paths
+                    path("request", () ->
+                    {
+                        post("/", buyRequestController::createBuyRequest);
+                        get("/", buyRequestController::getBuyRequests);
+                    });
                 });
             });
         };

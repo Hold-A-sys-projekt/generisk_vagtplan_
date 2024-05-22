@@ -28,3 +28,7 @@ content-type: application/json
     "userId": 1,
     "shiftId": 1
 }
+
+### Get buyrequest by shiftId
+
+GET {{url}}/shifts/1/request

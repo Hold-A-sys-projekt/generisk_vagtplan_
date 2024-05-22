@@ -75,4 +75,33 @@ public class ShiftDAO extends DAO<Shift> {
             em.close();
         }
     }
+    public Shift updateShift(Shift updatedShift) throws DatabaseException {
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            em.getTransaction().begin();
+            Shift existingShift = em.find(Shift.class, updatedShift.getId());
+
+            if (existingShift == null) {
+                throw new DatabaseException(404, "Shift with ID " + updatedShift.getId() + " not found.");
+            }
+
+            // Update the shift details
+            existingShift.setShiftStart(updatedShift.getShiftStart());
+            existingShift.setShiftEnd(updatedShift.getShiftEnd());
+            existingShift.setStatus(updatedShift.getStatus());
+            // You can add more fields to update as per your requirements
+
+            em.getTransaction().commit();
+
+            return existingShift;
+        } catch (PersistenceException e) {
+            em.getTransaction().rollback();
+            throw new DatabaseException(500, "Failed to update shift with ID: " + updatedShift.getId());
+        } finally {
+            em.close();
+        }
+    }
+
+
 }

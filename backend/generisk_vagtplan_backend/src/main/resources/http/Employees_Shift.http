@@ -27,12 +27,12 @@ GET {{shifts}}/
 
 ### POST NEW SHIFT
 
-POST {{shifts}}?employee_id=3
+POST {{shifts}}?employee_id=1
 Content-Type: application/json
 
 {
-    "shiftStart": "2021-01-01T08:00:00",
-    "shiftEnd": "2021-01-01T16:00:00"
+    "shiftStart": "2024-05-01T08:00:00",
+    "shiftEnd": "2024-05-01T16:00:00"
 }
 
 ### PUNCH IN SHIFT WITH ID 1
@@ -42,3 +42,13 @@ POST {{shifts}}/1/punch-in
 ### PUNCH OUT SHIFT WITH ID 1
 
 POST {{shifts}}/1/punch-out
+
+### UPDATE SHIFT DATE AND TIME
+PUT {{shifts}}/1
+Content-Type: application/json
+
+{
+  "shiftStart": "2022-01-01T08:00:00",
+  "shiftEnd": "2022-01-01T16:00:00"
+}
+

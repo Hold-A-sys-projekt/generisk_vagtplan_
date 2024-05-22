@@ -2,9 +2,11 @@ package dat.config;
 
 import dat.dao.CompanyDAO;
 import dat.dao.DepartmentDAO;
+import dat.dao.RoleDAO;
 import dat.dao.UserDAO;
 import dat.model.Company;
 import dat.model.Department;
+import dat.model.Role;
 import dat.model.User;
 
 public class PopulateConfig {
@@ -15,6 +17,7 @@ public class PopulateConfig {
         CompanyDAO companyDAO = CompanyDAO.getInstance();
 
         try {
+            RoleDAO.getInstance().create(new Role("company_admin"));
             userDao.registerUser("john@gmail.com", "john", "1234", "employee");
             userDao.registerUser("karen@gmail.com", "karen", "1234", "employee");
             userDao.registerUser("admin@admin.com", "admin", "admin", "manager");

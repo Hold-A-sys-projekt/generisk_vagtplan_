@@ -16,19 +16,20 @@ const Companysignup = () => {
       setSignupCredentials({ ...signupCredentials, [name]: value });
     };
   
-    const performSignup = (e) => {
+    const performSignup = async (e) => {
       e.preventDefault();
-      compFacade.signup(
-        signupCredentials.companyName,
-        signupCredentials.admin,
-        (signedUp) => {
-          if (signedUp) {
-            navigate("/dashboard");
-          } else {
-            setSignupError("Signup failed. Please try again.");
-          }
-        }
-      );
+      try {
+        const result = await compFacade.postCompany(
+          signupCredentials.companyName,
+          signupCredentials.admin,
+          signupCredentials
+        );
+        console.log(result);
+        navigate("/dashboard");
+      } catch (error) {
+        console.error('Error:', error);
+        setSignupError("Signup failed. Please try again.");
+      }
     };
   
  

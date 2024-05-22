@@ -17,7 +17,7 @@ public class CompanyRoutes implements Route {
     @Override
     public EndpointGroup getRoutes() {
         return () -> {
-            path("/companies/{companyName}/{companyAdmin}", () -> {
+            path("/{companyName}/{companyAdmin}", () -> {
                 post(companyController::create);
             });
         };

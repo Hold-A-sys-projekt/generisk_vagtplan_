@@ -29,7 +29,6 @@ public class Role implements Serializable, dat.model.Entity<RoleDTO> {
     private String name;
 
     @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
-    @JsonIgnore // Prevents infinite recursion during JSON serialization
     private final Set<User> userList = new LinkedHashSet<>();
 
     public Role(String name) {

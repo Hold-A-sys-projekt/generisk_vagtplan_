@@ -34,7 +34,6 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
     private LocalDateTime punchOut;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnore
     private User user;
 
     @Column(name = "shift_status")

@@ -18,7 +18,7 @@ import Login from "@/components/login.jsx";
 import Dashboard from "@/components/dashboard.jsx";
 import Companysignup from "@/components/companysignup.jsx";
 import EmployeeAdminPage from "./pages/EmployeeAdminPage.jsx";
-import ShiftOverview from "@/components/ShiftOverview.jsx";
+import ShiftOverview from "@/pages/ShiftOverview.jsx";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -30,7 +30,7 @@ const router = createBrowserRouter(
             </Route>
             <Route path="reviews" element={<Reviews />} />
             <Route path="employee/">
-                <Route path="my-shifts" element={<ShiftOverview />} />
+                <Route path="my-shifts" element={<ShiftOverview/>} />
             </Route>
             <Route path="calendar" element={<Calendar_Schedule />} />
             <Route path="CalendarPage" element={<CalendarPage />} />

@@ -1,4 +1,4 @@
-import facade from "@/util/apiFacade";
+import facade from "@/utils/apiFacade";
 import{ useState, useEffect } from 'react';
 
 const Reviews = () => {

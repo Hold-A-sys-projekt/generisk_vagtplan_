@@ -14,10 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "shifts")
-
-
 public class Shift implements dat.model.Entity<ShiftDTO> {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +32,7 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
     @Column(name = "punch_out")
     private LocalDateTime punchOut;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
     @Column(name = "shift_status")
@@ -45,7 +42,7 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
     public Shift(LocalDateTime shiftStart, LocalDateTime shiftEnd, User user) {
         this.shiftStart = shiftStart;
         this.shiftEnd = shiftEnd;
-        setUser(user);
+        this.setUser(user);
     }
 
     public Shift(LocalDateTime shiftStart, LocalDateTime shiftEnd) {
@@ -54,15 +51,23 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
     }
 
     public void setUser(User user) {
-        this.user = user;
-        if (user != null && !user.getShifts().contains(this)) {
-            user.getShifts().add(this);
+        if (user != null && user.getId() != 0) {
+            if("employee".equals(user.getRole().getName())) {
+                this.user = user;
+            } else {
+                throw new IllegalArgumentException("User must be an employee");
+            }
+        } else {
+            throw new IllegalArgumentException("Invalid user");
         }
     }
 
 
     @Override
     public void setId(Object id) {
+        if (id != null) {
+            this.id = (int) id;
+        }
     }
 
     @Override
@@ -77,8 +82,9 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
                 ", shiftEnd=" + shiftEnd +
                 ", punchIn=" + punchIn +
                 ", punchOut=" + punchOut +
-                ", employeeId=" + user.getId() +
-                ", employeeName=" + user.getUsername() +
+                ", userId=" + (user != null ? user.getId() : null) +
+                ", userName=" + (user != null ? user.getUsername() : null) +
                 '}';
     }
 }
+

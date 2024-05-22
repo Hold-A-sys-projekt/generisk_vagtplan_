@@ -4,14 +4,14 @@ import dat.dao.DAO;
 import dat.dao.EmployeeDAO;
 import dat.dao.ShiftDAO;
 import dat.dto.ShiftDTO;
-import dat.model.Employee;
 import dat.model.Shift;
 import dat.model.Status;
 import io.javalin.http.Context;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-public class ShiftController extends Controller<Shift, ShiftDTO>{
+public class ShiftController extends Controller<Shift, ShiftDTO> {
 
     private final ShiftDAO shiftDAO;
 
@@ -59,13 +59,12 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
     }
 
     @Override
-    public void post(Context ctx){
+    public void post(Context ctx) {
 
         /*
         {
     "shiftStart": "2024-07-01T08:00:00",
     "shiftEnd": "2026-07-01T08:00:00"
-
 }
          */
 
@@ -76,6 +75,7 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
 
             ShiftDTO shiftDTO = ctx.bodyAsClass(ShiftDTO.class);
 
+            int id = shiftDTO.getUserId();
 
             Shift shift = new Shift(shiftDTO.getShiftStart(), shiftDTO.getShiftEnd());
 
@@ -84,10 +84,8 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
             ctx.json(res.toDTO());
         } catch (Exception e) {
             e.printStackTrace();
-            ctx.status(400);
+            ctx.status(400).result("Invalid input");
         }
-
-
 
 
     }
@@ -109,8 +107,14 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
         context.json(shift.toDTO());
     }
 
-    public void getShiftsByEmployeeId(Context context) {
+    public void getShiftsByUserId(Context context) {
         int employeeId = Integer.parseInt(context.pathParam("id"));
-        context.json(shiftDAO.getShiftsByEmployeeId(employeeId));
+        List<Shift> res = shiftDAO.getShiftsByUserId(employeeId);
+        if (res.isEmpty()) {
+            context.status(404).result("No shifts found for user with id: " + employeeId);
+            return;
+        }
+        context.json(res.stream().map(Shift::toDTO).toList());
+
     }
 }

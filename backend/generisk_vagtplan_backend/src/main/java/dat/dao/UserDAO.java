@@ -37,6 +37,7 @@ public class UserDAO extends DAO<User> {
     public User getVerifiedUser(String email, String password) throws AuthorizationException {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
+            //TODO: using email parameter as those are always unique in workplaces or should this be name? - Yusuf
             User user = em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
                     .setParameter("email", email)
                     .getSingleResult();

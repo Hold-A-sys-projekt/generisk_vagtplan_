@@ -56,8 +56,22 @@ public class Role implements Serializable, dat.model.Entity<RoleDTO> {
 
     }
 
+    public void addUser(User user) {
+        userList.add(user);
+        if (user.getRole() != this) {
+            user.setRole(this);
+        }
+    }
+
     @Override
     public RoleDTO toDTO() {
         return new RoleDTO(name);
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }

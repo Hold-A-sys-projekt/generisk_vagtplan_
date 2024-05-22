@@ -54,7 +54,7 @@ public class User extends SoftDeletableEntity implements Serializable, dat.model
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private final Set<Review> reviews = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<Shift> shifts = new LinkedHashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER)

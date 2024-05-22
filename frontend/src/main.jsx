@@ -3,10 +3,10 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import {
-  Route,
-  RouterProvider,
-  createBrowserRouter,
-  createRoutesFromElements,
+    Route,
+    RouterProvider,
+    createBrowserRouter,
+    createRoutesFromElements,
 } from "react-router-dom";
 import Index from "@/pages/Index.jsx";
 import UserAdminPage from "./pages/UserAdminPage.jsx";
@@ -14,10 +14,10 @@ import Reviews from "./components/reviews.jsx";
 import Calendar_Schedule from "@/pages/Calendar_Schedule.jsx";
 import ShiftOverview from "./pages/ShiftOverview.jsx";
 import EmployeeAdminPage from "./pages/EmployeeAdminPage.jsx";
-import ManagerOverview from "@/pages/ManagerOverview.jsx";
 import Login from "@/components/login.jsx";
 import Dashboard from "@/components/dashboard.jsx";
 import Companysignup from "@/components/companysignup.jsx";
+import ManagerOverview from "@/pages/ManagerOverview.jsx";
 
 
 const router = createBrowserRouter(
@@ -44,7 +44,7 @@ const router = createBrowserRouter(
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+    <React.StrictMode>
+        <RouterProvider router={router}/>
+    </React.StrictMode>
 );

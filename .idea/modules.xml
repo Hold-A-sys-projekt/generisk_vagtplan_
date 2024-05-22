@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/backend/generisk_vagtplan_backend/exam.iml" filepath="$PROJECT_DIR$/backend/generisk_vagtplan_backend/exam.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/generisk_vagtplan_.iml" filepath="$PROJECT_DIR$/.idea/generisk_vagtplan_.iml" />
     </modules>
   </component>

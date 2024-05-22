@@ -25,6 +25,6 @@ POST {{url}}/shifts/1/request
 content-type: application/json
 
 {
-    "userId": 1,
+    "userId": 2,
     "shiftId": 1
 }

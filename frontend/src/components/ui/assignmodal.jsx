@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import facade from "@/util/apiFacade";
+import facade from "@/utils/apiFacade";
 
 const AssignModal = ({ isOpen, onClose, employees, selectedDay }) => {
     const [startTime, setStartTime] = useState('');

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
-import facade from "@/util/apiFacade";
+import facade from "@/utils/apiFacade";
 import AssignModal from './assignmodal';
-import apiFacade from "@/util/apiFacade";
+import apiFacade from "@/utils/apiFacade";
 
 function Modal({ isOpen, onClose, selectedDay }) {
   const [shifts, setShifts] = useState([]);

@@ -119,4 +119,11 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
         context.json(res.stream().map(Shift::toDTO).toList());
 
     }
+
+    public void getByStatus(Context context)
+    {
+        Status status = Status.valueOf(context.pathParam("status"));
+        List<Shift> shifts = shiftDAO.getByStatus(status);
+        context.json(shifts.stream().map(Shift::toDTO).toList());
+    }
 }

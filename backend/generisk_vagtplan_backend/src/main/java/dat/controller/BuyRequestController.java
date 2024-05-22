@@ -1,6 +1,7 @@
 package dat.controller;
 
 import dat.config.HibernateConfig;
+import dat.dao.BuyRequestDAO;
 import dat.dao.DAO;
 import dat.dao.ShiftDAO;
 import dat.dao.UserDAO;
@@ -37,6 +38,11 @@ public class BuyRequestController extends Controller<BuyRequest, BuyRequestDTO>
         }
 
         BuyRequest buyRequest = new BuyRequest(user, shift);
+
+        BuyRequestDAO bdao = (BuyRequestDAO) this.dao;
+        if (bdao.exists(buyRequest)) {
+            throw new ApiException(400, "Buy request already exists");
+        }
 
         dao.create(buyRequest);
 

@@ -1,5 +1,6 @@
 package dat.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dat.dto.RoleDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
@@ -29,6 +30,7 @@ public class Role implements Serializable, dat.model.Entity<RoleDTO> {
     private String name;
 
     @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
+    @JsonIgnore
     private final Set<User> userList = new LinkedHashSet<>();
 
     public Role(String name) {

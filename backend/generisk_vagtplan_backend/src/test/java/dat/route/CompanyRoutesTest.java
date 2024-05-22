@@ -16,7 +16,6 @@ import java.util.List;
 import static io.restassured.RestAssured.given;
 
 class CompanyRoutesTest {
-    //Role company_admin needs to be added for the create method to work.
 
     private static EntityManagerFactory emf;
     private String BASE_URL = "http://localhost:7070/api/companies";

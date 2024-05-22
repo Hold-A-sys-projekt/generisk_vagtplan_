@@ -2,10 +2,11 @@ package dat.config;
 
 import dat.dao.CompanyDAO;
 import dat.dao.DepartmentDAO;
+import dat.dao.ShiftDAO;
 import dat.dao.UserDAO;
-import dat.model.Company;
-import dat.model.Department;
-import dat.model.User;
+import dat.model.*;
+
+import java.time.LocalDateTime;
 
 public class PopulateConfig {
 
@@ -13,6 +14,7 @@ public class PopulateConfig {
         UserDAO userDao = UserDAO.getInstance();
         DepartmentDAO departmentDao = DepartmentDAO.getInstance();
         CompanyDAO companyDAO = CompanyDAO.getInstance();
+        ShiftDAO shiftDAO = ShiftDAO.getInstance();
 
         try {
             userDao.registerUser("john@gmail.com", "john", "1234", "employee");
@@ -24,6 +26,11 @@ public class PopulateConfig {
             Department dep = departmentDao.create(new Department("Marketing", company));
             departmentDao.create(new Department("Sales", company));
             departmentDao.create(new Department("production", company));
+
+            Shift shift1 = new Shift(LocalDateTime.now(), LocalDateTime.now().plusHours(8), userDao.readById(1).get());
+            shift1.setStatus(Status.FOR_SALE);
+            shiftDAO.create(shift1);
+
             userDao.readAll().forEach(user -> {
                 user.setDepartment(dep);
                 userDao.update(user);

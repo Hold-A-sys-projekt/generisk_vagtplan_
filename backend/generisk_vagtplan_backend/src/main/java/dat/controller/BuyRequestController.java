@@ -1,6 +1,5 @@
 package dat.controller;
 
-import dat.config.HibernateConfig;
 import dat.dao.BuyRequestDAO;
 import dat.dao.DAO;
 import dat.dao.ShiftDAO;
@@ -10,6 +9,7 @@ import dat.exception.ApiException;
 import dat.model.BuyRequest;
 import dat.model.Shift;
 import dat.model.User;
+import dat.util.EmailSender;
 import io.javalin.http.Context;
 
 import java.util.List;
@@ -45,6 +45,20 @@ public class BuyRequestController extends Controller<BuyRequest, BuyRequestDTO>
         }
 
         dao.create(buyRequest);
+
+        List<User> managers = user.getDepartment().getUsers()
+                .stream()
+                .filter(u -> u.getRole().getName().equals("manager"))
+                .toList();
+
+        if (!managers.isEmpty()) {
+            for (User manager : managers) {
+                EmailSender.sendEmail(manager.getEmail(), "Buy request",
+                        List.of("User " + user.getEmail() +
+                                " has requested to buy shift " + shift.getId()
+                                + ".\nPlease approve or deny the request in the system."), false);
+            }
+        }
 
         ctx.status(201);
         ctx.json(buyRequest.toDTO());

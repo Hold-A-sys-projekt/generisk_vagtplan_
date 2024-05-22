@@ -11,6 +11,9 @@ import dat.model.Shift;
 import dat.model.User;
 import io.javalin.http.Context;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 public class ManagerController extends Controller<User, UserDTO> {
     private final ManagerDAO dao;
@@ -52,7 +55,7 @@ public class ManagerController extends Controller<User, UserDTO> {
 
     public void getAllEmployees(Context context) {
 
-        context.json(dao.getAllEmployees());
+        context.json(dao.getAllEmployees().stream().map(User::toDTO).toList());
     }
 
     public void updateShift(Context context) {

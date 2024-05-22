@@ -22,7 +22,7 @@ public class EmployeeRoutes implements Route{
         return () -> {
             path("/", () -> {
                 get(employeeController::getAllNonDeleted);
-                post(employeeController::post);
+                post(employeeController::createEmployee);
                 path("/{id}", () -> {
                     get(employeeController::getById);
                     delete(employeeController::softDelete);

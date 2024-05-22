@@ -115,4 +115,23 @@ public class ShiftController extends Controller<Shift, ShiftDTO> {
         context.json(res.stream().map(Shift::toDTO).toList());
 
     }
+
+    public void updateShiftDateAndTime(Context context) {
+        int shiftId = Integer.parseInt(context.pathParam("id"));
+        ShiftDTO shiftDTO = context.bodyAsClass(ShiftDTO.class);
+
+        Shift shift = shiftDAO.readById(shiftId).orElse(null);
+
+        if (shift == null) {
+            context.status(404);
+            return;
+        }
+
+        shift.setShiftStart(shiftDTO.getShiftStart());
+        shift.setShiftEnd(shiftDTO.getShiftEnd());
+
+        shiftDAO.updateShift(shift);
+
+        context.json(shift.toDTO());
+    }
 }

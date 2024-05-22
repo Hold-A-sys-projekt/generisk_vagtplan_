@@ -25,10 +25,12 @@ public class ShiftRoutes implements Route{
             path("/", () -> {
                 get(shiftController::getAll);
                 post(shiftController::post);
+                put("/{id}", shiftController::updateShiftDateAndTime);
                 path("/{id}", () -> {
                     get(shiftController::getById);
                     post("/punch-in" ,shiftController::punchIn);
                     post("/punch-out" ,shiftController::punchOut);
+
                 });
                 path("/users/{id}", () -> {
                     get(shiftController::getShiftsByUserId);
@@ -36,5 +38,4 @@ public class ShiftRoutes implements Route{
             });
         };
     }
-
 }

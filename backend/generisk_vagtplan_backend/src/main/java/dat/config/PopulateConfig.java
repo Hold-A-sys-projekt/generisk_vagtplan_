@@ -17,7 +17,6 @@ public class PopulateConfig {
         CompanyDAO companyDAO = CompanyDAO.getInstance();
 
         try {
-            RoleDAO.getInstance().create(new Role("company_admin"));
             userDao.registerUser("john@gmail.com", "john", "1234", "employee");
             userDao.registerUser("karen@gmail.com", "karen", "1234", "employee");
             userDao.registerUser("admin@admin.com", "admin", "admin", "manager");

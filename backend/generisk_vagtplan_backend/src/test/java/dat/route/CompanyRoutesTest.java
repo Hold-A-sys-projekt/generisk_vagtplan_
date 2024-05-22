@@ -2,8 +2,10 @@ package dat.route;
 
 import dat.config.ApplicationConfig;
 import dat.config.HibernateConfig;
+import dat.dao.RoleDAO;
 import dat.dao.UserDAO;
 import dat.exception.AuthorizationException;
+import dat.model.Role;
 import dat.model.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -24,7 +26,7 @@ class CompanyRoutesTest {
 
     @BeforeAll
     static void init() {
-        HibernateConfig.setTestStatus(false);
+        HibernateConfig.setTestStatus(true);
         emf = HibernateConfig.getEntityManagerFactory();
         userDAO = UserDAO.getInstance();
         ApplicationConfig.startServer(7070);
@@ -44,8 +46,10 @@ class CompanyRoutesTest {
         em.getTransaction().begin();
         em.createQuery("DELETE FROM Company c").executeUpdate();
         em.createQuery("DELETE FROM User u").executeUpdate();
+        em.createQuery("DELETE FROM Role r").executeUpdate();
         em.getTransaction().commit();
 
+        RoleDAO.getInstance().create(new Role("company_admin"));
         userDAO.registerUser("testUser3", "testUser3", "testUser3", "USER");
         user = userDAO.getVerifiedUser("testUser3", "testUser3");
     }
@@ -65,6 +69,7 @@ class CompanyRoutesTest {
         em.getTransaction().begin();
         em.createQuery("DELETE FROM Company c").executeUpdate();
         em.createQuery("DELETE FROM User u").executeUpdate();
+        em.createQuery("DELETE FROM Role r").executeUpdate();
         em.getTransaction().commit();
     }
 
@@ -82,7 +87,7 @@ class CompanyRoutesTest {
                         .pathParam("companyName", "testCompany")
                         .pathParam("companyAdmin", user.getUsername())
                         .when()
-                        .post(BASE_URL + "/companies/{companyName}/{companyAdmin}") // Updated path with parameters
+                        .post(BASE_URL + "/{companyName}/{companyAdmin}") // Updated path with parameters
                         .then()
                         .assertThat()
                         .statusCode(201);

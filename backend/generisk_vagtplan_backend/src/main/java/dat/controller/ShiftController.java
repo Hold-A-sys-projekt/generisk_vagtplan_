@@ -75,8 +75,6 @@ public class ShiftController extends Controller<Shift, ShiftDTO> {
 
             ShiftDTO shiftDTO = ctx.bodyAsClass(ShiftDTO.class);
 
-            int id = shiftDTO.getUserId();
-
             Shift shift = new Shift(shiftDTO.getShiftStart(), shiftDTO.getShiftEnd());
 
 

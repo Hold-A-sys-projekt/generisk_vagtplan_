@@ -8,10 +8,12 @@ import dat.dao.UserDAO;
 import dat.exception.AuthorizationException;
 import dat.model.Company;
 import dat.model.Department;
+import dat.model.Role;
 import dat.model.User;
 import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
@@ -61,6 +63,15 @@ class UserControllerTest {
         userController = new UserController(userDAO);
     }
 
+    @BeforeEach
+    void beforeEach() {
+        user.setDepartment(department1);
+        user.setRole(Role.of("user"));
+        user.setUsername("test");
+        user.setEmail("test@mail.dk");
+        userDAO.update(user);
+    }
+
     @AfterAll
     static void tearDown() {
         HibernateConfig.setTestStatus(false);
@@ -100,5 +111,43 @@ class UserControllerTest {
 
         User updatedUser = userDAO.readById(user.getId()).orElse(null);
         assertEquals(departmentName, updatedUser.getDepartment().getName());
+    }
+
+    @Test
+    void updateRole() {
+        // Test that the role is updated
+        String userId = String.valueOf(user.getId());
+        String roleName = "admin";
+        String userRole = user.getRole().getName();
+
+        given()
+                .contentType("application/json")
+                .body("{\"role\": { \"name\": \"" + roleName + "\" }}")
+                .when()
+                .put(BASE_URL + "/" + userId + "/role")
+                .then()
+                .statusCode(200);
+
+        User updatedUser = userDAO.readById(user.getId()).orElse(null);
+        assertEquals(roleName, updatedUser.getRole().getName());
+    }
+
+    @Test
+    void updateUsernameAndEmail() {
+        // Test that the username and email is updated
+        String userId = String.valueOf(user.getId());
+        String newUsername = "newUsername";
+        String newEmail = "newEmail@email.dk";
+
+        given()
+                .contentType("application/json")
+                .body("{\"username\": \"" + newUsername + "\", \"email\": \"" + newEmail + "\"}")
+                .when()
+                .put(BASE_URL + "/" + userId + "/email-username")
+                .then()
+                .statusCode(200);
+
+        User updatedUser = userDAO.readById(user.getId()).orElse(null);
+        assertEquals(newUsername, updatedUser.getUsername());
     }
 }

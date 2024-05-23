@@ -27,7 +27,9 @@ const AddNewEmployee = () => {
             if (!response.ok) {
                 throw new Error('Failed to save employee data');
             }
-            console.log('Employee data saved successfully');
+            if (!window.confirm('New employee has been added successfully.')) {
+                return;
+            }
 
             setFormData({
                 username: '',

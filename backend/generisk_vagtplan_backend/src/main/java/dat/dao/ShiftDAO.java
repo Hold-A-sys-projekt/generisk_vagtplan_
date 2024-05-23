@@ -109,7 +109,6 @@ public class ShiftDAO extends DAO<Shift> {
             Shift updatedShift = em.merge(shift);
             em.getTransaction().commit();
             return updatedShift;
-
         }
     }
 }

@@ -148,6 +148,9 @@ class UserControllerTest {
                 .statusCode(200);
 
         User updatedUser = userDAO.readById(user.getId()).orElse(null);
+
+        // Check if both fields in database has been updated
         assertEquals(newUsername, updatedUser.getUsername());
+        assertEquals(newEmail, updatedUser.getEmail());
     }
 }

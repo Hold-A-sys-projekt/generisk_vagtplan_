@@ -26,3 +26,21 @@ export async function updateUserRole(user) {
     body: JSON.stringify({ role: user.role }),
   });
 }
+
+//TODO: setup this endpoint on the backend
+export async function updateUser(user) {
+  return await fetch(`http://localhost:7070/api/users/${user.id}/email-username`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ 
+      email: user.email, 
+      username: user.username,
+     }),
+  });
+}
+
+export async function resetUserPassword(user) {
+  return await fetch(`http://localhost:7070/api/users/${user.id}/reset-password`)
+}

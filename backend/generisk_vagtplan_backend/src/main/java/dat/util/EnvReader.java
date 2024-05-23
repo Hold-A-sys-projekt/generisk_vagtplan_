@@ -10,7 +10,7 @@ public class EnvReader
     {
         try {
             return Files.readAllLines(
-                            Paths.get("backend/generisk_vagtplan_backend/src/main/java/dat/util/Env.txt")) // backend\generisk_vagtplan_backend\src\main\java\dat\\util\\Env.txt
+                            Paths.get("src/main/java/dat/util/Env.txt"))
                     .get(0);
         } catch (IOException e) {
             return "";

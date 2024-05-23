@@ -5,13 +5,12 @@ import dat.dao.SwapShiftsDAO;
 import dat.dto.SwapRequestsDTO;
 import dat.model.SwapRequests;
 import dat.model.SwapShifts;
-import dat.model.User;
-import dat.util.EmailSender;
 import io.javalin.http.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SwapRequestsController extends Controller<SwapRequests, SwapRequestsDTO> {
 
@@ -26,26 +25,16 @@ public class SwapRequestsController extends Controller<SwapRequests, SwapRequest
     public void createRequest(Context ctx) {
         try {
             SwapRequestsDTO dto = ctx.bodyAsClass(SwapRequestsDTO.class);
+            logger.info("Received swap request DTO: {}", dto);
             SwapRequests request = dto.toEntity();
+            request.setRequestedUserId(dto.getRequestedUserId());
+            request.setIsAccepted(""); // Ensure the isAccepted is set to an empty string
+            request.setStatus("Pending");
             dao.create(request);
-
-            // Generate the request URL
-            String requestUrl = "http://localhost:7070/api/swaprequests/" + request.getId();
-
-            // Send an email to the requested user
-            User requestedUser = request.getShift2().getUser();
-            String email = requestedUser.getEmail();
-            String subject = "Swap Shift Request";
-            List<String> messages = List.of(
-                    "You have received a new shift swap request.",
-                    "Click the link below to view and respond to the request:",
-                    requestUrl
-            );
-            EmailSender.sendEmail(email, subject, messages, false);
-
-            // Respond with the created request details
-            ctx.status(201).json(new SwapRequestsDTO(request).setUrl(requestUrl));
+            ctx.status(201).json(new SwapRequestsDTO(request));
+            logger.info("Created swap request: {}", request.getId());
         } catch (Exception e) {
+            logger.error("Error creating swap request", e);
             ctx.status(500).result("Internal Server Error");
         }
     }
@@ -54,7 +43,7 @@ public class SwapRequestsController extends Controller<SwapRequests, SwapRequest
         try {
             int requestId = Integer.parseInt(ctx.pathParam("id"));
             boolean isAccepted = Boolean.parseBoolean(ctx.queryParam("accepted"));
-
+            logger.info("Processing acceptance for request ID: {} with status: {}", requestId, isAccepted);
             ((SwapRequestsDAO) dao).updateRequestAcceptance(requestId, isAccepted ? "Approved" : "Not Approved");
 
             if (isAccepted) {
@@ -63,23 +52,38 @@ public class SwapRequestsController extends Controller<SwapRequests, SwapRequest
                 swapShift.setRequest(request);
                 swapShift.setIsAccepted("Pending");
                 swapShiftsDAO.createSwap(swapShift);
+                logger.info("Created swap shift for request ID: {}", requestId);
             }
+
             ctx.status(204);
         } catch (Exception e) {
+            logger.error("Error accepting swap request", e);
             ctx.status(500).result("Internal Server Error");
         }
     }
 
-    public void getRequestsById(Context ctx) {
+    public void getPendingRequests(Context ctx) {
         try {
-            int id = Integer.parseInt(ctx.pathParam("id"));
-            SwapRequests request = ((SwapRequestsDAO) dao).findById(id);
-            if (request != null) {
-                ctx.json(new SwapRequestsDTO(request));
-            } else {
-                ctx.status(404).result("Not Found");
-            }
+            int userId = Integer.parseInt(ctx.pathParam("userId"));
+            List<SwapRequests> pendingRequests = ((SwapRequestsDAO) dao).getPendingRequestsForUser(userId);
+            List<SwapRequestsDTO> pendingRequestsDTOs = pendingRequests.stream()
+                    .map(SwapRequestsDTO::new)
+                    .collect(Collectors.toList());
+            ctx.json(pendingRequestsDTOs);
         } catch (Exception e) {
+            logger.error("Error fetching pending requests", e);
+            ctx.status(500).result("Internal Server Error");
+        }
+    }
+
+    public void updateRequestStatus(Context ctx) {
+        try {
+            int requestId = Integer.parseInt(ctx.pathParam("requestId"));
+            String status = ctx.queryParam("status");
+            ((SwapRequestsDAO) dao).updateRequestAcceptance(requestId, status);
+            ctx.status(204);
+        } catch (Exception e) {
+            logger.error("Error updating request status", e);
             ctx.status(500).result("Internal Server Error");
         }
     }

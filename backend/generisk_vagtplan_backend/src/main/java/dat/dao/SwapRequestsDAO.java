@@ -5,6 +5,8 @@ import dat.model.SwapRequests;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
+import java.util.List;
+
 public class SwapRequestsDAO extends DAO<SwapRequests> {
 
     private static SwapRequestsDAO INSTANCE;
@@ -60,6 +62,17 @@ public class SwapRequestsDAO extends DAO<SwapRequests> {
         EntityManager em = emf.createEntityManager();
         try {
             return em.find(SwapRequests.class, id);
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<SwapRequests> getPendingRequestsForUser(int userId) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.createQuery("SELECT sr FROM SwapRequests sr WHERE sr.requestedUserId = :userId AND sr.isAccepted = ''", SwapRequests.class)
+                    .setParameter("userId", userId)
+                    .getResultList();
         } finally {
             em.close();
         }

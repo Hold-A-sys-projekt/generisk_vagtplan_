@@ -30,8 +30,11 @@ public class SwapRequestsRoutes implements Route {
                 path("{id}/approve", () -> {
                     post(swapRequestsController::acceptRequest);
                 });
-                path("{id}", () -> {
-                    get(swapRequestsController::getRequestsById);
+                path("user/{userId}", () -> {
+                    get(swapRequestsController::getPendingRequests);
+                });
+                path("{requestId}/status", () -> {
+                    post(swapRequestsController::updateRequestStatus);
                 });
             });
         };

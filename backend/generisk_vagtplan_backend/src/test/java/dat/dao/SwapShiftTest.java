@@ -21,10 +21,10 @@ public class SwapShiftTest {
     public void testCreateAndAcceptSwapRequest() {
         // Using shifts with IDs 2 and 3 and users with IDs 1 and 2 from the database
 
-        int shift1Id = 2;
-        int shift2Id = 3;
-        int userId1 = 1; // The original user for shift 2
-        int userId2 = 2; // The original user for shift 3
+        int shift1Id = 3;
+        int shift2Id = 2;
+        int userId1 = 2; // The original user for shift 2
+        int userId2 = 1; // The original user for shift 3
 
         // Create Swap Request
         Response createResponse = given()

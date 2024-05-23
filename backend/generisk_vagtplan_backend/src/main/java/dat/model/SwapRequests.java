@@ -32,6 +32,8 @@ public class SwapRequests implements dat.model.Entity<SwapRequestsDTO> {
     private Shift shift2;
 
     private String isAccepted = "";
+    private String status = "Pending";  // New field to track the status
+    private int requestedUserId;  // New field to track the requested user ID
 
     @Override
     public void setId(Object id) {

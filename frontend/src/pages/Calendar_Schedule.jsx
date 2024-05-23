@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "../App.css";
 import { getAllShiftsFromAUser, updateShiftStatus } from "../lib/shiftFacade";
+import {useParams} from "react-router-dom";
 
 const locales = { "en-US": enUS };
 
@@ -24,7 +25,7 @@ const localizer = dateFnsLocalizer({
 function CalendarSchedule() {
   const [events, setEvents] = useState([]);
   const [selectedDateEvents, setSelectedDateEvents] = useState([]);
-  const userId = "0"; 
+  const { userId } = useParams(); // Hardcoded user id for now
 
   useEffect(() => {
     const fetchShifts = async () => {

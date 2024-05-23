@@ -27,7 +27,7 @@ const router = createBrowserRouter(
         <Route path="/calendar" element={<Calendar_Schedule />} />
         <Route path="/shiftsale" element={<ShiftSale />} />
       <Route path="/reviews" element={<Reviews />} />
-      <Route path="/calendar" element={<Calendar_Schedule />} />
+      <Route path="/calendar/:userId" element={<Calendar_Schedule />} />
     </Route>
   )
 );

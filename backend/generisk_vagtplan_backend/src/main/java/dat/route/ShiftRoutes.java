@@ -39,11 +39,12 @@ public class ShiftRoutes implements Route {
                     {
                         post("/", buyRequestController::createBuyRequest);
                         get("/", buyRequestController::getBuyRequests);
-                        delete("/delete/{rq_id}", buyRequestController::deleteBuyRequest);
                     });
                 });
+                // buyrequest paths that doesn't depend on shift id
                 path("/request/{reqId}", () -> {
-                    patch("/accept", buyRequestController::acceptBuyRequest);
+                    post("/", buyRequestController::acceptBuyRequest);
+                    delete("/", buyRequestController::deleteBuyRequest);
                 });
                 path("/users/{id}", () -> {
                     get(shiftController::getShiftsByUserId);

@@ -114,7 +114,7 @@ public class BuyRequestController extends Controller<BuyRequest, BuyRequestDTO>
 
     public void deleteBuyRequest(Context context)
     {
-        int buyRequestId = Integer.parseInt(context.pathParam("rq_id"));
+        int buyRequestId = Integer.parseInt(context.pathParam("reqId"));
         BuyRequest buyRequest = dao.readById(buyRequestId).orElse(null);
 
         if (buyRequest == null) {

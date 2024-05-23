@@ -28,18 +28,21 @@ public class ShiftRoutes implements Route {
                 get("/{status}", shiftController::getByStatus);
                 get(shiftController::getAll);
                 post(shiftController::post);
-                path("/{id}", () -> {
+                path("{id}", () -> {
                     get(shiftController::getById);
                     post("/punch-in" ,shiftController::punchIn);
                     post("/punch-out" ,shiftController::punchOut);
                     patch("/status", shiftController::updateShiftStatus);
                     delete("/delete", shiftController::delete);
                     // buyrequest paths
-                    path("request", () ->
+                    path("/request", () ->
                     {
                         post("/", buyRequestController::createBuyRequest);
                         get("/", buyRequestController::getBuyRequests);
                     });
+                });
+                path("/request/{reqId}", () -> {
+                    patch("/accept", buyRequestController::acceptBuyRequest);
                 });
                 path("/users/{id}", () -> {
                     get(shiftController::getShiftsByUserId);

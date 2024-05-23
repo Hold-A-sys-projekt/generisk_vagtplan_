@@ -8,6 +8,7 @@ import dat.dto.BuyRequestDTO;
 import dat.exception.ApiException;
 import dat.model.BuyRequest;
 import dat.model.Shift;
+import dat.model.Status;
 import dat.model.User;
 import dat.util.EmailSender;
 import io.javalin.http.Context;
@@ -35,6 +36,10 @@ public class BuyRequestController extends Controller<BuyRequest, BuyRequestDTO>
         Shift shift = shiftDAO.readById(buyRequestDTO.getShiftId()).orElse(null);
         if (shift == null) {
             throw new ApiException(404, "Shift with id " + buyRequestDTO.getShiftId() + " not found");
+        }
+
+        if (shift.getStatus() != Status.FOR_SALE) {
+            throw new ApiException(400, "Buy request wasn't created. Shift is not for sale!");
         }
 
         BuyRequest buyRequest = new BuyRequest(user, shift);
@@ -70,5 +75,40 @@ public class BuyRequestController extends Controller<BuyRequest, BuyRequestDTO>
         List<BuyRequest> buyRequests = shiftDAO.getBuyRequestsByShiftId(shiftId);
         context.status(200);
         context.json(createFromEntities(buyRequests));
+    }
+
+    // To be used by manger to accept a buy request
+    public void acceptBuyRequest(Context context) throws ApiException
+    {
+        int buyRequestId = Integer.parseInt(context.pathParam("reqId"));
+        BuyRequest buyRequest = dao.readById(buyRequestId).orElse(null);
+        if (buyRequest == null) {
+            throw new ApiException(404, "Buy request with id " + buyRequestId + " not found");
+        }
+
+        Shift shift = buyRequest.getShift();
+
+        if (shift == null) {
+            throw new ApiException(404, "Shift associated with this buyRequest not found");
+        }
+        if (shift.getStatus() != Status.FOR_SALE) {
+            throw new ApiException(400, "Shift is not for sale!");
+        }
+
+        User reqUser = buyRequest.getUser();
+        User ogUser = shift.getUser();
+
+        shift.setUser(reqUser);
+        shift.setStatus(Status.COVERED);
+        shiftDAO.update(shift);
+        dao.delete(buyRequest);
+
+        EmailSender.sendEmail(reqUser.getEmail(), "Buy request",
+                List.of("Your buy request for shift " + shift.getId() + " has been accepted."), false);
+        if (ogUser != null) {
+            EmailSender.sendEmail(ogUser.getEmail(), "Buy request",
+                    List.of("User " + reqUser.getEmail() + " has bought shift " + shift.getId()), false);
+        }
+        context.status(200);
     }
 }

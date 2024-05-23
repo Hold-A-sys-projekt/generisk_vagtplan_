@@ -13,7 +13,7 @@ GET {{url}}/shifts/COVERED
 
 ### update shift status
 
-PATCH {{url}}/shifts/1/status?s=FOR_SALE
+PATCH {{url}}/shifts/4/status?s=FOR_SALE
 
 ### Fail on not found
 
@@ -25,10 +25,14 @@ POST {{url}}/shifts/1/request
 content-type: application/json
 
 {
-    "userId": 2,
-    "shiftId": 1
+    "userId": 1,
+    "shiftId": 3
 }
 
 ### Get buyrequest by shiftId
 
-GET {{url}}/shifts/1/request
+GET {{url}}/shifts/4/request
+
+### accept buyrequest
+
+PATCH {{url}}/shifts/request/10/accept

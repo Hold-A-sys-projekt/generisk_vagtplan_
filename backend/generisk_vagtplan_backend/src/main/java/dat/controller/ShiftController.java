@@ -3,9 +3,11 @@ package dat.controller;
 import dat.dao.DAO;
 import dat.dao.EmployeeDAO;
 import dat.dao.ShiftDAO;
+import dat.dao.UserDAO;
 import dat.dto.ShiftDTO;
 import dat.model.Shift;
 import dat.model.Status;
+import dat.model.User;
 import io.javalin.http.Context;
 
 import java.time.LocalDateTime;
@@ -16,8 +18,7 @@ public class ShiftController extends Controller<Shift, ShiftDTO> {
 
     private final ShiftDAO shiftDAO;
 
-    private final EmployeeDAO employeeDAO = EmployeeDAO.getInstance();
-
+    private final UserDAO userDAO = UserDAO.getInstance();
 
     public ShiftController(ShiftDAO dao) {
         super(dao);
@@ -99,11 +100,11 @@ public class ShiftController extends Controller<Shift, ShiftDTO> {
 
     public void updateShiftStatus(Context context) {
         int shiftId = Integer.parseInt(context.pathParam("id"));
-        Status status = Status.valueOf(context.queryParam("status"));
+        Status status = Status.valueOf(context.queryParam("s"));
 
-        Shift shift = shiftDAO.updateShiftStatus(shiftId, status);
+        shiftDAO.updateShiftStatus(shiftId, status);
 
-        context.json(shift.toDTO());
+        context.status(200);
     }
 
     public void getShiftsByUserId(Context context) {
@@ -118,19 +119,25 @@ public class ShiftController extends Controller<Shift, ShiftDTO> {
     }
 
     public void getShiftsByUserIdWithDTOs(Context context) {
-    int userId = Integer.parseInt(context.pathParam("id"));
-    List<Shift> shifts = shiftDAO.getShiftsByUserId(userId);
-    if (shifts.isEmpty()) {
-        context.status(404).result("No shifts found for user with id: " + userId);
-        return;
+        int userId = Integer.parseInt(context.pathParam("id"));
+        List<Shift> shifts = shiftDAO.getShiftsByUserId(userId);
+        if (shifts.isEmpty()) {
+            context.status(404).result("No shifts found for user with id: " + userId);
+            return;
+        }
+        List<ShiftDTO> shiftDTOs = shifts.stream().map(Shift::toDTO).collect(Collectors.toList());
+        // Log the shiftDTOs
+        shiftDTOs.forEach(shiftDTO -> System.out.println("ShiftDTO: " + shiftDTO));
+        context.json(shiftDTOs);
     }
-    List<ShiftDTO> shiftDTOs = shifts.stream().map(Shift::toDTO).collect(Collectors.toList());
-    // Log the shiftDTOs
-    shiftDTOs.forEach(shiftDTO -> System.out.println("ShiftDTO: " + shiftDTO));
-    context.json(shiftDTOs);
-}
 
- public void selectShifts(Context context) {
+    public void getByStatus(Context context) {
+        Status status = Status.valueOf(context.pathParam("status"));
+        List<Shift> shifts = shiftDAO.getByStatus(status);
+        context.json(shifts.stream().map(Shift::toDTO).toList());
+    }
+
+    public void selectShifts(Context context) {
         List<Integer> shiftIds = context.bodyAsClass(ShiftIdsDTO.class).getShiftIds();
 
         List<Shift> shifts = shiftDAO.getShiftsByIds(shiftIds);

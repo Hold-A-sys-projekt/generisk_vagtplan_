@@ -9,6 +9,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceException;
 
 import java.util.List;
+import java.util.Set;
 
 public class ShiftDAO extends DAO<Shift> {
 
@@ -80,10 +81,26 @@ public class ShiftDAO extends DAO<Shift> {
 
 
     public List<Shift> getShiftsByIds(List<Integer> shiftIds) {
-    return emf.createEntityManager().createQuery("SELECT s FROM Shift s WHERE s.id IN :shiftIds", Shift.class)
-            .setParameter("shiftIds", shiftIds)
-            .getResultList();
-}
+        return emf.createEntityManager().createQuery("SELECT s FROM Shift s WHERE s.id IN :shiftIds", Shift.class)
+                .setParameter("shiftIds", shiftIds)
+                .getResultList();
+    }
+
+    public List<Shift> getByStatus(Status status) {
+        try (EntityManager em = emf.createEntityManager()) {
+            return em.createQuery("SELECT s FROM Shift s WHERE s.status = :status", Shift.class)
+                    .setParameter("status", status)
+                    .getResultList();
+        }
+    }
+
+    public List<BuyRequest> getBuyRequestsByShiftId(int shiftId) {
+        try (EntityManager em = emf.createEntityManager()) {
+            return em.createQuery("SELECT b FROM BuyRequest b WHERE b.shift.id = :shiftId", BuyRequest.class)
+                    .setParameter("shiftId", shiftId)
+                    .getResultList();
+        }
+    }
 
     public Shift updateShift(Shift shift) {
 

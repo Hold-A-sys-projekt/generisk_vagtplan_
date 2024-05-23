@@ -61,12 +61,11 @@ public class ShiftDTO implements DTO<Shift> {
         this.shiftEnd = shift.getShiftEnd();
         this.punchIn = shift.getPunchIn();
         this.punchOut = shift.getPunchOut();
-        this.userId = shift.getUser().getId();
         this.userName = shift.getUser().getUsername();
         this.userRole = shift.getUser().getRole().getName();
         this.userId = shift.getUser() == null ? null : shift.getUser().getId();
+        this.status = shift.getStatus();
     }
-
 
     @Override
     public Shift toEntity() {

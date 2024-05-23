@@ -5,7 +5,7 @@ POST {{email}}/send
 Content-Type: application/json
 
 {
-  "receiver": "email@gmail.com",
+  "receiver": "test@test.dk",
   "subject": "subject test",
   "message": "Hello person, \n\nThis is new line \n\nWith best regards, \nOskar"
 }

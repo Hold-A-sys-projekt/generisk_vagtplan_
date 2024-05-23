@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-// TODO: TEST
 /**
  * This class is responsible for cleaning up the database by deleting soft-deleted entities that are older than a certain
  * amount of time

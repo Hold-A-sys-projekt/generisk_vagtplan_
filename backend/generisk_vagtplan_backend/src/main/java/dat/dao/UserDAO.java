@@ -31,25 +31,39 @@ public class UserDAO extends DAO<User> {
         return INSTANCE;
     }
 
+    // I've changed credential from email to username - Mikkel
     public User getVerifiedUser(UserInfoDTO userInfo) throws AuthorizationException {
-        return getVerifiedUser(userInfo.email(), userInfo.password());
+        return getVerifiedUser(userInfo.username(), userInfo.password());
     }
 
-    public User getVerifiedUser(String email, String password) throws AuthorizationException {
+    public User getVerifiedUser(String username, String password) throws AuthorizationException {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             //TODO: using email parameter as those are always unique in workplaces or should this be name? - Yusuf
-            User user = em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
-                    .setParameter("email", email)
+            // We've chosen to use username to create the signup/login functionality - group I
+            User user = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
+                    .setParameter("username", username)
                     .getSingleResult();
             if (user == null || !user.checkPassword(password)) {
-                throw new AuthorizationException(401, "Invalid email or password");
+                throw new AuthorizationException(401, "Invalid username or password");
             }
-
             em.getTransaction().commit();
             return user;
         } catch (NoResultException e) {
-            throw new AuthorizationException(401, "Invalid email or password");
+            throw new AuthorizationException(401, "Invalid username or password");
+        }
+    }
+
+    public User getUser(String username) throws AuthorizationException {
+        try (EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            User user = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
+                    .setParameter("username", username)
+                    .getSingleResult();
+            em.getTransaction().commit();
+            return user;
+        } catch (NoResultException e) {
+            throw new AuthorizationException(401, "Invalid username or password");
         }
     }
 

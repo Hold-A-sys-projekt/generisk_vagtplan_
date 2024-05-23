@@ -20,15 +20,20 @@ public class ManagerRoutes implements Route {
     @Override
     public EndpointGroup getRoutes() {
         return () -> {
+
+            // http://localhost:7070/api/managers/employees/${userId}/shifts/${id}
+
+            path("/employees", () -> {
+                get(managerController::getAllEmployees);
+                put("{userid}/shifts/{id}", managerController::updateShift);
+                post(managerController::addEmployee);
+            });
             path("/", () -> {
                 get(managerController::getAllNonDeleted);
                 path("/{id}", () -> {
                     get(managerController::getById);
                     delete(managerController::softDelete);
                 });
-            });
-            path("/employees", () -> {
-                post(managerController::addEmployee);
             });
             path("employees/{id}", () -> {
                 put(managerController::updateEmployeeRole);

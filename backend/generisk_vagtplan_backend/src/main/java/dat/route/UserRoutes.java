@@ -32,6 +32,7 @@ public class UserRoutes implements Route {
             });
 
             get(userController::getAllNonDeleted);
+            post("/login", userController::login);
         };
     }
 }

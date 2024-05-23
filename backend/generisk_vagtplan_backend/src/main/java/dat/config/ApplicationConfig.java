@@ -19,10 +19,9 @@ import org.hibernate.type.descriptor.java.CoercionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 import static io.javalin.apibuilder.ApiBuilder.path;
 
@@ -59,7 +58,9 @@ public class ApplicationConfig {
                 new DepartmentRoutes(),
                 new EmailRoutes(),
                 new SwapShiftsRoutes(),
-                new SwapRequestsRoutes()
+
+                new CompanyRoutes()
+
         ); // TODO: addRoutes(new XRoutes(), new YRoutes(), new ZRoutes());
     }
 
@@ -126,6 +127,17 @@ public class ApplicationConfig {
 
     public static String getBaseURL() {
         return "http://localhost:" + app.port() + CONTEXT_PATH;
+    }
+
+    public static String getProperty(String propName) throws IOException {
+        try (InputStream is = HibernateConfig.class.getClassLoader().getResourceAsStream("properties-from-pom.properties")) {
+            Properties prop = new Properties();
+            prop.load(is);
+            return prop.getProperty(propName);
+        } catch (IOException ex) {
+            LOGGER.error("Could not read property from pom file. Build Maven!");
+            throw new IOException("Could not read property from pom file. Build Maven!");
+        }
     }
 
     private static class ExceptionManagerHandler {

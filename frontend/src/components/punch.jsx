@@ -20,6 +20,8 @@ function Punch({ shiftId, employeeId }) {
       });
   }, []);
 
+
+
   function shiftReceived(data) {
     var shiftStartTime = data.shiftStart.splice(3);
     var shiftStartDate = data.shiftStart;
@@ -58,6 +60,8 @@ function Punch({ shiftId, employeeId }) {
     }
   }
 
+
+
   function punchHandler() {
     // if (punched === "out") setPunched("in");
     // else setPunched("out");
@@ -93,9 +97,10 @@ function Punch({ shiftId, employeeId }) {
       });
   }
 
+
+
   return (
     <div className="flex flex-col items-center">
-      <h1 className="text-2xl font-bold">Punch</h1>
       <p className="text-xl font-semibold pl-2 pr-2 text-center">{shiftText}</p>
       <Button
         className="px-4 py-2 bg-blue-500 text-white rounded-md"
@@ -106,7 +111,7 @@ function Punch({ shiftId, employeeId }) {
           ? "Punch In"
           : punched === "out"
           ? "Punch Out"
-          : "No Shift Available"}
+          : "Shift completed."}
       </Button>
     </div>
   );

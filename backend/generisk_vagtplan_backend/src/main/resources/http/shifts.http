@@ -1,0 +1,41 @@
+
+### GET all shifts
+
+GET {{url}}/shifts
+
+### GET shift by status
+
+GET {{url}}/shifts/FOR_SALE
+
+###
+
+GET {{url}}/shifts/COVERED
+
+### update shift status
+
+PATCH {{url}}/shifts/4/status?s=FOR_SALE
+
+### Fail on not found
+
+PATCH {{url}}/shifts/100/status?s=FOR_SALE
+
+### Create buyRequest
+
+POST {{url}}/shifts/1/request
+content-type: application/json
+
+{
+    "userId": 1,
+    "shiftId": 3
+}
+
+### Get buyrequest by shiftId
+
+GET {{url}}/shifts/3/request
+
+### accept buyrequest
+
+POST {{url}}/shifts/request/11
+
+### Delete buyrequest
+DELETE {{url}}/shifts/request/11

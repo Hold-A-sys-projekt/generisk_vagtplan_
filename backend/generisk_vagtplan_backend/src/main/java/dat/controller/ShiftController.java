@@ -3,9 +3,11 @@ package dat.controller;
 import dat.dao.DAO;
 import dat.dao.EmployeeDAO;
 import dat.dao.ShiftDAO;
+import dat.dao.UserDAO;
 import dat.dto.ShiftDTO;
 import dat.model.Shift;
 import dat.model.Status;
+import dat.model.User;
 import io.javalin.http.Context;
 
 import java.time.LocalDateTime;
@@ -15,8 +17,7 @@ public class ShiftController extends Controller<Shift, ShiftDTO> {
 
     private final ShiftDAO shiftDAO;
 
-    private final EmployeeDAO employeeDAO = EmployeeDAO.getInstance();
-
+    private final UserDAO userDAO = UserDAO.getInstance();
 
     public ShiftController(ShiftDAO dao) {
         super(dao);
@@ -98,11 +99,11 @@ public class ShiftController extends Controller<Shift, ShiftDTO> {
 
     public void updateShiftStatus(Context context) {
         int shiftId = Integer.parseInt(context.pathParam("id"));
-        Status status = Status.valueOf(context.queryParam("status"));
+        Status status = Status.valueOf(context.queryParam("s"));
 
-        Shift shift = shiftDAO.updateShiftStatus(shiftId, status);
+        shiftDAO.updateShiftStatus(shiftId, status);
 
-        context.json(shift.toDTO());
+        context.status(200);
     }
 
     public void getShiftsByUserId(Context context) {
@@ -114,5 +115,12 @@ public class ShiftController extends Controller<Shift, ShiftDTO> {
         }
         context.json(res.stream().map(Shift::toDTO).toList());
 
+    }
+
+    public void getByStatus(Context context)
+    {
+        Status status = Status.valueOf(context.pathParam("status"));
+        List<Shift> shifts = shiftDAO.getByStatus(status);
+        context.json(shifts.stream().map(Shift::toDTO).toList());
     }
 }

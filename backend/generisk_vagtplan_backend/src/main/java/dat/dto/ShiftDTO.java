@@ -54,7 +54,8 @@ public class ShiftDTO implements DTO<Shift> {
         this.shiftEnd = shift.getShiftEnd();
         this.punchIn = shift.getPunchIn();
         this.punchOut = shift.getPunchOut();
-        this.userId = shift.getUser() == null ? null : shift.getUser().getId();
+        this.userId =  shift.getUser() == null ? null : shift.getUser().getId();
+        this.status = shift.getStatus();
     }
 
 

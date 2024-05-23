@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -39,6 +40,9 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
     @Column(name = "shift_status")
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @OneToMany(mappedBy = "shift", fetch = FetchType.EAGER)
+    private Set<BuyRequest> buyRequests;
 
     public Shift(LocalDateTime shiftStart, LocalDateTime shiftEnd, User user) {
         this.shiftStart = shiftStart;

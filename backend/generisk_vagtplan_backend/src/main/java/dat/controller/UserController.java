@@ -1,19 +1,23 @@
 package dat.controller;
 
 import com.google.gson.JsonObject;
-import dat.security.TokenFactory;
 import dat.dao.UserDAO;
 import dat.dto.UserDTO;
 import dat.dto.UserInfoDTO;
 import dat.exception.ApiException;
 import dat.exception.AuthorizationException;
+import dat.message.Message;
 import dat.model.User;
+import dat.security.TokenFactory;
+import dat.util.EmailSender;
+import dat.util.PasswordGenerator;
 import io.javalin.http.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class UserController extends Controller<User, UserDTO> {
 
@@ -49,6 +53,63 @@ public class UserController extends Controller<User, UserDTO> {
         }
         final User jsonRequest = ctx.bodyAsClass(this.dao.getClazz());
         user.get().setRole(jsonRequest.getRole());
+        final User entity = this.dao.update(user.get());
+        ctx.status(200);
+        ctx.json(entity.toDTO());
+    }
+
+    public void getUsersByRole(Context ctx) {
+        String role = ctx.queryParam("role");
+        System.out.println("Received role parameter: " + role);
+
+        if (role == null || role.isEmpty()) {
+            System.out.println("Role parameter is missing or empty");
+            ctx.status(400).json(new Message(400, System.currentTimeMillis(), "Role parameter is required"));
+            return;
+        }
+
+        try {
+            List<User> users = dao.getUsersByRole(role);
+            System.out.println("Fetched users: " + users);
+            List<UserDTO> userDTOs = users.stream().map(User::toDTO).collect(Collectors.toList());
+            ctx.json(userDTOs);
+        } catch (Exception e) {
+            System.err.println("Error fetching users by role: " + e.getMessage());
+            ctx.status(500).json(new Message(500, System.currentTimeMillis(), "Internal server error"));
+        }
+    }
+
+    public void resetPassword(Context ctx) throws ApiException {
+        this.validateId(ctx); // Will throw ApiException if id is invalid
+        final String id = ctx.pathParam("id");
+        Optional<User> user = dao.readById(Integer.parseInt(id));
+        if (user.isEmpty()) {
+            throw new ApiException(404, "User not found");
+        }
+        final String Password = PasswordGenerator.passwordGenerator();
+        final User entity = user.get();
+        entity.setPassword(Password);
+        final User updatedEntity = this.dao.update(entity);
+        EmailSender.sendEmail(entity.getEmail(), "Password Reset", List.of(
+                        "<h1>Your password have been reset</h1> ",
+                        "<p>Your new password is: <b>" + Password, "</b></p> ",
+                        "<p>If this wasn't you, please contact support</p>"),
+                false);
+        ctx.status(200);
+        ctx.json(updatedEntity.toDTO());
+    }
+
+    public void updateUsernameAndEmail(Context ctx) throws ApiException {
+        this.validateId(ctx); // Will throw ApiException if id is invalid
+        final String id = ctx.pathParam("id");
+        Optional<User> user = dao.readById(Integer.parseInt(id));
+        if (user.isEmpty()) {
+            throw new ApiException(404, "User not found");
+        }
+        final User jsonRequest = ctx.bodyAsClass(this.dao.getClazz());
+
+        user.get().setEmail(jsonRequest.getEmail());
+        user.get().setUsername(jsonRequest.getUsername());
         final User entity = this.dao.update(user.get());
         ctx.status(200);
         ctx.json(entity.toDTO());

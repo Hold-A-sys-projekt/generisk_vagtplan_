@@ -9,6 +9,7 @@ import lombok.ToString;
 
 import java.time.LocalDateTime;
 
+
 @Getter
 @ToString
 @NoArgsConstructor
@@ -20,6 +21,8 @@ public class ShiftDTO implements DTO<Shift> {
     private LocalDateTime punchIn;
     private LocalDateTime punchOut;
     private Integer userId;
+    private String userName;
+    private String userRole;
     private Status status;
 
     public ShiftDTO(Integer id, LocalDateTime shiftStart, LocalDateTime shiftEnd, LocalDateTime punchIn, LocalDateTime punchOut, Integer userId, Status status) {
@@ -30,6 +33,7 @@ public class ShiftDTO implements DTO<Shift> {
         this.punchOut = punchOut;
         this.userId = userId;
         this.status = status;
+
     }
 
     public ShiftDTO(Integer id, LocalDateTime shiftStart, LocalDateTime shiftEnd, LocalDateTime punchIn, LocalDateTime punchOut, Integer userId) {
@@ -39,6 +43,7 @@ public class ShiftDTO implements DTO<Shift> {
         this.punchIn = punchIn;
         this.punchOut = punchOut;
         this.userId = userId;
+
     }
 
     public ShiftDTO(Shift shift) {
@@ -47,8 +52,10 @@ public class ShiftDTO implements DTO<Shift> {
         this.shiftEnd = shift.getShiftEnd();
         this.punchIn = shift.getPunchIn();
         this.punchOut = shift.getPunchOut();
+        this.userName = shift.getUser().getUsername();
+        this.userRole = shift.getUser().getRole().getName();
         this.userId = shift.getUser() == null ? null : shift.getUser().getId();
-
+        this.status = shift.getStatus();
     }
 
     @Override

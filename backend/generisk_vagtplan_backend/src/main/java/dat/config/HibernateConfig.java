@@ -82,7 +82,10 @@ public class HibernateConfig {
                 Company.class,
                 Review.class,
                 Shift.class,
-                Department.class
+                Department.class,
+                SwapShifts.class,
+                SwapRequests.class,
+                BuyRequest.class
         ).forEach(config::addAnnotatedClass);
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build();

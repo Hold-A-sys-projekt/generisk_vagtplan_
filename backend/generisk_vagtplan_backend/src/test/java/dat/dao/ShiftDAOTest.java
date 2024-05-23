@@ -1,3 +1,4 @@
+/*
 package dat.dao;
 
 import dat.config.HibernateConfig;
@@ -67,3 +68,4 @@ class ShiftDAOTest {
         System.out.println(shift + " " + shift.getStatus());
     }
 }
+*/

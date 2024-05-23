@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-// soft delete
 @Entity
 @Table(name = "users")
 @NamedQueries(@NamedQuery(name = "User.deleteAllRows", query = "DELETE FROM User"))
@@ -36,7 +35,7 @@ public class User extends SoftDeletableEntity implements Serializable, dat.model
 
     @Column(name = "email", unique = false, nullable = false)
     private String email;
-//TODO: username should probably be their real name
+
     @Column(name = "username", unique = true, nullable = false, length = 25)
     private String username;
 
@@ -59,7 +58,7 @@ public class User extends SoftDeletableEntity implements Serializable, dat.model
 
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-
+    @JsonManagedReference
     private Set<Shift> shifts = new LinkedHashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -67,7 +66,6 @@ public class User extends SoftDeletableEntity implements Serializable, dat.model
 
     @OneToOne
     private Company company;
-
 
     public User(String email, String username, String password) {
         this.email = email;
@@ -78,7 +76,6 @@ public class User extends SoftDeletableEntity implements Serializable, dat.model
         this.isDeleted = false;
     }
 
-    //TODO: second constructor, delete if not used
     public User(String email, String username, String password, Role role, Department department) {
         this.email = email;
         this.username = username;

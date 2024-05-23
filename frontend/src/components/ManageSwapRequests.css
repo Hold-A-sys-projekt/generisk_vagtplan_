@@ -1,0 +1,77 @@
+.manage-swap-requests-container {
+    position: relative;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .manage-swap-requests {
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .no-requests {
+    text-align: center;
+    font-size: 18px;
+    color: #888;
+  }
+  
+  .requests-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .request-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .request-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .request-info span {
+    margin-bottom: 5px;
+  }
+  
+  .request-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .approve-button {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .decline-button {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .error {
+    color: red;
+    text-align: center;
+    font-size: 18px;
+  }
+  

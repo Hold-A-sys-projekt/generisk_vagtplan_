@@ -1,13 +1,16 @@
 package dat.model;
 
-
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import dat.dto.ShiftDTO;
-import jakarta.persistence.*;
 import jakarta.persistence.Entity;
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -34,11 +37,16 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
     private LocalDateTime punchOut;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 
     @Column(name = "shift_status")
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @OneToMany(mappedBy = "shift", fetch = FetchType.EAGER)
+    private Set<BuyRequest> buyRequests;
 
     public Shift(LocalDateTime shiftStart, LocalDateTime shiftEnd, User user) {
         this.shiftStart = shiftStart;
@@ -53,7 +61,7 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
 
     public void setUser(User user) {
         if (user != null && user.getId() != 0) {
-            if("employee".equals(user.getRole().getName())) {
+            if ("employee".equals(user.getRole().getName())) {
                 this.user = user;
             } else {
                 throw new IllegalArgumentException("User must be an employee");
@@ -62,7 +70,6 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
             throw new IllegalArgumentException("Invalid user");
         }
     }
-
 
     @Override
     public void setId(Object id) {
@@ -76,8 +83,7 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
         return new ShiftDTO(this);
     }
 
-
-
+    @Override
     public String toString() {
         return "Shift{" +
                 "id=" + id +
@@ -91,4 +97,3 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
                 '}';
     }
 }
-

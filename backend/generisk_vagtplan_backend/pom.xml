@@ -18,7 +18,10 @@
         <junit.version>5.9.1</junit.version>
 
         <!-- Project properties  -->
-
+        <!--  token    -->
+        <secret.key>841D8A6C80CBA4FCAD32D5367C18C53B</secret.key>
+        <issuer>cphbusiness.dk</issuer>
+        <token.expiration.time>3600000</token.expiration.time>
     </properties>
     <dependencies>
 

@@ -1,3 +1,27 @@
+
+.delete-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 5px !important;
+    color: #ff0000; /* Red color */
+}
+
+.delete-button:hover {
+    color: #ff6666; /* Light red on hover */
+}
+
+.delete-button:focus {
+    outline: none; /* Remove focus outline */
+}
+
+.shift-container {
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    position: relative;
+}
+
 #root {
     max-width: 1280px;
     margin: 0 auto;
@@ -55,5 +79,3 @@
 .rbc-day-bg {
     min-height: 100px;  /* Adjust based on your preference */
 }
-
-

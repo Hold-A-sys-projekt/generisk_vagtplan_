@@ -29,6 +29,11 @@ public class UserDTO implements DTO<User> {
         this.id = id;
     }
 
+    public UserDTO(String username, String role) {
+        this.username = username;
+        this.role = new RoleDTO(role);
+    }
+
     public UserDTO(String username, LocalDateTime createdOn, Integer id) {
         this.username = username;
         this.createdOn = createdOn;

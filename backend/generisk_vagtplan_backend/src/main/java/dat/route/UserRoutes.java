@@ -32,6 +32,7 @@ public class UserRoutes implements Route {
                 get("/reset-password", userController::resetPassword);
             });
             get(userController::getAllNonDeleted);
+            post("/login", userController::login);
         };
     }
 }

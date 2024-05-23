@@ -7,6 +7,8 @@ import dat.model.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
+import java.util.List;
+
 public class ManagerDAO extends DAO<User> {
     private static ManagerDAO INSTANCE;
 
@@ -55,4 +57,12 @@ public class ManagerDAO extends DAO<User> {
             return updatedUser;
         }
     }
+    public List<User> getAllEmployees() {
+        try (EntityManager em = emf.createEntityManager()) {
+            return em.createQuery("SELECT u FROM User u WHERE u.role.name = :roleName", User.class)
+                    .setParameter("roleName", "employee")
+                    .getResultList();
+        }
+    }
+
 }

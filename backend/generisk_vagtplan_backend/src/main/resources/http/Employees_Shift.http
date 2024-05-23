@@ -31,7 +31,6 @@ GET {{shifts}}/
 
 ### POST NEW SHIFT
 
-
 POST {{shifts}}?user_id=1
 Content-Type: application/json
 

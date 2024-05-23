@@ -14,6 +14,13 @@ const UpdateShift = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        // Display confirmation pop-up
+
+        const confirmUpdate = window.confirm('you have officially changed the shift');
+
+        if (!confirmUpdate) {
+            return; // Exit if the user cancels
+        }
         try {
             const response = await fetch(`http://localhost:7070/api/shifts/${formData.id}`, {
                 method: 'PUT',

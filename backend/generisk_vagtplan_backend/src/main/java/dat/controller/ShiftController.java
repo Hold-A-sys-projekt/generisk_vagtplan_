@@ -100,7 +100,7 @@ public class ShiftController extends Controller<Shift, ShiftDTO> {
 
     public void updateShiftStatus(Context context) {
         int shiftId = Integer.parseInt(context.pathParam("id"));
-        Status status = Status.valueOf(context.queryParam("s"));
+        Status status = Status.valueOf(context.queryParam("status"));
 
         shiftDAO.updateShiftStatus(shiftId, status);
 

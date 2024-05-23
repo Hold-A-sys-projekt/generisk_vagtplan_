@@ -13,11 +13,11 @@ GET {{url}}/shifts/COVERED
 
 ### update shift status
 
-PATCH {{url}}/shifts/4/status?s=FOR_SALE
+PATCH {{url}}/shifts/4/status?status=FOR_SALE
 
 ### Fail on not found
 
-PATCH {{url}}/shifts/100/status?s=FOR_SALE
+PATCH {{url}}/shifts/100/status?status=FOR_SALE
 
 ### Create buyRequest
 

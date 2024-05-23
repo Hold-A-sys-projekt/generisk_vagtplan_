@@ -6,7 +6,7 @@ import React from "react";
 const ShiftSale = () => {
 
     const user = {
-        role_name: "manager"
+        role_name: "employee"
         // implement logic to get the user role
     }
 
@@ -14,7 +14,7 @@ const ShiftSale = () => {
         <div className="flex flex-col h-screen p-4 pt-0">
 
             <div className="border-t border-gray-400 my-2" ></div>
-
+gi
             <h2 className="mb-5 mt-4 text-5xl font-semibold tracking-tight text-gray-900 dark:text-white">Shifts for Sale</h2>
 
             <div className="flex-grow text-center p-10 bg-gray-200 mb-4 mt-4">

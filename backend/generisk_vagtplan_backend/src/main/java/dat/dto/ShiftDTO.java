@@ -62,6 +62,11 @@ public class ShiftDTO implements DTO<Shift> {
     @Override
     public Shift toEntity() {
         ShiftDAO shiftDAO = ShiftDAO.getInstance();
-        return shiftDAO.readById(this.id).orElse(null);
+        Shift shift = shiftDAO.readById(this.id).orElse(new Shift());
+        shift.setShiftStart(this.shiftStart);
+        shift.setShiftEnd(this.shiftEnd);
+        shift.setPunchIn(this.punchIn);
+        shift.setPunchOut(this.punchOut);
+        return shift;
     }
 }

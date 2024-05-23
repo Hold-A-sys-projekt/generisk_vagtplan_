@@ -2,6 +2,7 @@ package dat.config;
 
 import dat.dao.CompanyDAO;
 import dat.dao.DepartmentDAO;
+import dat.dao.RoleDAO;
 import dat.dao.ShiftDAO;
 import dat.dao.UserDAO;
 import dat.model.*;

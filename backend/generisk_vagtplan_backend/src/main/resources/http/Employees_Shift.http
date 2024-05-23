@@ -13,13 +13,17 @@ Content-Type: application/json
    "role": "Nurse"
 }
 
+### GET ALL USERS
+
+GET {{users}}
+
 ### GET ALL EMPLOYEES
 
 GET {{employees}}/
 
 ### GET EMPLOYEE BY ID 1
 
-GET {{employees}}/1
+GET {{employees}}/3
 
 ### GET ALL SHIFTS
 
@@ -27,12 +31,12 @@ GET {{shifts}}/
 
 ### POST NEW SHIFT
 
-POST {{shifts}}?employee_id=3
+POST {{shifts}}?user_id=1
 Content-Type: application/json
 
 {
-    "shiftStart": "2021-01-01T08:00:00",
-    "shiftEnd": "2021-01-01T16:00:00"
+    "shiftStart": "2024-05-15T08:00:00",
+    "shiftEnd": "2024-05-15T16:00:00"
 }
 
 ### PUNCH IN SHIFT WITH ID 1

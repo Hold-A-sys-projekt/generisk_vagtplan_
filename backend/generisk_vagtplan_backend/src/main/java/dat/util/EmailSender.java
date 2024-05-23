@@ -46,7 +46,8 @@ public class EmailSender {
             Multipart mp = new MimeMultipart();
             for (String message : messages) {
                 MimeBodyPart mbp = new MimeBodyPart();
-                mbp.setText(message, "us-ascii");
+                //mbp.setText(message, "us-ascii");
+                mbp.setContent(message, "text/html; charset=utf-8");
                 mp.addBodyPart(mbp);
             }
             msg.setContent(mp);

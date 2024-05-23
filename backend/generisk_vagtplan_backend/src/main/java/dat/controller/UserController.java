@@ -8,11 +8,13 @@ import dat.dto.UserInfoDTO;
 import dat.exception.ApiException;
 import dat.exception.AuthorizationException;
 import dat.model.User;
+import dat.util.EmailSender;
+import dat.util.PasswordGenerator;
 import io.javalin.http.Context;
+import org.jetbrains.annotations.NotNull;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-
 import java.util.Optional;
 
 public class UserController extends Controller<User, UserDTO> {
@@ -54,7 +56,43 @@ public class UserController extends Controller<User, UserDTO> {
         ctx.json(entity.toDTO());
     }
 
-    public void login(Context ctx) throws AuthorizationException, ApiException {
+    public void resetPassword(Context ctx) throws ApiException {
+        this.validateId(ctx); // Will throw ApiException if id is invalid
+        final String id = ctx.pathParam("id");
+        Optional<User> user = dao.readById(Integer.parseInt(id));
+        if (user.isEmpty()) {
+            throw new ApiException(404, "User not found");
+        }
+        final String Password = PasswordGenerator.passwordGenerator();
+        final User entity = user.get();
+        entity.setPassword(Password);
+        final User updatedEntity = this.dao.update(entity);
+        EmailSender.sendEmail(entity.getEmail(), "Password Reset", List.of(
+                "<h1>Your password have been reset</h1> ",
+                        "<p>Your new password is: <b>" + Password, "</b></p> ",
+                        "<p>If this wasn't you, please contact support</p>"),
+                false);
+        ctx.status(200);
+        ctx.json(updatedEntity.toDTO());
+    }
+
+    public void updateUsernameAndEmail(Context ctx) throws ApiException {
+        this.validateId(ctx); // Will throw ApiException if id is invalid
+        final String id = ctx.pathParam("id");
+        Optional<User> user = dao.readById(Integer.parseInt(id));
+        if (user.isEmpty()) {
+            throw new ApiException(404, "User not found");
+        }
+        final User jsonRequest = ctx.bodyAsClass(this.dao.getClazz());
+
+        user.get().setEmail(jsonRequest.getEmail());
+        user.get().setUsername(jsonRequest.getUsername());
+        final User entity = this.dao.update(user.get());
+        ctx.status(200);
+        ctx.json(entity.toDTO());
+    }
+  
+      public void login(Context ctx) throws AuthorizationException, ApiException {
         // get the user info from the request
         UserInfoDTO userInfo = ctx.bodyAsClass(UserInfoDTO.class);
         logger.info("Received login request for user: {}" + userInfo.username());

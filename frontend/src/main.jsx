@@ -3,10 +3,10 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import {
-    Route,
-    RouterProvider,
-    createBrowserRouter,
-    createRoutesFromElements,
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
 } from "react-router-dom";
 import Index from "@/pages/Index.jsx";
 import UserAdminPage from "./pages/UserAdminPage.jsx";
@@ -24,7 +24,6 @@ import Dashboard from "@/components/dashboard.jsx";
 import Companysignup from "@/components/companysignup.jsx";
 import ManagerOverview from "@/pages/ManagerOverview.jsx";
 
-
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
@@ -34,9 +33,22 @@ const router = createBrowserRouter(
         <Route path="employees" element={<EmployeeAdminPage />} />
       </Route>
       <Route path="/reviews" element={<Reviews />} />
+      <Route path={"manager"}>
+        <Route path={"employees"} element={<ManagerOverview />} />
+      </Route>
+      <Route path="employee/">
+        <Route path="my-shifts" element={<ShiftOverview />} />
+      </Route>
+      <Route path="/calendar" element={<Calendar_Schedule />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/companysignup" element={<Companysignup />} />
       <Route path="/calendar" element={<Calendar_Schedule />} />
       <Route path="/swapshifts" element={<ShiftSwapsManager />} />
-      <Route path="/manage-swap-requests" element={<ManageSwapRequests userId={1} />} /> {/* Add the new route */}
+      <Route
+        path="/manage-swap-requests"
+        element={<ManageSwapRequests userId={1} />}
+      />{" "}
     </Route>
   )
 );
@@ -47,5 +59,4 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <RouterProvider router={router} />
     </ToastProvider>
   </React.StrictMode>
-
 );

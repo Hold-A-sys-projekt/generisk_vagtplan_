@@ -107,7 +107,6 @@ public class ShiftController extends Controller<Shift, ShiftDTO> {
         context.status(200);
     }
 
-
     public void getShiftsByUserId(Context context) {
         int employeeId = Integer.parseInt(context.pathParam("id"));
         List<Shift> res = shiftDAO.getShiftsByUserId(employeeId);
@@ -115,13 +114,6 @@ public class ShiftController extends Controller<Shift, ShiftDTO> {
             context.status(404).result("No shifts found for user with id: " + employeeId);
             return;
         }
-        context.json(res.stream().map(Shift::toDTO).toList());
-
-        if (res.isEmpty()) {
-            context.status(404).result("No shifts found for user with id: " + employeeId);
-            return;
-        }
-
         context.json(res.stream().map(Shift::toDTO).toList());
     }
 

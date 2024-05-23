@@ -1,31 +1,48 @@
 package dat.util;
 
-import java.util.Random;
+import java.util.*;
 
 public class PasswordGenerator {
 
-    private static char[] passwordGenerator(){
-    int passwordLength = 10;
+    public static String passwordGenerator() {
+        int passwordLength = 10;
 
-        String Capital_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        String Small_chars = "abcdefghijklmnopqrstuvwxyz";
+        String capitalChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String smallChars = "abcdefghijklmnopqrstuvwxyz";
         String numbers = "0123456789";
         String symbols = "!@$%&?";
 
-        String values = Capital_chars + Small_chars +
-                numbers + symbols;
+        Random random = new Random();
 
-        Random rndm_method = new Random();
+        List<Character> passwordChars = new ArrayList<>();
 
-        char[] password = new char[passwordLength];
-
-        for (int i = 0; i < passwordLength; i++)
-        {
-            password[i] =
-                    values.charAt(rndm_method.nextInt(values.length()));
-
+        int capitalCharCount = random.nextInt(3) + 1;
+        for (int i = 0; i < capitalCharCount; i++) {
+            passwordChars.add(capitalChars.charAt(random.nextInt(capitalChars.length())));
         }
-        return password;
+
+        int numberCount = random.nextInt(3) + 1;
+        for (int i = 0; i < numberCount; i++) {
+            passwordChars.add(numbers.charAt(random.nextInt(numbers.length())));
+        }
+
+        int symbolCount = random.nextInt(2) + 1;
+        for (int i = 0; i < symbolCount; i++) {
+            passwordChars.add(symbols.charAt(random.nextInt(symbols.length())));
+        }
+
+        int smallCharCount = passwordLength - capitalCharCount - numberCount - symbolCount;
+        for (int i = 0; i < smallCharCount; i++) {
+            passwordChars.add(smallChars.charAt(random.nextInt(smallChars.length())));
+        }
+
+        Collections.shuffle(passwordChars, random);
+        StringBuilder password = new StringBuilder();
+
+        for (char c : passwordChars) {
+            password.append(c);
+        }
+        return password.toString();
     }
     
 }

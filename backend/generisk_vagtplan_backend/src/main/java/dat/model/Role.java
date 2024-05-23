@@ -1,5 +1,6 @@
 package dat.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dat.dto.RoleDTO;
 import jakarta.persistence.Entity;
@@ -30,7 +31,9 @@ public class Role implements Serializable, dat.model.Entity<RoleDTO> {
     private String name;
 
     @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
+    @JsonManagedReference
     @JsonIgnore
+
     private final Set<User> userList = new LinkedHashSet<>();
 
     public Role(String name) {
@@ -56,7 +59,6 @@ public class Role implements Serializable, dat.model.Entity<RoleDTO> {
 
     @Override
     public void setId(Object id) {
-
     }
 
     public void addUser(User user) {

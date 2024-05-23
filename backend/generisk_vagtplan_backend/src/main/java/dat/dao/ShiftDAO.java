@@ -1,9 +1,8 @@
 package dat.dao;
 
 import dat.config.HibernateConfig;
-import dat.model.*;
 import dat.exception.DatabaseException;
-
+import dat.model.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceException;
@@ -11,7 +10,6 @@ import jakarta.persistence.PersistenceException;
 import java.util.List;
 
 public class ShiftDAO extends DAO<Shift> {
-
 
     private static ShiftDAO INSTANCE;
 
@@ -38,7 +36,6 @@ public class ShiftDAO extends DAO<Shift> {
     }
 
     public Shift create(Shift shift, int userId) {
-
         try (EntityManager em = emf.createEntityManager();) {
             em.getTransaction().begin();
             User user = em.find(User.class, userId);
@@ -49,8 +46,6 @@ public class ShiftDAO extends DAO<Shift> {
         } catch (Exception e) {
             throw e;
         }
-
-
     }
 
     //get shift status
@@ -60,10 +55,8 @@ public class ShiftDAO extends DAO<Shift> {
                 .getSingleResult();
     }
 
-
     public Shift updateShiftStatus(int shiftId, Status status) {
-        EntityManager em = emf.createEntityManager();
-        try {
+        try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             Shift shift = em.find(Shift.class, shiftId);
             if (shift == null) {
@@ -72,13 +65,33 @@ public class ShiftDAO extends DAO<Shift> {
             shift.setStatus(status);
             em.getTransaction().commit();
             return shift;
-        } finally {
-            em.close();
         }
     }
+
+    public List<Shift> getShiftsByIds(List<Integer> shiftIds) {
+        return emf.createEntityManager().createQuery("SELECT s FROM Shift s WHERE s.id IN :shiftIds", Shift.class)
+                .setParameter("shiftIds", shiftIds)
+                .getResultList();
+    }
+
+    public List<Shift> getByStatus(Status status) {
+        try (EntityManager em = emf.createEntityManager()) {
+            return em.createQuery("SELECT s FROM Shift s WHERE s.status = :status", Shift.class)
+                    .setParameter("status", status)
+                    .getResultList();
+        }
+    }
+
+    public List<BuyRequest> getBuyRequestsByShiftId(int shiftId) {
+        try (EntityManager em = emf.createEntityManager()) {
+            return em.createQuery("SELECT b FROM BuyRequest b WHERE b.shift.id = :shiftId", BuyRequest.class)
+                    .setParameter("shiftId", shiftId)
+                    .getResultList();
+        }
+    }
+
     public Shift updateShift(Shift updatedShift) throws DatabaseException {
         EntityManager em = emf.createEntityManager();
-
         try {
             em.getTransaction().begin();
             Shift existingShift = em.find(Shift.class, updatedShift.getId());
@@ -103,6 +116,4 @@ public class ShiftDAO extends DAO<Shift> {
             em.close();
         }
     }
-
-
 }

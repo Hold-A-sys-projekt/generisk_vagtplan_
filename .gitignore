@@ -211,3 +211,12 @@ package-lock.json
 # Env
 **/Env.txt
 **/env.txt
+*.svg
+*.scss
+*.woff2
+*.ts
+*.js
+*.json
+*.md
+*.mjs
+/node_modules

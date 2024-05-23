@@ -1,6 +1,7 @@
 package dat.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dat.dto.UserDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
@@ -15,7 +16,6 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-// soft delete
 @Entity
 @Table(name = "users")
 @NamedQueries(@NamedQuery(name = "User.deleteAllRows", query = "DELETE FROM User"))
@@ -34,7 +34,7 @@ public class User extends SoftDeletableEntity implements Serializable, dat.model
 
     @Column(name = "email", unique = false, nullable = false)
     private String email;
-//TODO: username should probably be their real name
+
     @Column(name = "username", unique = true, nullable = false, length = 25)
     private String username;
 
@@ -49,12 +49,15 @@ public class User extends SoftDeletableEntity implements Serializable, dat.model
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_name", referencedColumnName = "role_name", nullable = false)
+    @JsonIgnore
     private Role role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private final Set<Review> reviews = new LinkedHashSet<>();
 
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JsonManagedReference
     private Set<Shift> shifts = new LinkedHashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -62,7 +65,6 @@ public class User extends SoftDeletableEntity implements Serializable, dat.model
 
     @OneToOne
     private Company company;
-
 
     public User(String email, String username, String password) {
         this.email = email;
@@ -73,7 +75,6 @@ public class User extends SoftDeletableEntity implements Serializable, dat.model
         this.isDeleted = false;
     }
 
-    //TODO: second constructor, delete if not used
     public User(String email, String username, String password, Role role, Department department) {
         this.email = email;
         this.username = username;

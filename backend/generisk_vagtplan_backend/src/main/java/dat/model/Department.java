@@ -1,5 +1,6 @@
 package dat.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dat.dto.DepartmentDTO;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;

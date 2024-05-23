@@ -28,7 +28,8 @@ public class ShiftDAO extends DAO<Shift> {
 
     public List<Shift> getShiftsByUserId(int userId) throws DatabaseException {
         try {
-            return emf.createEntityManager().createQuery("SELECT s FROM Shift s WHERE s.user.id = :userId", Shift.class)
+            // added ORDER BY id so the list of shifts is in order and stays the same even after punching in or out
+            return emf.createEntityManager().createQuery("SELECT s FROM Shift s WHERE s.user.id = :userId ORDER BY id", Shift.class)
                     .setParameter("userId", userId)
                     .getResultList();
         } catch (PersistenceException e) {
@@ -38,7 +39,7 @@ public class ShiftDAO extends DAO<Shift> {
 
     public Shift create(Shift shift, int userId) {
 
-        try (EntityManager em = emf.createEntityManager();){
+        try (EntityManager em = emf.createEntityManager();) {
             em.getTransaction().begin();
             User user = em.find(User.class, userId);
             shift.setUser(user);

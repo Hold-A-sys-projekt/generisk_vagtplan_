@@ -39,6 +39,7 @@ public class ShiftRoutes implements Route {
                     {
                         post("/", buyRequestController::createBuyRequest);
                         get("/", buyRequestController::getBuyRequests);
+                        delete("/delete/{rq_id}", buyRequestController::deleteBuyRequest);
                     });
                 });
                 path("/users/{id}", () -> {

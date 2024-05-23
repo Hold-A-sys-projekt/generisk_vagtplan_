@@ -71,4 +71,25 @@ public class BuyRequestController extends Controller<BuyRequest, BuyRequestDTO>
         context.status(200);
         context.json(createFromEntities(buyRequests));
     }
+
+    public void deleteBuyRequest(Context context)
+    {
+        int buyRequestId = Integer.parseInt(context.pathParam("rq_id"));
+        BuyRequest buyRequest = dao.readById(buyRequestId).orElse(null);
+
+        if (buyRequest == null) {
+            context.status(404);
+            return;
+        }
+
+        EmailSender.sendEmail(buyRequest.getUser().getEmail(),
+                "Buy request",
+                List.of("Your buy request for shift " +
+                        buyRequest.getShift().getId() +
+                        " has been denied."),
+                false);
+
+        dao.delete(buyRequest);
+        context.status(204);
+    }
 }

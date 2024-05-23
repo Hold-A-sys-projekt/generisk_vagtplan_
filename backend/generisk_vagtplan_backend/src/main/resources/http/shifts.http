@@ -32,3 +32,6 @@ content-type: application/json
 ### Get buyrequest by shiftId
 
 GET {{url}}/shifts/1/request
+
+### Delete buyrequest
+DELETE {{url}}/shifts/1/request/delete/1

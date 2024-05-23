@@ -27,6 +27,7 @@ public class ShiftDAO extends DAO<Shift> {
         super(Shift.class, emf);
     }
 
+
     public List<Shift> getShiftsByUserId(int userId) throws DatabaseException {
         try {
             // added ORDER BY id so the list of shifts is in order and stays the same even after punching in or out
@@ -79,8 +80,13 @@ public class ShiftDAO extends DAO<Shift> {
     }
 
 
-    public List<Shift> getByStatus(Status status)
-    {
+    public List<Shift> getShiftsByIds(List<Integer> shiftIds) {
+        return emf.createEntityManager().createQuery("SELECT s FROM Shift s WHERE s.id IN :shiftIds", Shift.class)
+                .setParameter("shiftIds", shiftIds)
+                .getResultList();
+    }
+
+    public List<Shift> getByStatus(Status status) {
         try (EntityManager em = emf.createEntityManager()) {
             return em.createQuery("SELECT s FROM Shift s WHERE s.status = :status", Shift.class)
                     .setParameter("status", status)
@@ -88,8 +94,7 @@ public class ShiftDAO extends DAO<Shift> {
         }
     }
 
-    public List<BuyRequest> getBuyRequestsByShiftId(int shiftId)
-    {
+    public List<BuyRequest> getBuyRequestsByShiftId(int shiftId) {
         try (EntityManager em = emf.createEntityManager()) {
             return em.createQuery("SELECT b FROM BuyRequest b WHERE b.shift.id = :shiftId", BuyRequest.class)
                     .setParameter("shiftId", shiftId)

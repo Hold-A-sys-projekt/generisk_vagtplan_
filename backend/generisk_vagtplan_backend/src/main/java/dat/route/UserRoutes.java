@@ -18,6 +18,9 @@ public class UserRoutes implements Route {
     @Override
     public EndpointGroup getRoutes() {
         return () -> {
+            path("/role", () -> {
+                get("/", userController::getUsersByRole);
+            });
             path("/{id}", () -> {
                 get(userController::getById);
                 //update the department of a user
@@ -31,6 +34,7 @@ public class UserRoutes implements Route {
                 //reset-password
                 get("/reset-password", userController::resetPassword);
             });
+
             get(userController::getAllNonDeleted);
             post("/login", userController::login);
         };

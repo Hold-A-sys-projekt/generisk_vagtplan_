@@ -83,6 +83,8 @@ public class HibernateConfig {
                 Review.class,
                 Shift.class,
                 Department.class,
+                SwapShifts.class,
+                SwapRequests.class,
                 BuyRequest.class
         ).forEach(config::addAnnotatedClass);
 

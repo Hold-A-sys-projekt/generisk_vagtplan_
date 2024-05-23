@@ -11,7 +11,7 @@ import io.javalin.http.Context;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class ShiftController extends Controller<Shift, ShiftDTO>{
+public class ShiftController extends Controller<Shift, ShiftDTO> {
 
     private final ShiftDAO shiftDAO;
 
@@ -59,7 +59,7 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
     }
 
     @Override
-    public void post(Context ctx){
+    public void post(Context ctx) {
 
         /*
         {
@@ -69,7 +69,6 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
          */
 
         try {
-
 
 
             ShiftDTO shiftDTO = ctx.bodyAsClass(ShiftDTO.class);
@@ -85,8 +84,6 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
             e.printStackTrace();
             ctx.status(400).result("Invalid input");
         }
-
-
 
 
     }
@@ -108,22 +105,22 @@ public class ShiftController extends Controller<Shift, ShiftDTO>{
         context.json(shift.toDTO());
     }
 
-    public void getShiftsByEmployeeId(Context context) {
-        int userid = Integer.parseInt(context.pathParam("id"));
-        List<Shift> res = shiftDAO.getShiftsByUserId(userid);
+
+    public void getShiftsByUserId(Context context) {
+        int employeeId = Integer.parseInt(context.pathParam("id"));
+        List<Shift> res = shiftDAO.getShiftsByUserId(employeeId);
+        if (res.isEmpty()) {
+            context.status(404).result("No shifts found for user with id: " + employeeId);
+            return;
+        }
+        context.json(res.stream().map(Shift::toDTO).toList());
 
         if (res.isEmpty()) {
-            context.status(404).result("No shifts found for user with id: " + userid);
+            context.status(404).result("No shifts found for user with id: " + employeeId);
             return;
         }
 
         context.json(res.stream().map(Shift::toDTO).toList());
     }
 
-
-    public void getByStatus(Context context)
-    {
-        Status status = Status.valueOf(context.pathParam("status"));
-        context.json(shiftDAO.getByStatus(status));
-    }
 }

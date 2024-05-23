@@ -34,9 +34,9 @@ class ShiftDAOTest {
 
     @Test
     void getShiftsByEmployeeId() {
-        int userid = 0;
-        List<Shift> shifts = shiftDAO.getShiftsByUserId(userid);
-        System.out.println(shifts.toString());
+
+        int employeeId = 2;
+        List<Shift> shifts = shiftDAO.getShiftsByUserId(employeeId);
         assertEquals(2, shifts.size());
     }
 

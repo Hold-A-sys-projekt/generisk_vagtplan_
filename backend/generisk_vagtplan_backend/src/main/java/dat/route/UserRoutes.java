@@ -28,6 +28,7 @@ public class UserRoutes implements Route {
                 delete(userController::softDelete);
             });
             get(userController::getAllNonDeleted);
+            post("/login", userController::login);
         };
     }
 }

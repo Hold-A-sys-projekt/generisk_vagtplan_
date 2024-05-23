@@ -31,9 +31,11 @@ public class    ShiftRoutes implements Route{
                     get("/userid", shiftController::getShiftsByEmployeeId);
                     post("/punch-in" ,shiftController::punchIn);
                     post("/punch-out" ,shiftController::punchOut);
-                    //post("/set-for-sale", shiftController::setForSale);
                     put("/status", shiftController::updateShiftStatus);
-
+                    delete("/delete", shiftController::delete);
+                });
+                path("/users/{id}", () -> {
+                    get(shiftController::getShiftsByUserId);
                 });
             });
         };

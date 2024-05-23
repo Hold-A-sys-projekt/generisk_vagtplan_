@@ -36,3 +36,6 @@ GET {{url}}/shifts/4/request
 ### accept buyrequest
 
 PATCH {{url}}/shifts/request/10/accept
+
+### Delete buyrequest
+DELETE {{url}}/shifts/1/request/delete/1

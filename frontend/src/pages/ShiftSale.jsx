@@ -19,12 +19,6 @@ const ShiftSale = () => {
       <div className="flex-grow text-center p-10 bg-gray-200 mb-4 mt-4">
         <ShiftsSaleList user={user} />
       </div>
-
-      <div className="flex items-center justify-center text-center p-4 h-60 bg-gray-200">
-        <Link to="" className="text-blue-500 underline">
-          <p>TEST</p>
-        </Link>
-      </div>
     </div>
   );
 };

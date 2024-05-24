@@ -6,6 +6,37 @@ Vi (Hold A) er blevet sat til at være leverandører på en applikation, som vi 
 ### Udviklingsmetode
 Vores agile udviklingsmetode er SCRUM, og holdet er indelt i mindre teams, der sammen skal bygge prototypen. Kravspecifikationerne for systemet er aftalt med modtager, og vi skal bygge en prototype af systemet i løbet af to sprint af to ugers varinghed. 
 
+## Website Paths og Funktionalitet
+
+Vores hjemmeside har følgende paths:
+- `/` - Forside
+    - Siden indeholder: Employee oprettelse og shift opdateringer
+- `/login` - Login
+    - Siden indeholder: User login side
+- `/admin/users`
+    - Siden indeholder: Tabel over alle brugere i programmet og deres information
+- `/admin/employees`
+    - Siden indeholder: Employee information og deres seneste shifts
+- `/reviews`
+    - Denne side mangler dataintegration som ikke var overskuelig at implementere.
+- `/calendar`
+    - Siden indeholder: Kalender for en bruger
+- `/shiftsale`
+    - Siden indeholder: Byde og se på FOR_SALE shifts
+- `/manager/employees`
+    - Siden indeholder: Se Employees og deres shift data
+- `/employee/my-shifts`
+    - Siden indeholder: Employee kan se sine Shifts og Punch-in/out
+- `/dashboard`
+    - Siden indeholder: Viser et Dashboard ud fra hvad man er logget ind som
+- `/companysignup`
+    - Siden indeholder: Opretter en ny virksomhed og dens company_admin
+- `/swapshifts`
+    - Denne side mangler dataintegration som ikke var overskuelig at implementere.
+- `/manage-swap-requests`
+    - Denne side mangler dataintegration som ikke var overskuelig at implementere.
+
+
 ## Applikationens tech stack 
 
 ### Der anvendes følgende teknologier i projektet

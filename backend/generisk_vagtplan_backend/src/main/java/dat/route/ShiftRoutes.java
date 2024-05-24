@@ -12,8 +12,6 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class ShiftRoutes implements Route {
 
-
-
     private final ShiftController shiftController = new ShiftController(ShiftDAO.getInstance());
     private final BuyRequestController buyRequestController = new BuyRequestController(BuyRequestDAO.getInstance());
     @Override
@@ -31,8 +29,10 @@ public class ShiftRoutes implements Route {
                 post(shiftController::post);
                 path("{id}", () -> {
                     get(shiftController::getById);
+                    get("/userid", shiftController::getShiftsByUserId);
                     post("/punch-in" ,shiftController::punchIn);
                     post("/punch-out" ,shiftController::punchOut);
+                    put("/status", shiftController::updateShiftStatus);
                     patch("/status", shiftController::updateShiftStatus);
                     delete("/delete", shiftController::delete);
                     // buyrequest paths

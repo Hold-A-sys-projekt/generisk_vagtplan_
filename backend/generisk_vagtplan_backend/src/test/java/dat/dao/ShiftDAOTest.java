@@ -35,9 +35,18 @@ class ShiftDAOTest {
 
     @Test
     void getShiftsByEmployeeId() {
+
         int employeeId = 2;
         List<Shift> shifts = shiftDAO.getShiftsByUserId(employeeId);
         assertEquals(2, shifts.size());
+    }
+
+    @Test
+    void getByStatus() {
+        List<Shift> shifts = shiftDAO.getByStatus(Status.FOR_SALE);
+        System.out.println(shifts);
+        assertEquals(2, shifts.size());
+
     }
 
     @Test
@@ -50,12 +59,12 @@ class ShiftDAOTest {
 
     @Test
     void updateShiftStatus() {
-        int shiftId = 2;
+        int shiftId = 3;
         Shift shift = shiftDAO.getShiftStatus(shiftId);
         System.out.println(shift + " " + shift.getStatus().toString());
-        shiftDAO.updateShiftStatus(shiftId, Status.COVERED);
+        shiftDAO.updateShiftStatus(shiftId, Status.FOR_SALE);
         shift = shiftDAO.getShiftStatus(shiftId);
-        assertEquals("COVERED", shift.getStatus().toString());
+        assertEquals("FOR_SALE", shift.getStatus().toString());
         System.out.println(shift + " " + shift.getStatus());
     }
 }

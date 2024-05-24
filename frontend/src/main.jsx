@@ -12,11 +12,10 @@ import Index from "@/pages/Index.jsx";
 import UserAdminPage from "./pages/UserAdminPage.jsx";
 import Reviews from "./components/reviews.jsx";
 import Calendar_Schedule from "@/pages/Calendar_Schedule.jsx";
-
+import ShiftSale from "@/pages/ShiftSale.jsx";
 import { ToastProvider } from "@radix-ui/react-toast";
 import ShiftSwapsManager from "@/pages/ShiftSwapManager.jsx";
 import ManageSwapRequests from "./components/ManageSwapRequests.jsx";
-
 import ShiftOverview from "./pages/ShiftOverview.jsx";
 import EmployeeAdminPage from "./pages/EmployeeAdminPage.jsx";
 import Login from "@/components/login.jsx";
@@ -32,6 +31,9 @@ const router = createBrowserRouter(
         <Route path="users" element={<UserAdminPage />} />
         <Route path="employees" element={<EmployeeAdminPage />} />
       </Route>
+      <Route path="/reviews" element={<Reviews/>} />
+        <Route path="/calendar" element={<Calendar_Schedule />} />
+        <Route path="/shiftsale" element={<ShiftSale />} />
       <Route path="/reviews" element={<Reviews />} />
       <Route path={"manager"}>
         <Route path={"employees"} element={<ManagerOverview />} />

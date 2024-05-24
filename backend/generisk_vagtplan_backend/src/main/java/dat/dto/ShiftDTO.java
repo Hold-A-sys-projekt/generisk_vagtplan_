@@ -2,10 +2,10 @@ package dat.dto;
 
 import dat.dao.ShiftDAO;
 import dat.model.Shift;
+import dat.model.Status;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import dat.model.Status;
 
 import java.time.LocalDateTime;
 
@@ -15,23 +15,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ShiftDTO implements DTO<Shift> {
 
-
     private Integer id;
-
     private LocalDateTime shiftStart;
-
     private LocalDateTime shiftEnd;
-
     private LocalDateTime punchIn;
-
     private LocalDateTime punchOut;
-
     private Integer userId;
-
     private String userName;
-
     private String userRole;
-
     private Status status;
 
     public ShiftDTO(Integer id, LocalDateTime shiftStart, LocalDateTime shiftEnd, LocalDateTime punchIn, LocalDateTime punchOut, Integer userId, Status status) {

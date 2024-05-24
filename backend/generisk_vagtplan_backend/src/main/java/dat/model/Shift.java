@@ -1,13 +1,13 @@
 package dat.model;
 
-
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import dat.dto.ShiftDTO;
-import jakarta.persistence.*;
 import jakarta.persistence.Entity;
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -93,6 +93,7 @@ public class Shift implements dat.model.Entity<ShiftDTO> {
                 ", punchOut=" + punchOut +
                 ", userId=" + (user != null ? user.getId() : null) +
                 ", userName=" + (user != null ? user.getUsername() : null) +
+                ", status='" + status +
                 '}';
     }
 }

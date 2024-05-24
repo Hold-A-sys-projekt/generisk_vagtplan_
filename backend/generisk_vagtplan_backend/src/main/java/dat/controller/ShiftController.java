@@ -115,7 +115,6 @@ public class ShiftController extends Controller<Shift, ShiftDTO> {
             return;
         }
         context.json(res.stream().map(Shift::toDTO).toList());
-
     }
 
     public void getShiftsByUserIdWithDTOs(Context context) {
@@ -168,9 +167,3 @@ public class ShiftController extends Controller<Shift, ShiftDTO> {
         }
     }
 }
-
-
-
-
-
-

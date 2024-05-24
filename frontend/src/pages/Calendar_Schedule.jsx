@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "../App.css";
 import { getAllShiftsFromAUser, updateShiftStatus } from "../lib/shiftFacade";
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const locales = { "en-US": enUS };
 
@@ -25,7 +25,7 @@ const localizer = dateFnsLocalizer({
 function CalendarSchedule() {
   const [events, setEvents] = useState([]);
   const [selectedDateEvents, setSelectedDateEvents] = useState([]);
-  const { userId } = useParams(); // Hardcoded user id for now
+  const [userId, setUserId] = useState(1); // Hardcoded user id for now
 
   useEffect(() => {
     const fetchShifts = async () => {
@@ -133,7 +133,7 @@ function CalendarSchedule() {
           onSelectSlot={handleSelect}
           eventPropGetter={eventStyleGetter}
           style={{ height: "100vh", width: "100%" }}
-          views={['month', 'week', 'day', 'agenda']}
+          views={["month", "week", "day", "agenda"]}
         />
       </div>
       <div className="event-list mt-4" style={{ flex: 1, padding: "0 20px" }}>
@@ -141,18 +141,27 @@ function CalendarSchedule() {
           <h2>All Shifts</h2>
           <ul>
             {events.map((event) => (
-              <li key={event.id} className="mb-4 p-4 border rounded-lg shadow-lg">
+              <li
+                key={event.id}
+                className="mb-4 p-4 border rounded-lg shadow-lg"
+              >
                 <div className="flex justify-between items-center">
                   <span className="font-semibold">{event.title}</span>
                   <button
                     style={{ backgroundColor: event.color, color: "white" }}
-                    onClick={() => handleChangeShiftStatus(event.id, event.type === "FOR_SALE" ? "COVERED" : "FOR_SALE")}
+                    onClick={() =>
+                      handleChangeShiftStatus(
+                        event.id,
+                        event.type === "FOR_SALE" ? "COVERED" : "FOR_SALE"
+                      )
+                    }
                   >
                     {event.type === "FOR_SALE" ? "Cancel" : "For Sale"}
                   </button>
                 </div>
                 <div>
-                  <span>Start: {format(event.start, "Pp")}</span><br />
+                  <span>Start: {format(event.start, "Pp")}</span>
+                  <br />
                   <span>End: {format(event.end, "Pp")}</span>
                 </div>
               </li>
@@ -163,10 +172,15 @@ function CalendarSchedule() {
           <h2>Selected Date Events</h2>
           <ul>
             {selectedDateEvents.map((event) => (
-              <li key={event.id} className="mb-4 p-4 border rounded-lg shadow-lg">
+              <li
+                key={event.id}
+                className="mb-4 p-4 border rounded-lg shadow-lg"
+              >
                 <div className="flex justify-between items-center">
                   <span className="font-semibold">{event.title}</span>
-                  <button style={{ backgroundColor: 'red', color: 'white' }}>William</button>
+                  <button style={{ backgroundColor: "red", color: "white" }}>
+                    William
+                  </button>
                 </div>
               </li>
             ))}

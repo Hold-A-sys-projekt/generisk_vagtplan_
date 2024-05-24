@@ -1,0 +1,11 @@
+### POST send email - NB: Change receiver to your own email
+@email = http://localhost:7070/api/email
+
+POST {{email}}/send
+Content-Type: application/json
+
+{
+  "receiver": "test@test.dk",
+  "subject": "subject test",
+  "message": "Hello person, \n\nThis is new line \n\nWith best regards, \nOskar"
+}

@@ -8,6 +8,7 @@ target/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea/dataSources.xml
 *.iws
 *.iml
 *.ipr
@@ -36,3 +37,9 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### ENV ###
+/src/main/java/dat/util/Env.txt
+/src/main/java/dat/util/env.txt
+src/main/java/dat/util/Env.txt
+**/env.txt

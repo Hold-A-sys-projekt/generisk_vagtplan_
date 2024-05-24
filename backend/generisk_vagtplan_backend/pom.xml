@@ -18,9 +18,26 @@
         <junit.version>5.9.1</junit.version>
 
         <!-- Project properties  -->
-
+        <!--  token    -->
+        <secret.key>841D8A6C80CBA4FCAD32D5367C18C53B</secret.key>
+        <issuer>cphbusiness.dk</issuer>
+        <token.expiration.time>3600000</token.expiration.time>
     </properties>
     <dependencies>
+
+        <!--  Java Mail API  -->
+
+        <dependency>
+            <groupId>jakarta.mail</groupId>
+            <artifactId>jakarta.mail-api</artifactId>
+            <version>2.1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.angus</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>2.0.1</version>
+        </dependency>
 
         <!--   R.E.S.T     -->
 
@@ -44,8 +61,21 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.28</version>
+            <version>1.18.30</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!--   Security     -->
+        <dependency>
+            <!--  https://nimbusds.com/products/nimbus-jose-jwt   -->
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+            <version>9.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.4</version>
         </dependency>
 
         <!--  DB    -->

@@ -24,7 +24,7 @@ public class ShiftRoutes implements Route {
     public EndpointGroup getRoutes() {
         return () -> {
             path("/", () -> {
-                get("/{status}", shiftController::getByStatus);
+                get("/status/{status}", shiftController::getByStatus);
                 get(shiftController::getAll);
                 post(shiftController::post);
                 put("/{id}", shiftController::updateShiftDateAndTime);

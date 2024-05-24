@@ -34,6 +34,13 @@ const handleSubmit = async (e) => {
             console.error('Error updating employee role:', error);
         }
     };
+    const [isTextBoxVisible, setIsTextBoxVisible] = useState(false); // State to track if the text box is visible
+    
+  // Function to handle button click
+  const handleButtonClick = () => {
+    setIsTextBoxVisible(!isTextBoxVisible); // Toggle the visibility of the text box
+  };
+
 
     return (
         <div className="container mx-auto px-4">
@@ -66,8 +73,16 @@ const handleSubmit = async (e) => {
                     />
                 </div>
                 <div>
-                    <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Update Role</button>
+                    <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600" onClick={handleButtonClick}>Update Role</button>
                 </div>
+                {isTextBoxVisible && (
+        <div>
+        
+        <br />
+        <br />
+      <h2> Succesfully updated role</h2>
+        </div>
+      )}
             </form>
         </div>
     );

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import AssignRole from '@/pages/AssignRole.jsx';
 import AddNewEmployee from '@/pages/AddNewEmployee.jsx';
+import ChangeShift from "@/pages/ChangeShift.jsx";
 
 const Index = () => {
   return (
@@ -26,6 +27,7 @@ const Index = () => {
 <div>
     <AssignRole />
     <AddNewEmployee />
+    <ChangeShift />
 </div>
 
     </div>

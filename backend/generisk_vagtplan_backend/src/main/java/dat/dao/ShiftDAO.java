@@ -1,18 +1,15 @@
 package dat.dao;
 
 import dat.config.HibernateConfig;
-import dat.model.*;
 import dat.exception.DatabaseException;
-
+import dat.model.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceException;
 
 import java.util.List;
-import java.util.Set;
 
 public class ShiftDAO extends DAO<Shift> {
-
 
     private static ShiftDAO INSTANCE;
 
@@ -27,7 +24,6 @@ public class ShiftDAO extends DAO<Shift> {
         super(Shift.class, emf);
     }
 
-
     public List<Shift> getShiftsByUserId(int userId) throws DatabaseException {
         try {
             // added ORDER BY id so the list of shifts is in order and stays the same even after punching in or out
@@ -40,7 +36,6 @@ public class ShiftDAO extends DAO<Shift> {
     }
 
     public Shift create(Shift shift, int userId) {
-
         try (EntityManager em = emf.createEntityManager();) {
             em.getTransaction().begin();
             User user = em.find(User.class, userId);
@@ -51,8 +46,6 @@ public class ShiftDAO extends DAO<Shift> {
         } catch (Exception e) {
             throw e;
         }
-
-
     }
 
     //get shift status
@@ -62,10 +55,8 @@ public class ShiftDAO extends DAO<Shift> {
                 .getSingleResult();
     }
 
-
     public Shift updateShiftStatus(int shiftId, Status status) {
-        EntityManager em = emf.createEntityManager();
-        try {
+        try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             Shift shift = em.find(Shift.class, shiftId);
             if (shift == null) {
@@ -74,11 +65,8 @@ public class ShiftDAO extends DAO<Shift> {
             shift.setStatus(status);
             em.getTransaction().commit();
             return shift;
-        } finally {
-            em.close();
         }
     }
-
 
     public List<Shift> getShiftsByIds(List<Integer> shiftIds) {
         return emf.createEntityManager().createQuery("SELECT s FROM Shift s WHERE s.id IN :shiftIds", Shift.class)
@@ -102,13 +90,30 @@ public class ShiftDAO extends DAO<Shift> {
         }
     }
 
-    public Shift updateShift(Shift shift) {
-
-        try (EntityManager em = emf.createEntityManager();) {
+    public Shift updateShift(Shift updatedShift) throws DatabaseException {
+        EntityManager em = emf.createEntityManager();
+        try {
             em.getTransaction().begin();
-            Shift updatedShift = em.merge(shift);
+            Shift existingShift = em.find(Shift.class, updatedShift.getId());
+
+            if (existingShift == null) {
+                throw new DatabaseException(404, "Shift with ID " + updatedShift.getId() + " not found.");
+            }
+
+            // Update the shift details
+            existingShift.setShiftStart(updatedShift.getShiftStart());
+            existingShift.setShiftEnd(updatedShift.getShiftEnd());
+            existingShift.setStatus(updatedShift.getStatus());
+            // You can add more fields to update as per your requirements
+
             em.getTransaction().commit();
-            return updatedShift;
+
+            return existingShift;
+        } catch (PersistenceException e) {
+            em.getTransaction().rollback();
+            throw new DatabaseException(500, "Failed to update shift with ID: " + updatedShift.getId());
+        } finally {
+            em.close();
         }
     }
 }

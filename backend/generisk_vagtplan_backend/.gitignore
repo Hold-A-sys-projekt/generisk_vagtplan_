@@ -43,3 +43,6 @@ build/
 /src/main/java/dat/util/env.txt
 src/main/java/dat/util/Env.txt
 **/env.txt
+
+# Ignore process.env file
+process.env

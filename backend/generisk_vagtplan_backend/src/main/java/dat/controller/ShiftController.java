@@ -102,9 +102,10 @@ public class ShiftController extends Controller<Shift, ShiftDTO> {
         int shiftId = Integer.parseInt(context.pathParam("id"));
         Status status = Status.valueOf(context.queryParam("status"));
 
-        shiftDAO.updateShiftStatus(shiftId, status);
+        Shift updatedShift = shiftDAO.updateShiftStatus(shiftId, status);
 
-        context.status(200);
+        context.status(200).json(updatedShift.toDTO());
+
     }
 
     public void getShiftsByUserId(Context context) {

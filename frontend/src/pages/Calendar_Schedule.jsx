@@ -25,7 +25,7 @@ const localizer = dateFnsLocalizer({
 function CalendarSchedule() {
   const [events, setEvents] = useState([]);
   const [selectedDateEvents, setSelectedDateEvents] = useState([]);
-  const [userId, setUserId] = useState(1); // Hardcoded user id for now
+  const [userId, setUserId] = useState(0); // Hardcoded user id for now
 
   useEffect(() => {
     const fetchShifts = async () => {

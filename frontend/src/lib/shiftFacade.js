@@ -21,12 +21,18 @@ export async function updateShiftStatus(shiftId, status) {
                 'Content-Type': 'application/json',
             },
         });
+
+        const text = await response.text();
+        console.log(`Response text: ${text}`);
+
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`HTTP error! status: ${response.status}, response: ${text}`);
         }
-        return await response.json();
+
+        return JSON.parse(text);
     } catch (error) {
         console.error(`Failed to update shift status for shift ${shiftId}:`, error);
         throw error;
     }
 }
+

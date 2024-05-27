@@ -19,6 +19,7 @@ import org.hibernate.type.descriptor.java.CoercionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -130,15 +131,30 @@ public class ApplicationConfig {
     }
 
     public static String getProperty(String propName) throws IOException {
-        try (InputStream is = HibernateConfig.class.getClassLoader().getResourceAsStream("properties-from-pom.properties")) {
+        InputStream is = null;
+        try {
+            is = HibernateConfig.class.getClassLoader().getResourceAsStream("process.env");
+            if (is == null) {
+                LOGGER.error("Property file 'process.env' not found in the classpath");
+                throw new FileNotFoundException("Property file 'process.env' not found in the classpath");
+            }
             Properties prop = new Properties();
             prop.load(is);
-            return prop.getProperty(propName);
+            return prop.getProperty(propName, "default-value"); // provide a default value
         } catch (IOException ex) {
-            LOGGER.error("Could not read property from pom file. Build Maven!");
-            throw new IOException("Could not read property from pom file. Build Maven!");
+            LOGGER.error("Could not read property from 'process.env' file. Please check if it exists and is readable.");
+            throw new IOException("Could not read property from 'process.env' file. Please check if it exists and is readable.", ex);
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    LOGGER.error("Failed to close InputStream", e);
+                }
+            }
         }
     }
+
 
     private static class ExceptionManagerHandler {
 

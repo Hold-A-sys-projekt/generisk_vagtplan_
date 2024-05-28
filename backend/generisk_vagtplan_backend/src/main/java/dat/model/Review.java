@@ -1,5 +1,6 @@
 package dat.model;
 
+import com.fasterxml.jackson.annotation.*;
 import dat.dto.ReviewDTO;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
@@ -11,6 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Review implements dat.model.Entity<ReviewDTO> {
 
     @Id
@@ -20,6 +22,7 @@ public class Review implements dat.model.Entity<ReviewDTO> {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @Column(name = "comment", nullable = false)

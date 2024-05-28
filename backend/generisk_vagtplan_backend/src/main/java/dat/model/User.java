@@ -1,6 +1,6 @@
 package dat.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import dat.dto.UserDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
@@ -22,6 +22,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User extends SoftDeletableEntity implements Serializable, dat.model.Entity<UserDTO> {
 
     @Serial
@@ -52,6 +53,7 @@ public class User extends SoftDeletableEntity implements Serializable, dat.model
     private Role role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+
     private final Set<Review> reviews = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)

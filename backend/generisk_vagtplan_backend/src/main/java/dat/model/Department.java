@@ -27,6 +27,7 @@ public class Department extends SoftDeletableEntity implements dat.model.Entity<
 
     @JoinColumn(name = "company_id", referencedColumnName = "company_id")
     @ManyToOne()
+    @JsonIgnore
     private Company company;
 
     public Department(String name, Company company) {
@@ -35,6 +36,7 @@ public class Department extends SoftDeletableEntity implements dat.model.Entity<
     }
 
     @OneToMany(mappedBy = "department", fetch = FetchType.EAGER)
+    @JsonIgnore
     private final Set<User> users = new LinkedHashSet<>();
 
     @Override
